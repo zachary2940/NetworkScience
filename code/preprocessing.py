@@ -116,7 +116,7 @@ print(df_unique_pid)
 print(df_faculty_unique_pid)
 print(df_faculty_unique_pid^df_unique_pid)
 
-df.to_csv('../data/test_grp.csv')
+df.to_csv('../data/graph.csv')
 G = create_graph(df)
 visualize_graph(G) # just to check my work
 
