@@ -91,34 +91,38 @@ def visualize_graph(G):
     graphs_viz_options[selected_graph_option](G)
     plt.show()
 
+def preprocess_create_graph(df,year):
+    df = filter_year(df,year)
+    top_venue_dict = load_top_venue_dict()
+    df = add_top_venues_count(df,top_venue_dict)
+    df = add_coauthor(df)
+    df = drop_author_self_link(df)
+    df = add_weight(df)
+    df = add_paper_list(df)
+    df = drop_author_coauthor_duplicates(df)
+    df = add_coauthor_attributes(df)
+    df = drop_redundant_cols(df)
+    print(df)
+
+    # df.loc[df['Faculty-co-author']=='Tay Kian Boon']['co-author-pid']='solo'
+    # print(df.loc[df['Faculty-co-author']=='Tay Kian Boon']['co-author-pid'])
+    # exit()
+    df_unique_pid = set(df['co-author-pid'].unique().tolist())
+    df_faculty = pd.read_csv('../data/Faculty.csv')
+    df_faculty_unique_pid = set(df_faculty['author-pid'].unique().tolist())
+    print(df_unique_pid)
+    print(df_faculty_unique_pid)
+    print(df_faculty_unique_pid^df_unique_pid)
+
+    df.to_csv('../data/graph.csv',index=False)
+    G = create_graph(df)
+    visualize_graph(G) # just to check my work
+    return G
 
 df = pd.read_csv('../data/SCSE_Records.csv')
 print(df.head())
-# df = filter_year(df,2000)
-top_venue_dict = load_top_venue_dict()
-df = add_top_venues_count(df,top_venue_dict)
-df = add_coauthor(df)
-df = drop_author_self_link(df)
-df = add_weight(df)
-df = add_paper_list(df)
-df = drop_author_coauthor_duplicates(df)
-df = add_coauthor_attributes(df)
-df = drop_redundant_cols(df)
-print(df)
+G = preprocess_create_graph(df,2019)
 
-# df.loc[df['Faculty-co-author']=='Tay Kian Boon']['co-author-pid']='solo'
-# print(df.loc[df['Faculty-co-author']=='Tay Kian Boon']['co-author-pid'])
-# exit()
-df_unique_pid = set(df['co-author-pid'].unique().tolist())
-df_faculty = pd.read_csv('../data/Faculty.csv')
-df_faculty_unique_pid = set(df_faculty['author-pid'].unique().tolist())
-print(df_unique_pid)
-print(df_faculty_unique_pid)
-print(df_faculty_unique_pid^df_unique_pid)
-
-df.to_csv('../data/graph.csv')
-G = create_graph(df)
-visualize_graph(G) # just to check my work
 
 # pd.DataFrame.from_dict(dict(G.nodes(data=True)), orient='index')
 # print(df)
