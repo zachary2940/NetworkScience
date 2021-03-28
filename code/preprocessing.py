@@ -415,15 +415,25 @@ def verify_correct_nodes(df):
     df_faculty.loc[df_faculty['Faculty']=='Tay Kian Boon','author-pid']='solo'
 
     df_faculty_unique_pid = set(df_faculty['author-pid'].unique().tolist())
-    if len(df_faculty_unique_pid^df_unique_pid)==0:
-        print('Correct no. of nodes')
-    else:
-        print('Wrong no. of nodes: ',len(df_faculty_unique_pid^df_unique_pid))
+    if len(df_faculty_unique_pid^df_unique_pid)!=0:
+        raise Exception('Wrong no. of nodes: ',len(df_faculty_unique_pid^df_unique_pid)) 
 
 def get_isolated_nodes(df):
-    df_null = df[df.isnull().any(axis=1)]
+    df_null = df[df.isnull().any(axis=1)].copy()
+    df_null.loc[:,'year']=df['year'].unique()[0].copy()
+    df_null.loc[:,'author']=df_null['Faculty-co-author'].copy()
+    df_null.loc[:,'Position']=df_null['Position-co-author'].copy()
+    df_null.loc[:,'Gender']=df_null['Gender-co-author'].copy()
+    df_null.loc[:,'Management']=df_null['Management-co-author'].copy()
+    df_null.loc[:,'Area']=df_null['Area-co-author'].copy()
+    df_null.loc[:,'top_venue_count'] = 0
+
     df_null = df_null.set_index('co-author-pid')
+    df_null = df_null.drop(['author-pid','weight', 'paper-list',
+       'Faculty-co-author', 'Position-co-author', 'Gender-co-author',
+       'Management-co-author', 'Area-co-author'],1)
     isolated_nodes_dict = df_null.to_dict('index')
+
     return isolated_nodes_dict
 
 def create_graph(df):
@@ -432,8 +442,16 @@ def create_graph(df):
     G = nx.from_pandas_edgelist(df,source='author-pid',target='co-author-pid',edge_attr='weight')
     for node in isolated_nodes_dict:
         G.add_node(node)
-    print("No of unique nodes:", len(G.nodes))
-    print("No of connections:", len(G.edges))
+    df_attributes = df.drop(['co-author-pid','weight', 'paper-list',
+       'Faculty-co-author', 'Position-co-author', 'Gender-co-author',
+       'Management-co-author', 'Area-co-author'],1)
+    df_attributes = df_attributes.set_index('author-pid')
+    df_attributes = df_attributes[~df_attributes.index.duplicated(keep='first')]
+    author_attribute_dict = df_attributes.to_dict('index')
+    nx.set_node_attributes(G, author_attribute_dict)
+    nx.set_node_attributes(G, isolated_nodes_dict)
+    # print("No of unique nodes:", len(G.nodes))
+    # print("No of connections:", len(G.edges))
     return G
 
 def visualize_graph(G):
@@ -467,16 +485,16 @@ def preprocess(df,year):
 
 def preprocess_create_graph(df,year):
     df = preprocess(df,year)
-    df.to_csv('../data/graph.csv',index=False)
+    # df.to_csv('../data/graph.csv',index=False)
     G = create_graph(df)
-    visualize_graph(G) # just to check my work
+    # visualize_graph(G) # just to check my work
     return G
 
+# Example usage
 
-df = pd.read_csv('../data/SCSE_Records.csv')
-print(df.head())
-G = preprocess_create_graph(df,2019)
+# df = pd.read_csv('../data/SCSE_Records.csv')
+# print(df.head())
+# G = preprocess_create_graph(df,2019)
 
 
-# pd.DataFrame.from_dict(dict(G.nodes(data=True)), orient='index')
-# print(df)
+
