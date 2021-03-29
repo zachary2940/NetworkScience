@@ -150,10 +150,7 @@ def drop_scse_duplicates(df):
     fac_df = pd.read_csv('../data/Faculty.csv')
     fac_df = fac_df.drop(columns=['DBLP'])
     fac_author_pid = list(fac_df['author-pid'])
-    fac_df.head()
-
     joined_df = pd.merge(df, fac_df, on=['author-pid'], how='left')
-    joined_df.head(4)
 
     print("Number of SCSE Faculty Members in df:", len(df.loc[df['author-pid'].isin(fac_author_pid)]))
     print("Number of rows in joined_df successfully filled after join:", len(joined_df.loc[joined_df['Management'].notnull()]))
