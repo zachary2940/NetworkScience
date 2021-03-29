@@ -14,15 +14,13 @@ import os
 from tqdm import tqdm
 import numpy as np
 
-'''
-[Pipeline1] EDA and Scraping XML Files
-Scrape XML files using provided URL. Manually download some as not
-all URLs having .html replaced with .xml will download the right file.
-'''
-
-def get_SCSE_records():
-    f = pd.read_csv('../data/Faculty.csv')
-    t = pd.read_csv('../data/Top.csv')
+def scrape_scse_xml(faculty_path, top_path, xml_path):
+    '''
+    Scrape XML files. Do note that this is not fool-proof and we will have
+    to manually download/overwrite 14 of the 84 XML files (Tay Kian Boon does not have a DBLP link)
+    '''
+    f = pd.read_csv(faculty_path)
+    t = pd.read_csv(top_path)
 
     # Convert "Software engg" to full term to match Top.csv later
     f.loc[~f['Area'].isin(list(t.Area)), 'Area'] = 'Software Engineering'
@@ -34,10 +32,7 @@ def get_SCSE_records():
     # Begin preparing URLs for scraping in xml format. 
     urls = [url.replace('.html', '.xml') for url in list(f.DBLP)]
 
-    # Scrap XML files. Do note that this is not fool-proof and we will have
-    # to manually download/overwrite 14 of the 85 XML files.
-    # Also, Tay Kian Boon is a staff in NTU, but the link given is for Tan Kian Boon. 
-    # There is no results for Tay Kian Boon in DBLP.
+
     for i, url in enumerate(urls):
         print(f.iloc[i].Faculty)
         print(url)
@@ -47,162 +42,20 @@ def get_SCSE_records():
         area = f.iloc[i].Area
         
         response = requests.get(url)
-        with open('../xml/{}.xml'.format(filename), 'wb') as file:
+        with open(xml_path+'{}.xml'.format(filename), 'wb') as file:
             file.write(response.content)
 
-
-    '''
-    [Pipeline2] Exploring XML and Determining Keys and Attributes Needed
-    Check out the tags in all XML files to determine what they mean, and which to retain in our database.
-    '''
-    # From our EDA, we can find that some of the xml files has a depth deeper than 3. 
-    # We will investigate the importance of the sub-nodes and perform some manually cleaning as we go along:
-
-    # This seeks to find how deep the trees go for every xml file. 
-    # Manual cleaning is done later to ensure that all important information is not removed when converting XML to CSV later
-    nodes = defaultdict(set)
-
-    for f in os.listdir('../xml/'):
-        # There is a folder named "Problematic". Ignore it.
-        if f == "Problematic":
-            continue
-        nodes[f] = defaultdict(set)
-        # Dig how deep the tree goes. No need for dynamic programming as we know
-        # from EDA it won't go beyond depth 4.
-        tree = ET.parse('../xml/'+f)
-        root = tree.getroot()
-        for node1 in root:
-            if node1.tag == "r":
-                nodes[f]['node1'].add(node1.tag)
-                for node2 in node1:
-                    nodes[f]['node2'].add(node2.tag)
-                    for node3 in node2:
-                        nodes[f]['node3'].add(node3.tag)
-                        for node4 in node3:
-                            nodes[f]['node4'].add(node4.tag)
-                            for node5 in node4:
-                                nodes[f]['node5'].add(node5.tag)
-            else: nodes[f]['node1'].add(node1.tag)
-
-
-    # We learn that tags beyond node 3 are not important. We removed them from the XML files as we explored.
-    # Before we begin exploring, we need to make sure that the keys in any node2 header are unique for every xml file.
-    # Understandably, when we do stack XML files there may be a chance of rows having the same key as a result of collaboration between NTU Profs.
-
-    # From the results we know the keys are all unique.
-    for f in os.listdir('../xml/'):
-        try:
-            tree = ET.parse('../xml/'+f)
-            root = tree.getroot()
-            n_elements = int(root.attrib['n'])
-            n_found = set()
-            for node1 in root:
-                if node1.tag == "r":
-                    for node2 in node1:
-                        n_found.add(node2.attrib['key'])
-            if n_elements != len(n_found):
-                print(f)
-        except:
-            continue
-
-    # We can confirm that keys in each xml file are unique, we next investigate whether it is worth considering nodes 
-    # that do not appear in all xml files (i.e. proceedings, incollections). To reference the project requirement,
-    # > Here we measure research collaboration as co-authorship among faculty members in **scientific papers/articles**
-    depth1 = []
-    depth2 = []
-    depth3 = []
-    for k in nodes.keys():
-        depth1 += (list(nodes[k]['node1']))
-        depth2 += (list(nodes[k]['node2']))
-        depth3 += (list(nodes[k]['node3']))
-        
-    depth1 = Counter(depth1)
-    depth2 = Counter(depth2)
-    depth3 = Counter(depth3)
-
-    # "Lets look for nodes which do not appear in all xml files. 
-    # From our EDA we know that the following professors have very few publications:
-    # 1. Tan Kheng Leong 
-    # 2. Loke Yuan Ren
-    # 3. Oh Hong Lye
-    # 4. Tay Kian Boon (0 results found on DBLP)
-    # As such, any nodes with >81 occurences are OK.")
-    print("\nNode 1:")
-    for k, v in depth1.items():
-        print("{}: {}".format(k,v))
-    print()
-
-    print("Node 2:")
-    for k, v in depth2.items():
-        print("{}: {}".format(k,v))
-    print()
-
-    print("Node 3:")
-    for k, v in depth3.items():
-        print("{}: {}".format(k,v))
-    
-    # find XML files with less frequent node 2 tags.
-    check = False
-    for k in nodes.keys():
-        if 'book' in nodes[k]['node2']:
-            check = True
-            print("XML Files with <book>\t\t", k)
-            
-        if 'phdthesis' in nodes[k]['node2']:
-            check = True
-            print("XML Files with <phdthesis>\t", k)
-        if check:
-            print()
-            check = False
-
-    # Find XML files with less frequent node 3 tags.
-    check = False
-    for k in nodes.keys():
-        if 'school' in nodes[k]['node3']:
-            check = True
-            print("XML Files with <school>\t\t", k)
-            
-        if 'note' in nodes[k]['node3']:
-            check = True
-            print("XML Files with <note>\t\t", k)
-            
-        if 'cite' in nodes[k]['node3']:
-            check = True
-            print("XML Files with <cite>\t\t", k)
-            
-        if 'cdrom' in nodes[k]['node3']:
-            check = True
-            print("XML Files with <cdrom>\t\t", k)
-
-        if check:
-            print()
-            check = False
-
-    '''
-    [Pipeline3] Exporting XML to CSV
-    With all key information identified we export the XML files to CSV, retaining all key information.
-    '''
+def merge_faculty_csv_author_pid(faculty_path, xml_path)
     # Map Faculty names to DBLP's PID
-    fac_df = pd.read_csv('../data/Faculty.csv')
+    fac_df = pd.read_csv(faculty_path)
     fac_df['Faculty'] = fac_df['Faculty'].apply(lambda x: x.strip())
     fac_df['author-pid'] = [np.nan]*85
 
-    # We can verify each xml file name is the same as the Faculty column in Faculty.csv.
-    # Note that Tay Kian Boon does not have an XML file.
-    fac = defaultdict(set)
-    found = 0
-    for i, f in enumerate(os.listdir('../xml/')):
-        if (list(fac_df.loc[fac_df['Faculty']==f.replace('.xml', '')]['Faculty'])):
-            found += 1
-        else:
-            print("Unmatched Files:", f.replace('.xml', ''))
-    print("Total matches found between .XML file names and fac_df:", found)
-
     # Update author-pid and confirm that the updates are correct
-    for f in os.listdir('../xml/'):
+    for f in os.listdir(xml_path):
         cur_f = f.replace('.xml', '')
         try:
-            tree = ET.parse('../xml/'+f)
+            tree = ET.parse(xml_path+f)
             root = tree.getroot()
             fac_df.loc[fac_df['Faculty']==cur_f, 'author-pid'] = root.attrib['pid']
         except:
@@ -215,12 +68,13 @@ def get_SCSE_records():
         pass
     fac_df.to_csv('../data/Faculty.csv', index=False)
 
+def xml_to_csv(xml_path, csv_path):
     # With EDA all done, convert each faculty member's XML to CSV
-    for f in tqdm(os.listdir('../xml/')):
+    for f in tqdm(os.listdir(xml_path)):
         try:
             cols=['author','author-pid', 'paper', 'conference', 'year', 'title']
             rows = []
-            tree = ET.parse('../xml/'+f)
+            tree = ET.parse(xml_path+f)
             root = tree.getroot()
 
             for node1 in root:
@@ -257,31 +111,31 @@ def get_SCSE_records():
             continue
         df = pd.DataFrame(rows, columns=cols)
         name = f.replace('.xml', '.csv')
-        df.to_csv("C:/Users/lowbe/Dropbox/CZ4071 Network Science/Project/data/"+name, index=False)
-        
-    
-    '''
-    [Pipeline4] Combining Every CSVs
-    We have 84 (excluding Tay Kian Boon) CSVs for each faculty member. Find a way to combine
-    all 84 CSVs along with Faculty.csv
-    '''
+        df.to_csv(csv_path+name, index=False)
+
+def merge_scse_csv(csv_path):
     df = pd.DataFrame(columns=['author', 'author-pid', 'paper', 'conference', 'year', 'title'])
     expected_length = 0
 
     # Merge all 84 faculty CSVs into a single dataframe. Remove the csvs as they are no longer needed, using os.remove()
-    for f in tqdm(os.listdir('../data/')):
+    for f in tqdm(os.listdir(csv_path)):
         if f == "Top.csv" or f=="Faculty.csv":
             continue
         df1 = pd.read_csv('../data/'+f)
         expected_length += len(df1)
         df = pd.concat([df, df1], ignore_index=True)
-        
+
         # Clean up the unncessary csvs
         os.remove('../data/'+f)
 
     print("Successfully Completed?", expected_length==len(df))
+    if expected_length==len(df):
+        drop_scse_duplicates(df)
+    else:
+        print("Unsuccessful")
 
 
+def drop_scse_duplicates(df):
     # Drop all duplicate rows, keep only the first occurence. There are multiple identical entries as a result of collaboration between
     # SCSE profs appearing in both of their CSV files.
     duplicates = df[df.duplicated()]
@@ -303,7 +157,9 @@ def get_SCSE_records():
 
     print("Number of SCSE Faculty Members in df:", len(df.loc[df['author-pid'].isin(fac_author_pid)]))
     print("Number of rows in joined_df successfully filled after join:", len(joined_df.loc[joined_df['Management'].notnull()]))
+    partition_csvs(joined_df)
 
+def partition_csvs(joined_df):
     # Create a Non_SCSE_df dataframe with only non-SCSE prof's entries, 
     # and SCSE_df with only SCSE prof's entries
     SCSE_df = joined_df.loc[joined_df['Position'].notnull()]
@@ -320,19 +176,24 @@ def get_SCSE_records():
     print("SCSE_df correctly partitioned:", len(SCSE_df.loc[(SCSE_df['Faculty'].isnull()) | (SCSE_df['Position'].isnull()) |
                    (SCSE_df['Gender'].isnull()) | (SCSE_df['Management'].isnull()) |
                    (SCSE_df['Area'].isnull())])==0)
+    save_records(joined_df, Non_SCSE_df, SCSE_df, '../'data/')
 
+def save_records(joined_df, Non_SCSE_df, SCSE_df, data_path)
     # Save three files
     # 1. All_Records.csv contains SCSE and non-SCSE DBLP records.
     # 2. Non_SCSE_Records.csv contains only Non-SCSE DBLP records.
     # 3. SCSE_Records.csv contains only SCSE DBLP records
     # TL;DR All_Records = Non_SCSE_Records + SCSE_Records
-    joined_df.to_csv('../data/All_Records.csv', index=False)
-    Non_SCSE_df.to_csv('../data/Non_SCSE_Records.csv', index=False)
-    SCSE_df.to_csv('../data/SCSE_Records.csv', index=False)
+    joined_df.to_csv(data_path+'All_Records.csv', index=False)
+    Non_SCSE_df.to_csv(data_path+'Non_SCSE_Records.csv', index=False)
+    SCSE_df.to_csv(data_path+'SCSE_Records.csv', index=False)
+                 
+                 
+scrape_scse_xml('../data/', '../data/', '../xml/')
+merge_faculty_csv_author_pid('../faculty/', '../xml/')
+xml_to_csv('../xml/', '../data/')
+merge_scse_csv('../data/')
 
-'''
-[Pipeline5] Final cleanup and Utilities for tackling the project
-'''
 
 def filter_year(df,year):
     df = df.loc[df['year']==year].reset_index(drop=True)
