@@ -45,7 +45,7 @@ def scrape_scse_xml(faculty_path, top_path, xml_path):
         with open(xml_path+'{}.xml'.format(filename), 'wb') as file:
             file.write(response.content)
 
-def merge_faculty_csv_author_pid(faculty_path, xml_path)
+def merge_faculty_csv_author_pid(faculty_path, xml_path):
     # Map Faculty names to DBLP's PID
     fac_df = pd.read_csv(faculty_path)
     fac_df['Faculty'] = fac_df['Faculty'].apply(lambda x: x.strip())
@@ -173,9 +173,9 @@ def partition_csvs(joined_df):
     print("SCSE_df correctly partitioned:", len(SCSE_df.loc[(SCSE_df['Faculty'].isnull()) | (SCSE_df['Position'].isnull()) |
                    (SCSE_df['Gender'].isnull()) | (SCSE_df['Management'].isnull()) |
                    (SCSE_df['Area'].isnull())])==0)
-    save_records(joined_df, Non_SCSE_df, SCSE_df, '../'data/')
+    save_records(joined_df, Non_SCSE_df, SCSE_df, '../data/')
 
-def save_records(joined_df, Non_SCSE_df, SCSE_df, data_path)
+def save_records(joined_df, Non_SCSE_df, SCSE_df, data_path):
     # Save three files
     # 1. All_Records.csv contains SCSE and non-SCSE DBLP records.
     # 2. Non_SCSE_Records.csv contains only Non-SCSE DBLP records.
@@ -186,10 +186,10 @@ def save_records(joined_df, Non_SCSE_df, SCSE_df, data_path)
     SCSE_df.to_csv(data_path+'SCSE_Records.csv', index=False)
                  
                  
-scrape_scse_xml('../data/', '../data/', '../xml/')
-merge_faculty_csv_author_pid('../faculty/', '../xml/')
-xml_to_csv('../xml/', '../data/')
-merge_scse_csv('../data/')
+#scrape_scse_xml('../data/', '../data/', '../xml/')
+#merge_faculty_csv_author_pid('../faculty/', '../xml/')
+#xml_to_csv('../xml/', '../data/')
+#merge_scse_csv('../data/')
 
 
 def filter_year(df,year):
