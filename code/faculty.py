@@ -16,24 +16,26 @@ def plot_degree_distribution(G):
     plt.title("Degree Histogram")
     plt.ylabel("Count")
     plt.xlabel("Degree")
-    ax.set_xticks([d + 0.4 for d in deg])
+    ax.set_xticks([d for d in deg])
     ax.set_xticklabels(deg)
     plt.show()
 
 
 
 df = pd.read_csv('../data/SCSE_Records.csv')
-G = preprocess_create_graph(df,2019)
-for k in G.nodes:
-    print(G.nodes[k])
-# for k in G.edges:
-#     print(G.edges[k])
-plot_degree_distribution(G)
-# print(G.nodes)
-# print(G.edges)
-print('Number of Isolates: ',nx.number_of_isolates(G))
-print(nx.info(G))
-print('Average Clustering coefficient: ',nx.average_clustering(G))
-
-# print('Diameter: ', nx.diameter(G))
-# print('Average shortest path length: ', nx.average_shortest_path_length(G))
+for year in range(2000,2021):
+    G = preprocess_create_graph(df,year)
+    for k in G.edges:
+        print(G.edges[k]['weight'])
+        exit()
+    G.name = year
+    # plot_degree_distribution(G)
+    print(nx.is_directed(G))
+    print('Number of Isolates: ',nx.number_of_isolates(G))
+    print(nx.info(G))
+    print('Average no. of edges: ', len(G.edges)/len(G.nodes))
+    print('Average Clustering coefficient: ',nx.average_clustering(G))
+    # print('Diameter: ', nx.diameter(G))
+    for C in (G.subgraph(c).copy() for c in nx.connected_components(G)):
+        print('Average shortest path length: ', nx.average_shortest_path_length(C))
+    print()

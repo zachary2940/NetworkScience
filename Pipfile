@@ -10,6 +10,9 @@ matplotlib = "*"
 numpy = "*"
 requests = "*"
 tqdm = "*"
+dash = "*"
+colour = "*"
+decorator = "==4.3.0"
 
 [dev-packages]
 

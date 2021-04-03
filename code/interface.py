@@ -17,18 +17,17 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = "Graph Network"
 
 
-def network_graph(year):
+def network_graph(year,option):
     df = pd.read_csv('../data/SCSE_Records.csv')
 
     G = preprocess_create_graph(df, year)
-
-
 
     pos = nx.drawing.layout.spring_layout(G, k=0.3, iterations=20)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
 
-    colors = list(Color('lightcoral').range_to(Color('darkred'), len(G.edges())))
+    colors = list(Color('lightcoral').range_to(
+        Color('darkred'), len(G.edges())))
     colors = ['rgb' + str(x.rgb) for x in colors]
     traceRecode = []
 
@@ -46,8 +45,13 @@ def network_graph(year):
         traceRecode.append(trace)
         index = index + 1
     ###############################################################################################################################################################
+    colorsIdxPosition = {'Professor': 'blue', 'Associate Professor': 'darkred',
+                         'Lecturer': 'lightcoral', 'Senior Lecturer': 'green', 'Assistant Professor': 'yellow'}
+    colorsIdxManagement = {'Y': 'blue', 'N': 'darkred'}
+
+    col_list = []
     node_trace = go.Scatter(x=[], y=[], hovertext=[], text=[], mode='markers+text', textposition="bottom center",
-                            hoverinfo="text", marker={'size': 10, 'color': 'LightSkyBlue'}, textfont=dict(
+                            hoverinfo="text", marker={'size': 10, 'color': col_list}, textfont=dict(
         family="sans serif",
         size=10,
         color="black"
@@ -56,7 +60,7 @@ def network_graph(year):
     index = 0
     for node in G.nodes():
         x, y = G.nodes[node]['pos']
-        ### edit this
+        # edit this
         hovertext = "AuthorName: " + str(G.nodes[node]['author']) + "<br>" + "Position: " + str(
             G.nodes[node]['Position'])
         text = G.nodes[node]['author']
@@ -64,8 +68,15 @@ def network_graph(year):
         node_trace['y'] += tuple([y])
         node_trace['hovertext'] += tuple([hovertext])
         node_trace['text'] += tuple([text])
+        if  option == None:
+            col_list.append('red')
+        elif option == 'Position':
+            col_list.append(colorsIdxPosition[G.nodes[node][option]])
+        elif option == 'Management':
+            col_list.append(colorsIdxManagement[G.nodes[node][option]])
+        # management etc
         index = index + 1
-
+    node_trace['marker']['color'] = col_list
     traceRecode.append(node_trace)
 
     # #middle_hover_trace = go.Scatter(x=[], y=[], hovertext=[], mode='markers', hoverinfo="text",
@@ -88,8 +99,10 @@ def network_graph(year):
         "data": traceRecode,
         "layout": go.Layout(title='Interactive Transaction Visualization', showlegend=False, hovermode='closest',
                             margin={'b': 40, 'l': 40, 'r': 40, 't': 40},
-                            xaxis={'showgrid': False, 'zeroline': False, 'showticklabels': False},
-                            yaxis={'showgrid': False, 'zeroline': False, 'showticklabels': False},
+                            xaxis={'showgrid': False, 'zeroline': False,
+                                   'showticklabels': False},
+                            yaxis={'showgrid': False, 'zeroline': False,
+                                   'showticklabels': False},
                             height=600,
                             clickmode='event+select'
                             # annotations=[
@@ -105,7 +118,7 @@ def network_graph(year):
                             #         arrowsize=4,
                             #         arrowwidth=1,
                             #         opacity=1
-                                #) for edge in G.edges]
+                            # ) for edge in G.edges]
                             )}
     return figure
 
@@ -117,6 +130,35 @@ styles = {
         'border': 'thin lightgrey solid',
         'overflowX': 'scroll'
     }
+}
+
+# tabs_styles = {'zIndex': 99, 'display': 'inlineBlock', 'height': '4vh', 'width': '12vw',
+#                'position': 'fixed', "background": "#323130", 'top': '12.5vh', 'left': '7.5vw',
+#                'border': 'grey', 'border-radius': '4px'}
+
+tab_style = {
+    "background": "#323130",
+    'text-transform': 'uppercase',
+    'color': 'white',
+    'border': 'grey',
+    'font-size': '11px',
+    'font-weight': 600,
+    'align-items': 'center',
+    'justify-content': 'center',
+    'border-radius': '4px',
+    'padding': '6px'
+}
+
+tab_selected_style = {
+    "background": "grey",
+    'text-transform': 'uppercase',
+    'color': 'white',
+    'font-size': '11px',
+    'font-weight': 600,
+    'align-items': 'center',
+    'justify-content': 'center',
+    'border-radius': '4px',
+    'padding': '6px'
 }
 
 app.layout = html.Div([
@@ -172,24 +214,22 @@ app.layout = html.Div([
                         ],
                         style={'height': '300px'}
                     ),
-                    html.Div(
-                        className="twelve columns",
-                        children=[
-                            dcc.Markdown(d("""
-                            **Account To Search**
-                            Input the account to visualize.
-                            """)),
-                            dcc.Input(id="input1", type="text", placeholder="author"),
-                            html.Div(id="output")
-                        ],
-                        style={'height': '300px'}
-                    )
+                    html.Div(className="twelve columns",
+                             children =[
+                                 dcc.Tabs(id="tabs-styled-with-inline", value=None, children=[
+                                     dcc.Tab(label='Position', value='Position', style=tab_style,
+                                             selected_style=tab_selected_style),
+                                     dcc.Tab(label='Management', value='Management', style=tab_style,
+                                             selected_style=tab_selected_style),
+                                 ], style={'height': '40px'}),
+                                 html.Div(id='tabs-content-inline')
+                             ])
                 ]
             ),
             html.Div(
                 className="eight columns",
                 children=[dcc.Graph(id="my-graph",
-                                    figure=network_graph(2019))],
+                                    figure=network_graph(2019,None))],
             ),
             html.Div(
                 className="two columns",
@@ -221,14 +261,22 @@ app.layout = html.Div([
 ])
 
 # callback for left side components
+
+
 @app.callback(
     dash.dependencies.Output('my-graph', 'figure'),
-    [dash.dependencies.Input('year-range-slider', 'value'), dash.dependencies.Input('input1', 'value')])
-def update_output(value, input1):
-    print(value)
-    return network_graph(value)
-    # to update the global variable of YEAR and ACCOUNT
+    [dash.dependencies.Input('year-range-slider', 'value'),
+    dash.dependencies.Input('tabs-styled-with-inline', 'value')])
+def update_output(year,option):
+    print(year)
+    return network_graph(year,option)
 # callback for right side components
+
+# @app.callback(dash.dependencies.Output('tabs-content-inline', 'children'),
+#               dash.dependencies.Input('tabs-styled-with-inline', 'value'))
+# def render_content(tab):
+#     option = tab
+
 @app.callback(
     dash.dependencies.Output('hover-data', 'children'),
     [dash.dependencies.Input('my-graph', 'hoverData')])
@@ -243,8 +291,5 @@ def display_click_data(clickData):
     return json.dumps(clickData, indent=2)
 
 
-
-
 if __name__ == '__main__':
     app.run_server(debug=True)
-
