@@ -1,68 +1,250 @@
+import collections
+import dash
+import json
 import networkx as nx
 import pandas as pd
 import matplotlib.pyplot as plt
+import dash_core_components as dcc
+import dash_html_components as html
+import plotly.graph_objs as go
+from colour import Color
+from datetime import datetime
+from textwrap import dedent as d
 from preprocessing import preprocess, preprocess_create_graph
-import collections
-import pyvis
-from pyvis.network import Network
-import argparse
 
-# Get year
-parser = argparse.ArgumentParser()
-parser.add_argument("--year", type=int, default=2019)
-parser.add_argument("--analyze", default="Author")
-args = parser.parse_args()
-
-if args.analyze:
-    print('\nGenerating Graph \n')
-else:
-    raise ValueError("You must enter a parameter to analyze, --analyze Author/Rank/Position/Area")
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app.title = "Graph Network"
 
 
-df = pd.read_csv('../data/SCSE_Records.csv')
-
-def get_netx(year):
+def network_graph(year):
     df = pd.read_csv('../data/SCSE_Records.csv')
-    netx_graph = preprocess_create_graph(df, year)
-    return netx_graph
 
-def format_data(df):
-    # pyvis can only accept str or int types
-    df = preprocess(df, 2019)
-    df['author-pid'] = df['author-pid'].astype(str)
-    df['co-author-pid'] = df['co-author-pid'].astype(str)
-    df = df.fillna(0)
-    df['weight'] = df['weight'].astype(int)
-    print(df.info)
-    return df
-
-def py_visualise(df, year, analyze_param, output_filename='graph.html',show_buttons=True,only_physics_buttons=True):
-    networkx_graph = get_netx(year)
-    format_data(df)
-    pyvis_graph = Network(height='750px', width='1000px')
-
-    # for each node and its attributes in the networkx graph
-    # attributes: {'author', 'year', 'Position', 'Gender', 'Management', 'Area', 'top_venue_count'}
-    for node, node_attrs in networkx_graph.nodes(data=True):
-        pyvis_graph.add_node(node, **node_attrs, label=node_attrs['author'])
-        print(node,node_attrs)
+    G = preprocess_create_graph(df, year)
 
 
-    # for each edge and its attributes in the networkx graph
-    for source, target, edge_attrs in networkx_graph.edges(data=True):
-        # if value/width not specified directly, and weight is specified, set 'value' to 'weight'
-        if not 'value' in edge_attrs and not 'width' in edge_attrs and 'weight' in edge_attrs:
-            # place at key 'value' the weight of the edge
-            edge_attrs['value'] = edge_attrs['weight']
-        # add the edge
-        pyvis_graph.add_edge(source, target, **edge_attrs)
 
-    if show_buttons:
-        if only_physics_buttons:
-            pyvis_graph.show_buttons(filter_=['physics'])
-        else:
-            pyvis_graph.show_buttons()
+    pos = nx.drawing.layout.spring_layout(G, k=0.3, iterations=20)
+    for node in G.nodes:
+        G.nodes[node]['pos'] = list(pos[node])
 
-    return pyvis_graph.show(output_filename)
+    colors = list(Color('lightcoral').range_to(Color('darkred'), len(G.edges())))
+    colors = ['rgb' + str(x.rgb) for x in colors]
+    traceRecode = []
 
-py_visualise(df, year = args.year, output_filename='graph_output.html', analyze_param = args.analyze)
+    index = 0
+    for edge in G.edges:
+        x0, y0 = G.nodes[edge[0]]['pos']
+        x1, y1 = G.nodes[edge[1]]['pos']
+        weight = G.edges[edge]['weight']
+        trace = go.Scatter(x=tuple([x0, x1, None]), y=tuple([y0, y1, None]),
+                           mode='lines', text="",
+                           line={'width': weight},
+                           marker=dict(color=colors[index]),
+                           line_shape='spline',
+                           opacity=1)
+        traceRecode.append(trace)
+        index = index + 1
+    ###############################################################################################################################################################
+    node_trace = go.Scatter(x=[], y=[], hovertext=[], text=[], mode='markers+text', textposition="bottom center",
+                            hoverinfo="text", marker={'size': 10, 'color': 'LightSkyBlue'}, textfont=dict(
+        family="sans serif",
+        size=10,
+        color="black"
+    ))
+
+    index = 0
+    for node in G.nodes():
+        x, y = G.nodes[node]['pos']
+        ### edit this
+        hovertext = "AuthorName: " + str(G.nodes[node]['author']) + "<br>" + "Position: " + str(
+            G.nodes[node]['Position'])
+        text = G.nodes[node]['author']
+        node_trace['x'] += tuple([x])
+        node_trace['y'] += tuple([y])
+        node_trace['hovertext'] += tuple([hovertext])
+        node_trace['text'] += tuple([text])
+        index = index + 1
+
+    traceRecode.append(node_trace)
+
+    # #middle_hover_trace = go.Scatter(x=[], y=[], hovertext=[], mode='markers', hoverinfo="text",
+    #                                 #marker={'size': 5, 'color': 'LightSkyBlue'},
+    #                                 #opacity=0)
+    #
+    # #index = 0
+    # #for edge in G.edges:
+    #     x0, y0 = G.nodes[edge[0]]['pos']
+    #     x1, y1 = G.nodes[edge[1]]['pos']
+    #     hovertext = "Weights: " + str(G.edges[edge]['weight'])
+    #     #middle_hover_trace['x'] += tuple([(x0 + x1) / 2])
+    #     #middle_hover_trace['y'] += tuple([(y0 + y1) / 2])
+    #     #middle_hover_trace['hovertext'] += tuple([hovertext])
+    #     index = index + 1
+
+    # traceRecode.append(middle_hover_trace)
+    #################################################################################################################################################################
+    figure = {
+        "data": traceRecode,
+        "layout": go.Layout(title='Interactive Transaction Visualization', showlegend=False, hovermode='closest',
+                            margin={'b': 40, 'l': 40, 'r': 40, 't': 40},
+                            xaxis={'showgrid': False, 'zeroline': False, 'showticklabels': False},
+                            yaxis={'showgrid': False, 'zeroline': False, 'showticklabels': False},
+                            height=600,
+                            clickmode='event+select'
+                            # annotations=[
+                            #     dict(
+                            #         ax=(G.nodes[edge[0]]['pos'][0] + G.nodes[edge[1]]['pos'][0]) / 2,
+                            #         ay=(G.nodes[edge[0]]['pos'][1] + G.nodes[edge[1]]['pos'][1]) / 2, axref='x',
+                            #         ayref='y',
+                            #         x=(G.nodes[edge[1]]['pos'][0] * 3 + G.nodes[edge[0]]['pos'][0]) / 4,
+                            #         y=(G.nodes[edge[1]]['pos'][1] * 3 + G.nodes[edge[0]]['pos'][1]) / 4, xref='x',
+                            #         yref='y',
+                            #         showarrow=False,
+                            #         arrowhead=3,
+                            #         arrowsize=4,
+                            #         arrowwidth=1,
+                            #         opacity=1
+                                #) for edge in G.edges]
+                            )}
+    return figure
+
+
+######################################################################################################################################################################
+# styles: for right side hover/click component
+styles = {
+    'pre': {
+        'border': 'thin lightgrey solid',
+        'overflowX': 'scroll'
+    }
+}
+
+app.layout = html.Div([
+    html.Div([html.H1("Transaction Network Graph")],
+             className="row",
+             style={'textAlign': "center"}),
+
+    html.Div(
+        className="row",
+        children=[
+            html.Div(
+                className="two columns",
+                children=[
+                    dcc.Markdown(d("""
+                            **Time Range To Visualize**
+                            Slide the bar to define year range.
+                            """)),
+                    html.Div(
+                        className="twelve columns",
+                        children=[
+                            dcc.Slider(
+                                id='year-range-slider',
+                                min=2000,
+                                max=2020,
+                                step=1,
+                                value=2019,
+                                marks={
+                                    2000: {'label': '2000'},
+                                    2001: {'label': '2001'},
+                                    2002: {'label': '2002'},
+                                    2003: {'label': '2003'},
+                                    2004: {'label': '2004'},
+                                    2005: {'label': '2005'},
+                                    2006: {'label': '2006'},
+                                    2007: {'label': '2007'},
+                                    2008: {'label': '2008'},
+                                    2009: {'label': '2009'},
+                                    2010: {'label': '2010'},
+                                    2011: {'label': '2011'},
+                                    2012: {'label': '2012'},
+                                    2013: {'label': '2013'},
+                                    2014: {'label': '2014'},
+                                    2015: {'label': '2015'},
+                                    2016: {'label': '2016'},
+                                    2017: {'label': '2017'},
+                                    2018: {'label': '2018'},
+                                    2019: {'label': '2019'},
+                                    2020: {'label': '2020'}
+                                }
+                            ),
+                            html.Br(),
+                            html.Div(id='output-container-range-slider')
+                        ],
+                        style={'height': '300px'}
+                    ),
+                    html.Div(
+                        className="twelve columns",
+                        children=[
+                            dcc.Markdown(d("""
+                            **Account To Search**
+                            Input the account to visualize.
+                            """)),
+                            dcc.Input(id="input1", type="text", placeholder="author"),
+                            html.Div(id="output")
+                        ],
+                        style={'height': '300px'}
+                    )
+                ]
+            ),
+            html.Div(
+                className="eight columns",
+                children=[dcc.Graph(id="my-graph",
+                                    figure=network_graph(2019))],
+            ),
+            html.Div(
+                className="two columns",
+                children=[
+                    html.Div(
+                        className='twelve columns',
+                        children=[
+                            dcc.Markdown(d("""
+                            **Hover Data**
+                            Mouse over values in the graph.
+                            """)),
+                            html.Pre(id='hover-data', style=styles['pre'])
+                        ],
+                        style={'height': '400px'}),
+                    html.Div(
+                        className='twelve columns',
+                        children=[
+                            dcc.Markdown(d("""
+                            **Click Data**
+                            Click on points in the graph.
+                            """)),
+                            html.Pre(id='click-data', style=styles['pre'])
+                        ],
+                        style={'height': '400px'})
+                ]
+            )
+        ]
+    )
+])
+
+# callback for left side components
+@app.callback(
+    dash.dependencies.Output('my-graph', 'figure'),
+    [dash.dependencies.Input('year-range-slider', 'value'), dash.dependencies.Input('input1', 'value')])
+def update_output(value, input1):
+    print(value)
+    return network_graph(value)
+    # to update the global variable of YEAR and ACCOUNT
+# callback for right side components
+@app.callback(
+    dash.dependencies.Output('hover-data', 'children'),
+    [dash.dependencies.Input('my-graph', 'hoverData')])
+def display_hover_data(hoverData):
+    return json.dumps(hoverData, indent=2)
+
+
+@app.callback(
+    dash.dependencies.Output('click-data', 'children'),
+    [dash.dependencies.Input('my-graph', 'clickData')])
+def display_click_data(clickData):
+    return json.dumps(clickData, indent=2)
+
+
+
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
+
