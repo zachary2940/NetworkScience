@@ -39,7 +39,7 @@ def network_graph(year,option):
         trace = go.Scatter(x=tuple([x0, x1, None]), y=tuple([y0, y1, None]),
                            mode='lines', text="",
                            line={'width': weight},
-                           marker=dict(color=colors[index]),
+                           marker=dict(color='grey'),
                            line_shape='spline',
                            opacity=1)
         traceRecode.append(trace)
@@ -64,7 +64,6 @@ def network_graph(year,option):
     index = 0
     for node in G.nodes():
         x, y = G.nodes[node]['pos']
-        # edit this
         hovertext = "AuthorName: " + str(G.nodes[node]['author']) + "<br>" + "Position: " + str(
             G.nodes[node]['Position'])
         text = G.nodes[node]['author']
@@ -80,26 +79,10 @@ def network_graph(year,option):
             col_list.append(colorsIdxManagement[G.nodes[node][option]])
         elif option == 'Area':
             col_list.append(colorsIdxArea[G.nodes[node][option]])
-        # management etc
         index = index + 1
     node_trace['marker']['color'] = col_list
     traceRecode.append(node_trace)
 
-    # #middle_hover_trace = go.Scatter(x=[], y=[], hovertext=[], mode='markers', hoverinfo="text",
-    #                                 #marker={'size': 5, 'color': 'LightSkyBlue'},
-    #                                 #opacity=0)
-    #
-    # #index = 0
-    # #for edge in G.edges:
-    #     x0, y0 = G.nodes[edge[0]]['pos']
-    #     x1, y1 = G.nodes[edge[1]]['pos']
-    #     hovertext = "Weights: " + str(G.edges[edge]['weight'])
-    #     #middle_hover_trace['x'] += tuple([(x0 + x1) / 2])
-    #     #middle_hover_trace['y'] += tuple([(y0 + y1) / 2])
-    #     #middle_hover_trace['hovertext'] += tuple([hovertext])
-    #     index = index + 1
-
-    # traceRecode.append(middle_hover_trace)
     #################################################################################################################################################################
     figure = {
         "data": traceRecode,
