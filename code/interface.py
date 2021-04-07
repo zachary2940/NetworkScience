@@ -22,7 +22,7 @@ def network_graph(year,option):
 
     G = preprocess_create_graph(df, year)
 
-    pos = nx.drawing.layout.spring_layout(G, k=0.3, iterations=20)
+    pos = nx.drawing.layout.spring_layout(G, k=0.4, iterations=20)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
 
@@ -45,9 +45,13 @@ def network_graph(year,option):
         traceRecode.append(trace)
         index = index + 1
     ###############################################################################################################################################################
-    colorsIdxPosition = {'Professor': 'blue', 'Associate Professor': 'darkred',
-                         'Lecturer': 'lightcoral', 'Senior Lecturer': 'green', 'Assistant Professor': 'yellow'}
+    colorsIdxPosition = {'Professor': 'mediumpurple', 'Associate Professor': 'maroon',
+                         'Lecturer': 'gold', 'Senior Lecturer': 'limegreen', 'Assistant Professor': 'saddlebrown'}
     colorsIdxManagement = {'Y': 'blue', 'N': 'darkred'}
+    colorsIdxArea = {'Computer Networks': 'aquamarine', 'Computer Graphics': 'crimson', 'Computer Architecture': 'chocolate',
+                     'AI/ML': 'darkblue', 'Cyber Security': 'darkgreen', 'HCI': 'magenta', 'Distributed Systems': 'mintcream',
+                     'Information Retrieval': 'yellow', 'Data Management': 'darkgoldenrod', 'Data Mining': 'cyan', 'Computer Vision': 'floralwhite',
+                     'Multimedia': 'saddlebrown', 'Software Engg': 'darkgrey', 'Bioinformatics': 'dimgrey'}
 
     col_list = []
     node_trace = go.Scatter(x=[], y=[], hovertext=[], text=[], mode='markers+text', textposition="bottom center",
@@ -74,6 +78,8 @@ def network_graph(year,option):
             col_list.append(colorsIdxPosition[G.nodes[node][option]])
         elif option == 'Management':
             col_list.append(colorsIdxManagement[G.nodes[node][option]])
+        elif option == 'Area':
+            col_list.append(colorsIdxArea[G.nodes[node][option]])
         # management etc
         index = index + 1
     node_trace['marker']['color'] = col_list
@@ -210,7 +216,7 @@ app.layout = html.Div([
                                 }
                             ),
                             html.Br(),
-                            html.Div(id='output-container-range-slider')
+                            html.Div(id='output-container-range-slider', style={'width':'90'})
                         ],
                         style={'height': '300px'}
                     ),
@@ -220,6 +226,8 @@ app.layout = html.Div([
                                      dcc.Tab(label='Position', value='Position', style=tab_style,
                                              selected_style=tab_selected_style),
                                      dcc.Tab(label='Management', value='Management', style=tab_style,
+                                             selected_style=tab_selected_style),
+                                     dcc.Tab(label='Area', value='Area', style=tab_style,
                                              selected_style=tab_selected_style),
                                  ], style={'height': '40px'}),
                                  html.Div(id='tabs-content-inline')
