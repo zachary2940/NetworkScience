@@ -49,9 +49,9 @@ def network_graph(year,option):
                          'Lecturer': 'gold', 'Senior Lecturer': 'limegreen', 'Assistant Professor': 'saddlebrown'}
     colorsIdxManagement = {'Y': 'blue', 'N': 'darkred'}
     colorsIdxArea = {'Computer Networks': 'aquamarine', 'Computer Graphics': 'crimson', 'Computer Architecture': 'chocolate',
-                     'AI/ML': 'darkblue', 'Cyber Security': 'darkgreen', 'HCI': 'magenta', 'Distributed Systems': 'mintcream',
-                     'Information Retrieval': 'yellow', 'Data Management': 'darkgoldenrod', 'Data Mining': 'cyan', 'Computer Vision': 'floralwhite',
-                     'Multimedia': 'saddlebrown', 'Software Engg': 'darkgrey', 'Bioinformatics': 'dimgrey'}
+                     'AI/ML': 'darkblue', 'Cyber Security': 'darkgreen', 'HCI': 'magenta', 'Distributed Systems': 'tomato',
+                     'Information Retrieval': 'yellow', 'Data Management': 'darkgoldenrod', 'Data Mining': 'cyan', 'Computer Vision': 'black',
+                     'Multimedia': 'saddlebrown', 'Software Engg': 'darkgrey', 'Bioinformatics': 'steelblue'}
 
     col_list = []
     node_trace = go.Scatter(x=[], y=[], hovertext=[], text=[], mode='markers+text', textposition="bottom center",
@@ -103,7 +103,7 @@ def network_graph(year,option):
     #################################################################################################################################################################
     figure = {
         "data": traceRecode,
-        "layout": go.Layout(title='Interactive Transaction Visualization', showlegend=False, hovermode='closest',
+        "layout": go.Layout(title='Interactive Visualization', showlegend=False, hovermode='closest',
                             margin={'b': 40, 'l': 40, 'r': 40, 't': 40},
                             xaxis={'showgrid': False, 'zeroline': False,
                                    'showticklabels': False},
@@ -168,7 +168,7 @@ tab_selected_style = {
 }
 
 app.layout = html.Div([
-    html.Div([html.H1("Transaction Network Graph")],
+    html.Div([html.H1("SCSE Network Graph")],
              className="row",
              style={'textAlign': "center"}),
 
@@ -191,6 +191,8 @@ app.layout = html.Div([
                                 max=2020,
                                 step=1,
                                 value=2019,
+                                vertical=True,
+                                verticalHeight=400,
                                 marks={
                                     2000: {'label': '2000'},
                                     2001: {'label': '2001'},
@@ -216,7 +218,7 @@ app.layout = html.Div([
                                 }
                             ),
                             html.Br(),
-                            html.Div(id='output-container-range-slider', style={'width':'90'})
+                            html.Div(id='output-container-range-slider')
                         ],
                         style={'height': '300px'}
                     ),
