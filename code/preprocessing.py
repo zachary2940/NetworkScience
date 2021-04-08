@@ -339,6 +339,96 @@ def preprocess(df,year):
     verify_correct_nodes(df)
     return df
 
+def normalize_values(dictionary):
+    '''
+    Used in internal_collab() and external_collab()
+    Normalize values based on ratio to total count
+    '''
+    total = sum(dictionary.values())
+    for k, v in dictionary.items():
+        dictionary[k] = v/total
+    return dictionary
+
+def internal_collab(df, column, *, normalize=False):
+    # Find the internal collaboration of every group in a given column.
+    comparison_dict = {
+        'Position':{'Associate Professor', 'Professor', 'Assistant Professor', 'Senior Lecturer', 'Lecturer'},
+        'Gender':{'M', 'F'},
+        'Management':{'Y', 'N'},
+        'Area':{'AI/ML',
+                 'Bioinformatics',
+                 'Computer Architecture',
+                 'Computer Graphics',
+                 'Computer Networks',
+                 'Computer Vision',
+                 'Cyber Security',
+                 'Data Management',
+                 'Data Mining',
+                 'Distributed Systems',
+                 'HCI',
+                 'Information Retrieval',
+                 'Multimedia',
+                 'Software Engg'}
+    }    
+    # lets say we are comparing Area we will be looking at columns ['Area', 'Area-co-author']
+    collaboration_column = column+'-co-author'
+    
+    collab_dict = {}
+    
+    for g in comparison_dict[column]:
+        collab_dict[g] = sum(df.loc[(df[column]==g) & (df[collaboration_column]==g)].weight)
+    if normalize:
+        collab_dict = normalize_values(collab_dict)
+        
+    return collab_dict
+
+def external_collab(df, column, *, group=False, normalize=False):
+    # Find the external collaboration of every group in a given column.
+    comparison_dict = {
+        'Position':{'Associate Professor', 'Professor', 'Assistant Professor', 'Senior Lecturer', 'Lecturer'},
+        'Gender':{'M', 'F'},
+        'Management':{'Y', 'N'},
+        'Area':{'AI/ML',
+                 'Bioinformatics',
+                 'Computer Architecture',
+                 'Computer Graphics',
+                 'Computer Networks',
+                 'Computer Vision',
+                 'Cyber Security',
+                 'Data Management',
+                 'Data Mining',
+                 'Distributed Systems',
+                 'HCI',
+                 'Information Retrieval',
+                 'Multimedia',
+                 'Software Engg'}
+    }    
+    # If there's a group provided, verify that the group is in the column provided.
+    if group:
+        if group not in comparison_dict[column]:
+            return "Provided group does not exist in provided column."
+    
+    # lets say we are comparing Area we will be looking at columns ['Area', 'Area-co-author']
+    collaboration_column = column+'-co-author'
+    collab_dict = {}
+    
+    for g in comparison_dict[column]:
+        # We are finding collaboration from given group (parameter) to all other groups
+        if group:
+            # We don't want to find self-collaboration. Only external.
+            if g == group:
+                continue
+            collab_dict[g] = sum(df.loc[(df[column]==group) & (df[collaboration_column]==g)].weight)
+        # We are finding collaboration from each group to all other groups
+        else:
+            collab_dict[g] = sum(df.loc[(df[column]==g) & (~(df[collaboration_column]==g))].weight)
+        
+    if normalize:
+        collab_dict = normalize_values(collab_dict)
+        
+    return collab_dict
+
+
 '''
 Inputs: 
     df - DataFrame
