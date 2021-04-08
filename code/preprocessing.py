@@ -339,7 +339,21 @@ def preprocess(df,year):
     verify_correct_nodes(df)
     return df
 
-    
+'''
+Inputs: 
+    df - DataFrame
+    year - int (2000 to 2020)
+
+Outputs: 
+    Networkx Graph
+        Nodes containing attributes: 
+        Edges containing attributes: weight
+
+Example:
+    df = pd.read_csv('../data/SCSE_Records.csv')
+    G = preprocess_create_graph(df,2019)
+'''
+
 
 def preprocess_create_graph(df,year):
     df = preprocess(df,year)
@@ -347,12 +361,3 @@ def preprocess_create_graph(df,year):
     G = create_graph(df)
     # visualize_graph(G) # just to check my work
     return G
-
-# Example usage
-
-# df = pd.read_csv('../data/SCSE_Records.csv')
-# print(df.head())
-# G = preprocess_create_graph(df,2019)
-
-
-

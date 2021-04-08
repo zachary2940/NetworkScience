@@ -22,7 +22,7 @@ def network_graph(year,option):
 
     G = preprocess_create_graph(df, year)
 
-    pos = nx.drawing.layout.spring_layout(G, k=0.4, iterations=20)
+    pos = nx.drawing.layout.spring_layout(G, k=0.4, iterations=50)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
 
@@ -263,12 +263,8 @@ app.layout = html.Div([
 def update_output(year,option):
     print(year)
     return network_graph(year,option)
-# callback for right side components
 
-# @app.callback(dash.dependencies.Output('tabs-content-inline', 'children'),
-#               dash.dependencies.Input('tabs-styled-with-inline', 'value'))
-# def render_content(tab):
-#     option = tab
+# callback for right side components
 
 @app.callback(
     dash.dependencies.Output('hover-data', 'children'),
