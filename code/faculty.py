@@ -7,6 +7,7 @@ from preprocessing import create_graph
 from preprocessing import preprocess_range 
 from preprocessing import visualize_graph
 from preprocessing import preprocess
+from preprocessing import preprocess_authors
 import collections
 import math
 from functools import reduce
@@ -210,13 +211,18 @@ def compare_excellence_centrality(df,percentile=75):
     plt.show()
 
 df = pd.read_csv('../data/SCSE_Records.csv')
-year = 2019
+year = 2011
 G = preprocess_create_graph(df,year)
 get_network_statistics(G,year)
 df_collab = preprocess(df,year)
 print(internal_collab(df_collab, 'Area'))
 print(external_collab(df_collab, 'Area'))
 print(external_collab(df_collab, 'Area',group='Computer Networks'))
+
+df_authors=preprocess_authors(df,year,['l/BuSungLee','14/3737','1444536'])
+G = create_graph(df_authors)
+visualize_graph(G)
+
 '''We define that a faculty is an excellence node if he/she has published in the top venue frequently (in the last 10 years or 
 since his/her first publication if the first publication appears less than 10 years ago) in his/her respective area'''
 df = preprocess_range(df,2010,2020)

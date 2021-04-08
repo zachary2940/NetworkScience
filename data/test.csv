@@ -1,0 +1,128 @@
+,author,author-pid,year,Position,Gender,Management,Area,top_venue_count,co-author-pid,weight,paper-list,Faculty-co-author,Position-co-author,Gender-co-author,Management-co-author,Area-co-author
+0,A. S. Madhukumar,66/549,2011.0,Associate Professor,M,N,Computer Networks,0.0,30/6609,1.0,['conf/icmcs/ZhongPML11'],Lau Chiew Tong,Associate Professor,M,N,Computer Networks
+1,Syin Chan,80/2106,2011.0,Associate Professor,F,N,Computer Networks,0.0,30/6609,2.0,"['conf/ised/MishraLCM11', 'conf/mobihoc/VuongCLL11']",Lau Chiew Tong,Associate Professor,M,N,Computer Networks
+2,Weisi Lin,14/3737,2011.0,Professor,M,N,Multimedia,2.0,30/6609,7.0,"['journals/jvcir/DengLLLS11', 'journals/tcsv/PaulLLL11', 'journals/tip/PaulLLL11', 'conf/icassp/FangLLL11', 'conf/icip/PaulLLL11', 'conf/mmm/GuLLL11', 'conf/mmm/FangLLLL11']",Lau Chiew Tong,Associate Professor,M,N,Computer Networks
+3,Bu-Sung Lee,l/BuSungLee,2011.0,Associate Professor,M,N,Computer Networks,0.0,30/6609,7.0,"['journals/jvcir/DengLLLS11', 'journals/tcsv/PaulLLL11', 'journals/tip/PaulLLL11', 'conf/icassp/FangLLL11', 'conf/icip/PaulLLL11', 'conf/mmm/GuLLL11', 'conf/mmm/FangLLLL11']",Lau Chiew Tong,Associate Professor,M,N,Computer Networks
+4,Chiew Tong Lau,30/6609,2011.0,Associate Professor,M,N,Computer Networks,0.0,66/549,1.0,['conf/icmcs/ZhongPML11'],A S Madhukumar,Associate Professor,M,N,Computer Networks
+5,Sourav Sen Gupta,41/8030,2011.0,Lecturer,M,N,Cyber Security,0.0,99/4535,1.0,['conf/indocrypt/GuptaCK11'],Anupam Chattopadhyay,Associate Professor,M,N,Computer Architecture
+6,Anupam Chattopadhyay,99/4535,2011.0,Associate Professor,M,N,Computer Architecture,0.0,41/8030,1.0,['conf/indocrypt/GuptaCK11'],Sourav Sen Gupta,Lecturer,M,N,Cyber Security
+7,Aixin Sun,78/5155,2011.0,Associate Professor,M,N,Information Retrieval,2.0,d/AnwitamanDatta,4.0,"['conf/ecir/LiSD11', 'conf/sigir/LiDS11', 'conf/sigir/SunDLC11', 'conf/socinfo/2011']",Anwitaman Datta,Associate Professor,M,N,Distributed Systems
+8,Anwitaman Datta,d/AnwitamanDatta,2011.0,Associate Professor,M,N,Distributed Systems,0.0,78/5155,4.0,"['conf/ecir/LiSD11', 'conf/sigir/LiDS11', 'conf/sigir/SunDLC11', 'conf/socinfo/2011']",Sun Aixin,Associate Professor,M,N,Information Retrieval
+9,Sourav S. Bhowmick,b/SSBhowmick,2011.0,Associate Professor,M,N,Data Management,1.0,78/5155,6.0,"['journals/jasis/LiBS11', 'journals/jasis/SunBNB11', 'conf/cikm/LiBS11', 'conf/dasfaa/SunB11', 'conf/mm/SunBC11', 'books/daglib/p/SunB11']",Sun Aixin,Associate Professor,M,N,Information Retrieval
+10,Jianmin Zheng,1297587,2011.0,Associate Professor,M,N,Computer Graphics,0.0,83/6096,3.0,"['journals/cgf/DuanZC11', 'journals/tvcg/ZhangZC11', 'conf/icmcs/DuanCZL11']",Cai Jianfei,Professor,M,N,Computer Vision
+11,Dusit Niyato,76/440,2011.0,Professor,M,N,Computer Networks,0.0,83/6096,1.0,['journals/tmm/GuoFCNW11'],Cai Jianfei,Professor,M,N,Computer Vision
+12,Weisi Lin,14/3737,2011.0,Professor,M,N,Multimedia,2.0,83/6096,2.0,"['conf/icc/DengLC11', 'conf/icmcs/DuanCZL11']",Cai Jianfei,Professor,M,N,Computer Vision
+13,Yonggang Wen 0001,33/885,2011.0,Professor,M,N,Multimedia,0.0,83/6096,1.0,['conf/icon/YangCWF11'],Cai Jianfei,Professor,M,N,Computer Vision
+14,Jianfei Cai 0001,83/6096,2011.0,Professor,M,N,Computer Vision,0.0,1297587,3.0,"['journals/cgf/DuanZC11', 'journals/tvcg/ZhangZC11', 'conf/icmcs/DuanCZL11']",Zheng Jianmin,Associate Professor,M,N,Computer Graphics
+15,Weisi Lin,14/3737,2011.0,Professor,M,N,Multimedia,2.0,1297587,1.0,['conf/icmcs/DuanCZL11'],Zheng Jianmin,Associate Professor,M,N,Computer Graphics
+16,Jianfei Cai 0001,83/6096,2011.0,Professor,M,N,Computer Vision,0.0,76/440,1.0,['journals/tmm/GuoFCNW11'],Dusit Niyato,Professor,M,N,Computer Networks
+17,Bu-Sung Lee,l/BuSungLee,2011.0,Associate Professor,M,N,Computer Networks,0.0,76/440,1.0,['conf/mascots/ChaisiriKLN11'],Dusit Niyato,Professor,M,N,Computer Networks
+18,Jianfei Cai 0001,83/6096,2011.0,Professor,M,N,Computer Vision,0.0,14/3737,2.0,"['conf/icc/DengLC11', 'conf/icmcs/DuanCZL11']",Lin Weisi,Professor,M,N,Multimedia
+19,Jianmin Zheng,1297587,2011.0,Associate Professor,M,N,Computer Graphics,0.0,14/3737,1.0,['conf/icmcs/DuanCZL11'],Lin Weisi,Professor,M,N,Multimedia
+20,Bu-Sung Lee,l/BuSungLee,2011.0,Associate Professor,M,N,Computer Networks,0.0,14/3737,7.0,"['journals/jvcir/DengLLLS11', 'journals/tcsv/PaulLLL11', 'journals/tip/PaulLLL11', 'conf/icassp/FangLLL11', 'conf/icip/PaulLLL11', 'conf/mmm/GuLLL11', 'conf/mmm/FangLLLL11']",Lin Weisi,Professor,M,N,Multimedia
+21,Chiew Tong Lau,30/6609,2011.0,Associate Professor,M,N,Computer Networks,0.0,14/3737,7.0,"['journals/jvcir/DengLLLS11', 'journals/tcsv/PaulLLL11', 'journals/tip/PaulLLL11', 'conf/icassp/FangLLL11', 'conf/icip/PaulLLL11', 'conf/mmm/GuLLL11', 'conf/mmm/FangLLLL11']",Lin Weisi,Professor,M,N,Multimedia
+22,Hock Soon Seah,s/SeahHockSoon,2011.0,Professor,M,Y,Computer Graphics,0.0,14/3737,1.0,['conf/ivmsp/DongLZS11'],Lin Weisi,Professor,M,N,Multimedia
+23,Jianfei Cai 0001,83/6096,2011.0,Professor,M,N,Computer Vision,0.0,33/885,1.0,['conf/icon/YangCWF11'],Wen Yonggang,Professor,M,N,Multimedia
+24,Wentong Cai 0001,83/3179,2011.0,Professor,M,Y,Distributed Systems,0.0,23/2460,3.0,"['journals/jnca/DuongZCTA11', 'conf/pads/LiCTZ11', 'conf/simutools/TaNNDTCZ11']",Tang Xueyan,Associate Professor,M,N,Distributed Systems
+25,Bu-Sung Lee,l/BuSungLee,2011.0,Associate Professor,M,N,Computer Networks,0.0,23/2460,1.0,['journals/tjs/ZhangLTY11'],Tang Xueyan,Associate Professor,M,N,Distributed Systems
+26,Chai Kiat Yeo,52/910,2011.0,Associate Professor,F,Y,Computer Networks,0.0,23/2460,1.0,['journals/tjs/ZhangLTY11'],Tang Xueyan,Associate Professor,M,N,Distributed Systems
+27,Xueyan Tang,23/2460,2011.0,Associate Professor,M,N,Distributed Systems,0.0,83/3179,3.0,"['journals/jnca/DuongZCTA11', 'conf/pads/LiCTZ11', 'conf/simutools/TaNNDTCZ11']",Cai Wentong,Professor,M,Y,Distributed Systems
+28,Yew-Soon Ong,64/4136,2011.0,Professor,M,Y,AI/ML,0.0,83/3179,1.0,['journals/tec/AydtTCLOA11'],Cai Wentong,Professor,M,Y,Distributed Systems
+29,Wentong Cai 0001,83/3179,2011.0,Professor,M,Y,Distributed Systems,0.0,64/4136,1.0,['journals/tec/AydtTCLOA11'],Ong Yew Soon,Professor,M,Y,AI/ML
+30,Chee Keong Kwoh 0001,32/228,2011.0,Associate Professor,M,N,Bioinformatics,0.0,64/4136,1.0,['conf/cec/HandokoKOC11'],Ong Yew Soon,Professor,M,Y,AI/ML
+31,Ah-Hwee Tan,38/3641,2011.0,Professor,M,Y,AI/ML,0.0,64/4136,2.0,"['journals/eswa/TanOT11', 'conf/cec/FengOTC11']",Ong Yew Soon,Professor,M,Y,AI/ML
+32,Jie Zhang 0002,84/6889-2,2011.0,Associate Professor,M,N,AI/ML,0.0,64/4136,2.0,"['conf/ausai/JiangZO11', 'conf/icnc/JiangCZO11']",Ong Yew Soon,Professor,M,Y,AI/ML
+33,Chiew Tong Lau,30/6609,2011.0,Associate Professor,M,N,Computer Networks,0.0,80/2106,2.0,"['conf/ised/MishraLCM11', 'conf/mobihoc/VuongCLL11']",Chan Syin,Associate Professor,F,N,Computer Networks
+34,Chai Quek,q/HiokChaiQuek,2011.0,Associate Professor,M,N,AI/ML,0.0,63/6663,1.0,['journals/ijfsa/QuekGM11'],Douglas Leslie Maskell,Associate Professor,M,N,Computer Architecture
+35,Douglas L. Maskell,63/6663,2011.0,Associate Professor,M,N,Computer Architecture,0.0,q/HiokChaiQuek,1.0,['journals/ijfsa/QuekGM11'],Quek Hiok Chai,Associate Professor,M,N,AI/ML
+36,Cuntai Guan,95/7006,2011.0,Professor,M,N,AI/ML,0.0,q/HiokChaiQuek,4.0,"['journals/tbe/ArvanehGAQ11', 'journals/tnn/TungQG11', 'conf/fuzzIEEE/TungQG11', 'conf/icassp/ArvanehGAQ11']",Quek Hiok Chai,Associate Professor,M,N,AI/ML
+37,Dusit Niyato,76/440,2011.0,Professor,M,N,Computer Networks,0.0,l/BuSungLee,1.0,['conf/mascots/ChaisiriKLN11'],Lee Bu Sung Francis,Associate Professor,M,N,Computer Networks
+38,Weisi Lin,14/3737,2011.0,Professor,M,N,Multimedia,2.0,l/BuSungLee,7.0,"['journals/jvcir/DengLLLS11', 'journals/tcsv/PaulLLL11', 'journals/tip/PaulLLL11', 'conf/icassp/FangLLL11', 'conf/icip/PaulLLL11', 'conf/mmm/GuLLL11', 'conf/mmm/FangLLLL11']",Lee Bu Sung Francis,Associate Professor,M,N,Computer Networks
+39,Chiew Tong Lau,30/6609,2011.0,Associate Professor,M,N,Computer Networks,0.0,l/BuSungLee,7.0,"['journals/jvcir/DengLLLS11', 'journals/tcsv/PaulLLL11', 'journals/tip/PaulLLL11', 'conf/icassp/FangLLL11', 'conf/icip/PaulLLL11', 'conf/mmm/GuLLL11', 'conf/mmm/FangLLLL11']",Lee Bu Sung Francis,Associate Professor,M,N,Computer Networks
+40,Qianhui Liang,a/QianhuiAltheaLiang,2011.0,Lecturer,F,N,AI/ML,0.0,l/BuSungLee,4.0,"['journals/jwsr/LiangBL11', 'conf/IEEEcloud/LiangL11', 'conf/icsoft/GioachinLYL11', 'conf/services/KoJMPKLL11']",Lee Bu Sung Francis,Associate Professor,M,N,Computer Networks
+41,Xueyan Tang,23/2460,2011.0,Associate Professor,M,N,Distributed Systems,0.0,l/BuSungLee,1.0,['journals/tjs/ZhangLTY11'],Lee Bu Sung Francis,Associate Professor,M,N,Computer Networks
+42,Chai Kiat Yeo,52/910,2011.0,Associate Professor,F,Y,Computer Networks,0.0,l/BuSungLee,10.0,"['journals/tjs/ZhangLTY11', 'conf/ccnc/ZhongYL11', 'conf/globecom/AgarwalBGBYL11', 'conf/globecom/BanerjeeAGYAL11', 'conf/icc/YangYL11', 'conf/vtc/BanerjeeFYL11', 'conf/wimob/BanerjeeFYL11', 'journals/corr/abs-1109-5338', 'journals/corr/abs-1109-5959', 'journals/corr/abs-1111-4807']",Lee Bu Sung Francis,Associate Professor,M,N,Computer Networks
+43,Hiok Chai Quek,q/HiokChaiQuek,2011.0,Associate Professor,M,N,AI/ML,0.0,95/7006,4.0,"['journals/tbe/ArvanehGAQ11', 'journals/tnn/TungQG11', 'conf/fuzzIEEE/TungQG11', 'conf/icassp/ArvanehGAQ11']",Guan Cuntai,Professor,M,N,AI/ML
+44,Sinno Jialin Pan,80/5412,2011.0,Associate Professor,M,N,AI/ML,0.0,95/7006,1.0,['conf/embc/ZhangFPLGZCGKA11'],Guan Cuntai,Professor,M,N,AI/ML
+45,Cuntai Guan,95/7006,2011.0,Professor,M,N,AI/ML,0.0,80/5412,1.0,['conf/embc/ZhangFPLGZCGKA11'],Pan Sinno Jialin,Associate Professor,M,N,AI/ML
+46,Jun Luo 0001,42/2501-1,2011.0,Associate Professor,M,N,Computer Networks,0.0,h/YingHe1,4.0,"['conf/icc/LuoLH11', 'conf/infocom/LuoH11', 'conf/mobihoc/LiLZXH11', 'journals/corr/abs-1101-0892']",He Ying,Associate Professor,M,N,Computer Graphics
+47,Hock Soon Seah,s/SeahHockSoon,2011.0,Professor,M,Y,Computer Graphics,0.0,h/YingHe1,2.0,"['conf/siggrapha/00010SM11', 'conf/vrcai/LiuSHLX11']",He Ying,Associate Professor,M,N,Computer Graphics
+48,Ying He 0001,h/YingHe1,2011.0,Associate Professor,M,N,Computer Graphics,0.0,42/2501-1,4.0,"['conf/icc/LuoLH11', 'conf/infocom/LuoH11', 'conf/mobihoc/LiLZXH11', 'journals/corr/abs-1101-0892']",Luo Jun,Associate Professor,M,N,Computer Networks
+49,Ying He 0001,h/YingHe1,2011.0,Associate Professor,M,N,Computer Graphics,0.0,s/SeahHockSoon,2.0,"['conf/siggrapha/00010SM11', 'conf/vrcai/LiuSHLX11']",Seah Hock Soon,Professor,M,Y,Computer Graphics
+50,Weisi Lin,14/3737,2011.0,Professor,M,N,Multimedia,2.0,s/SeahHockSoon,1.0,['conf/ivmsp/DongLZS11'],Seah Hock Soon,Professor,M,Y,Computer Graphics
+51,Shell-Ying Huang,61/3119,2011.0,Senior Lecturer,F,N,Distributed Systems,0.0,m/ChunyanMiao,1.0,['conf/iat/RafiqueHM11'],Miao Chunyan,Professor,F,Y,AI/ML
+52,Zhiqi Shen,03/1554,2011.0,Senior Lecturer,M,N,AI/ML,0.0,m/ChunyanMiao,9.0,"['journals/ijon/SongMSWDC11', 'journals/tfs/SongMWSDC11', 'journals/wias/ShenYMW11', 'conf/aaai/SongMS11', 'conf/atal/YuSMT11', 'conf/atal/YuSML11', 'conf/fuzzIEEE/ZhangSM11', 'conf/icalt/AiliyaSM11', 'conf/icids/CaiSM11']",Miao Chunyan,Professor,F,Y,AI/ML
+53,Han Yu 0001,35/1096-1,2011.0,Assistant Professor,M,N,AI/ML,0.0,m/ChunyanMiao,3.0,"['journals/wias/ShenYMW11', 'conf/atal/YuSMT11', 'conf/edutainment/LinMY11']",Miao Chunyan,Professor,F,Y,AI/ML
+54,Jie Zhang 0002,84/6889-2,2011.0,Associate Professor,M,N,AI/ML,0.0,m/ChunyanMiao,1.0,['conf/atal/LiuZMTK11'],Miao Chunyan,Professor,F,Y,AI/ML
+55,Ah-Hwee Tan,38/3641,2011.0,Professor,M,Y,AI/ML,0.0,m/ChunyanMiao,1.0,['conf/atal/YuSMT11'],Miao Chunyan,Professor,F,Y,AI/ML
+56,Chunyan Miao,m/ChunyanMiao,2011.0,Professor,F,Y,AI/ML,0.0,61/3119,1.0,['conf/iat/RafiqueHM11'],Huang Shell Ying,Senior Lecturer,F,N,Distributed Systems
+57,Yew-Soon Ong,64/4136,2011.0,Professor,M,Y,AI/ML,0.0,32/228,1.0,['conf/cec/HandokoKOC11'],Kwoh Chee Keong,Associate Professor,M,N,Bioinformatics
+58,Siew Kei Lam,74/1907,2011.0,Assistant Professor,M,N,Computer Architecture,0.0,23/1694,6.0,"['journals/tc/LamSC11', 'conf/isvlsi/SinhaDLS11', 'conf/paap/LiuLSY11', 'conf/paap/ChuongALSL11', 'conf/socc/PrakashLCS11', 'conf/socc/AungLS11']",Thambipillai Srikanthan,Professor,M,Y,Computer Architecture
+59,Thambipillai Srikanthan,23/1694,2011.0,Professor,M,Y,Computer Architecture,0.0,74/1907,6.0,"['journals/tc/LamSC11', 'conf/isvlsi/SinhaDLS11', 'conf/paap/LiuLSY11', 'conf/paap/ChuongALSL11', 'conf/socc/PrakashLCS11', 'conf/socc/AungLS11']",Lam Siew Kei,Assistant Professor,M,N,Computer Architecture
+60,Bu-Sung Lee,l/BuSungLee,2011.0,Associate Professor,M,N,Computer Networks,0.0,a/QianhuiAltheaLiang,4.0,"['journals/jwsr/LiangBL11', 'conf/IEEEcloud/LiangL11', 'conf/icsoft/GioachinLYL11', 'conf/services/KoJMPKLL11']",Liang Qianhui,Lecturer,F,N,AI/ML
+61,Bu-Sung Lee,l/BuSungLee,2011.0,Associate Professor,M,N,Computer Networks,0.0,52/910,10.0,"['journals/tjs/ZhangLTY11', 'conf/ccnc/ZhongYL11', 'conf/globecom/AgarwalBGBYL11', 'conf/globecom/BanerjeeAGYAL11', 'conf/icc/YangYL11', 'conf/vtc/BanerjeeFYL11', 'conf/wimob/BanerjeeFYL11', 'journals/corr/abs-1109-5338', 'journals/corr/abs-1109-5959', 'journals/corr/abs-1111-4807']",Yeo Chai Kiat,Associate Professor,F,Y,Computer Networks
+62,Xueyan Tang,23/2460,2011.0,Associate Professor,M,N,Distributed Systems,0.0,52/910,1.0,['journals/tjs/ZhangLTY11'],Yeo Chai Kiat,Associate Professor,F,Y,Computer Networks
+63,Shang-Wei Lin 0001,55/4730-1,2011.0,Assistant Professor,M,N,Software Engg,0.0,51/3710-3,1.0,['conf/atva/LinADSL11'],Liu Yang,Professor,M,N,Software Engg
+64,Yang Liu 0003,51/3710-3,2011.0,Professor,M,N,Software Engg,0.0,55/4730-1,1.0,['conf/atva/LinADSL11'],Lin Shang-Wei,Assistant Professor,M,N,Software Engg
+65,Chunyan Miao,m/ChunyanMiao,2011.0,Professor,F,Y,AI/ML,0.0,03/1554,9.0,"['journals/ijon/SongMSWDC11', 'journals/tfs/SongMWSDC11', 'journals/wias/ShenYMW11', 'conf/aaai/SongMS11', 'conf/atal/YuSMT11', 'conf/atal/YuSML11', 'conf/fuzzIEEE/ZhangSM11', 'conf/icalt/AiliyaSM11', 'conf/icids/CaiSM11']",Shen Zhiqi,Senior Lecturer,M,N,AI/ML
+66,Han Yu 0001,35/1096-1,2011.0,Assistant Professor,M,N,AI/ML,0.0,03/1554,2.0,"['journals/wias/ShenYMW11', 'conf/atal/YuSMT11']",Shen Zhiqi,Senior Lecturer,M,N,AI/ML
+67,Ah-Hwee Tan,38/3641,2011.0,Professor,M,Y,AI/ML,0.0,03/1554,1.0,['conf/atal/YuSMT11'],Shen Zhiqi,Senior Lecturer,M,N,AI/ML
+68,Zhiqi Shen,03/1554,2011.0,Senior Lecturer,M,N,AI/ML,0.0,35/1096-1,2.0,"['journals/wias/ShenYMW11', 'conf/atal/YuSMT11']",Yu Han,Assistant Professor,M,N,AI/ML
+69,Chunyan Miao,m/ChunyanMiao,2011.0,Professor,F,Y,AI/ML,0.0,35/1096-1,3.0,"['journals/wias/ShenYMW11', 'conf/atal/YuSMT11', 'conf/edutainment/LinMY11']",Yu Han,Assistant Professor,M,N,AI/ML
+70,Ah-Hwee Tan,38/3641,2011.0,Professor,M,Y,AI/ML,0.0,35/1096-1,1.0,['conf/atal/YuSMT11'],Yu Han,Assistant Professor,M,N,AI/ML
+71,Chunyan Miao,m/ChunyanMiao,2011.0,Professor,F,Y,AI/ML,0.0,84/6889-2,1.0,['conf/atal/LiuZMTK11'],Zhang Jie,Associate Professor,M,N,AI/ML
+72,Wee Keong Ng,n/WeeKeongNg,2011.0,Associate Professor,M,N,Cyber Security,0.0,84/6889-2,2.0,"['conf/trustcom/ZhangFNZ11', 'conf/um/ZhangTLFRCLNZ11']",Zhang Jie,Associate Professor,M,N,AI/ML
+73,Yew-Soon Ong,64/4136,2011.0,Professor,M,Y,AI/ML,0.0,84/6889-2,2.0,"['conf/ausai/JiangZO11', 'conf/icnc/JiangCZO11']",Zhang Jie,Associate Professor,M,N,AI/ML
+74,Han Yu 0001,35/1096-1,2011.0,Assistant Professor,M,N,AI/ML,0.0,38/3641,1.0,['conf/atal/YuSMT11'],Tan Ah Hwee,Professor,M,Y,AI/ML
+75,Zhiqi Shen,03/1554,2011.0,Senior Lecturer,M,N,AI/ML,0.0,38/3641,1.0,['conf/atal/YuSMT11'],Tan Ah Hwee,Professor,M,Y,AI/ML
+76,Chunyan Miao,m/ChunyanMiao,2011.0,Professor,F,Y,AI/ML,0.0,38/3641,1.0,['conf/atal/YuSMT11'],Tan Ah Hwee,Professor,M,Y,AI/ML
+77,Yew-Soon Ong,64/4136,2011.0,Professor,M,Y,AI/ML,0.0,38/3641,2.0,"['journals/eswa/TanOT11', 'conf/cec/FengOTC11']",Tan Ah Hwee,Professor,M,Y,AI/ML
+78,Jie Zhang 0002,84/6889-2,2011.0,Associate Professor,M,N,AI/ML,0.0,n/WeeKeongNg,2.0,"['conf/trustcom/ZhangFNZ11', 'conf/um/ZhangTLFRCLNZ11']",Ng Wee Keong,Associate Professor,M,N,Cyber Security
+79,Aixin Sun,78/5155,2011.0,Associate Professor,M,N,Information Retrieval,2.0,b/SSBhowmick,6.0,"['journals/jasis/LiBS11', 'journals/jasis/SunBNB11', 'conf/cikm/LiBS11', 'conf/dasfaa/SunB11', 'conf/mm/SunBC11', 'books/daglib/p/SunB11']",Sourav S Bhowmick,Associate Professor,M,N,Data Management
+80,Alexei Sourin,15/3108,2011.0,Associate Professor,M,N,Computer Graphics,0.0,,,,,,,,
+81,Arijit Khan,67/2933,2011.0,Assistant Professor,M,N,Data Management,0.0,,,,,,,,
+82,Arvind Easwaran,73/1708,2011.0,Associate Professor,M,N,Computer Architecture,0.0,,,,,,,,
+83,Bo An,42/6178-1,2011.0,Associate Professor,M,N,AI/ML,0.0,,,,,,,,
+84,Cham Tat Jen,29/3808,2011.0,Associate Professor,M,N,Computer Vision,0.0,,,,,,,,
+85,Chia Liang Tien Clement,384358,2011.0,Associate Professor,M,N,Multimedia,0.0,,,,,,,,
+86,Chng Eng Siong,c/ChngEngSiong,2011.0,Associate Professor,M,N,AI/ML,0.0,,,,,,,,
+87,Cong Gao,33/3180,2011.0,Professor,M,N,Data Mining,0.0,,,,,,,,
+88,Deepu Rajan,95/3115,2011.0,Associate Professor,M,N,Computer Vision,0.0,,,,,,,,
+89,Erik Cambria,80/7421,2011.0,Associate Professor,M,N,AI/ML,0.0,,,,,,,,
+90,Goh Wooi Boon,97/6922,2011.0,Associate Professor,M,N,HCI,0.0,,,,,,,,
+91,Hui Siu Cheung,65/3225,2011.0,Associate Professor,M,N,Information Retrieval,0.0,,,,,,,,
+92,Joty Shafiq Rayhan,62/2078,2011.0,Assistant Professor,M,N,AI/ML,0.0,,,,,,,,
+93,Ke Yiping Kelly,442491,2011.0,Assistant Professor,F,N,AI/ML,0.0,,,,,,,,
+94,Kong Wai-Kin Adams,16/3792,2011.0,Associate Professor,M,N,Computer Vision,0.0,,,,,,,,
+95,Lam Kwok Yan,34243,2011.0,Professor,M,N,Cyber Security,0.0,,,,,,,,
+96,Lana Obraztsova,2931407,2011.0,Assistant Professor,F,N,AI/ML,0.0,,,,,,,,
+97,Li Fang Flora,32/3735,2011.0,Senior Lecturer,F,N,Computer Vision,0.0,,,,,,,,
+98,Li Mo,87/4982-1,2011.0,Associate Professor,M,N,Computer Networks,0.0,,,,,,,,
+99,Li Yi,59/871-8,2011.0,Assistant Professor,M,N,Software Engg,0.0,,,,,,,,
+100,Lin Feng,75/2611-2,2011.0,Associate Professor,M,N,Bioinformatics,0.0,,,,,,,,
+101,Lin Guosheng,126/4778,2011.0,Assistant Professor,M,N,Computer Vision,0.0,,,,,,,,
+102,Liu Weichen,24/914,2011.0,Assistant Professor,M,N,Computer Architecture,0.0,,,,,,,,
+103,Loke Yuan Ren,2794411,2011.0,Lecturer,M,N,Computer Vision,0.0,,,,,,,,
+104,Long Cheng,58/10813,2011.0,Assistant Professor,M,N,Data Mining,0.0,,,,,,,,
+105,Loy Chen Change,1444536,2011.0,Associate Professor,M,N,Computer Vision,0.0,,,,,,,,
+106,Lu Shijian,42/2718,2011.0,Assistant Professor,M,N,Computer Vision,0.0,,,,,,,,
+107,Mahardhika Pratama,55/9613,2011.0,Assistant Professor,M,N,AI/ML,0.0,,,,,,,,
+108,Mohamed M. Sabry,74/5309,2011.0,Assistant Professor,M,N,Computer Architecture,0.0,,,,,,,,
+109,Oh Hong Lye,224/9431,2011.0,Lecturer,M,N,Computer Architecture,0.0,,,,,,,,
+110,Owen Noel Newton Fernando,84/2408,2011.0,Senior Lecturer,M,N,HCI,0.0,,,,,,,,
+111,Qian Kemao,78/6459,2011.0,Associate Professor,M,N,Computer Vision,0.0,,,,,,,,
+112,Rajapakse Jagath Chandana,91/665,2011.0,Professor,M,N,Bioinformatics,0.0,,,,,,,,
+113,Smitha K G,73/4788,2011.0,Lecturer,F,N,Computer Architecture,0.0,,,,,,,,
+114,Sun Chengzheng,s/CZSun,2011.0,Professor,M,N,HCI,0.0,,,,,,,,
+115,Tan Kheng Leong,242/0323,2011.0,Lecturer,M,N,Cyber Security,0.0,,,,,,,,
+116,Tan Rui,00/5179,2011.0,Assistant Professor,M,N,Computer Architecture,0.0,,,,,,,,
+117,Vun Chan Hua Nicholas,69/8028,2011.0,Associate Professor,M,N,Computer Architecture,0.0,,,,,,,,
+118,Xavier Bresson,95/378,2011.0,Associate Professor,M,N,AI/ML,0.0,,,,,,,,
+119,Zhang Hanwang,79/8116,2011.0,Assistant Professor,M,N,Computer Vision,0.0,,,,,,,,
+120,Zhao Jun,47/2026-7,2011.0,Assistant Professor,M,N,Computer Networks,0.0,,,,,,,,
+121,Zinovi Rabinovich,93/4009,2011.0,Assistant Professor,M,N,AI/ML,0.0,,,,,,,,
+122,Tay Kian Boon,solo,2011.0,Senior Lecturer,M,N,Cyber Security,0.0,,,,,,,,
+123,Zhang Tianwei,77/7902,2011.0,Assistant Professor,M,N,Cyber Security,0.0,,,,,,,,
+124,Boyang Li,70/1211,2011.0,Associate Professor,M,N,AI/ML,0.0,,,,,,,,
+125,Liu Zhiwei,90/9499,2011.0,Assistant Professor,M,N,Computer Vision,0.0,,,,,,,,
+126,Luu Anh Tuan,81/8329,2011.0,Assistant Professor,M,N,AI/ML,0.0,,,,,,,,

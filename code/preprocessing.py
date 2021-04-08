@@ -246,7 +246,7 @@ def add_weight(df):
 
 def add_paper_list(df):
     df_paper_list = df.groupby(['author-pid', 'co-author-pid'])['paper'].apply(list).to_frame()
-    df = df.join(df_paper_list,on=['author-pid', 'co-author-pid'],lsuffix='', rsuffix='-list', how='outer')
+    df = pd.merge(df,df_paper_list,on=['author-pid', 'co-author-pid'], suffixes=("", "-list"),how='outer')
     return df
 
 def drop_author_coauthor_duplicates(df):
@@ -285,7 +285,12 @@ def transform_isolated_nodes_to_author(df):
     df['Gender'] = np.where(pd.isna(df['Gender']), df['Gender-co-author'], df['Gender'])
     df['Management'] = np.where(pd.isna(df['Management']), df['Management-co-author'], df['Management'])
     df['Area'] = np.where(pd.isna(df['Area']), df['Area-co-author'], df['Area'])
-    df['Area'] = np.where(pd.isna(df['Area']), df['Area-co-author'], df['Area'])
+    df['co-author-pid'] = np.where(pd.isna(df['top_venue_count']), np.nan, df['co-author-pid'])
+    df['Faculty-co-author'] = np.where(pd.isna(df['top_venue_count']), np.nan, df['Faculty-co-author'])
+    df['Position-co-author'] = np.where(pd.isna(df['top_venue_count']), np.nan, df['Position-co-author'])
+    df['Gender-co-author'] = np.where(pd.isna(df['top_venue_count']), np.nan, df['Gender-co-author'])
+    df['Management-co-author'] = np.where(pd.isna(df['top_venue_count']), np.nan, df['Management-co-author'])
+    df['Area-co-author'] = np.where(pd.isna(df['top_venue_count']), np.nan, df['Area-co-author'])
     df['top_venue_count'] = np.where(pd.isna(df['top_venue_count']), 0, df['top_venue_count'])
 
 
@@ -331,8 +336,12 @@ def visualize_graph(G):
     graphs_viz_options[selected_graph_option](G)
     plt.show()
 
-def preprocess(df,year):
-    df = filter_year(df,year)
+def filter_authors(df,author_pid_list):
+    df = df.loc[df['author-pid'].isin(author_pid_list)].reset_index(drop=True)
+    df = df.loc[df['co-author-pid'].isin(author_pid_list)].reset_index(drop=True)
+    return df
+
+def preprocess_core(df):
     top_venue_dict = load_top_venue_dict()
     df = add_top_venues_count(df,top_venue_dict)
     df = add_coauthor(df)
@@ -345,23 +354,25 @@ def preprocess(df,year):
     df = tay_kian_boon_create_pid(df)
     verify_correct_nodes(df)
     transform_isolated_nodes_to_author(df)
+    print(df)
     return df
+
+def preprocess(df,year):
+    df = filter_year(df,year)
+    return preprocess_core(df)
+
+
+def preprocess_authors(df,year,authors):
+    df = filter_year(df,year)
+    df = preprocess_core(df)
+    df = filter_authors(df,authors)
+
+    return filter_authors(df,authors)
 
 def preprocess_range(df,yearStart,yearEnd):
     df = df.loc[(yearStart<=df['year']) & (df['year']<=yearEnd)].reset_index(drop=True)
-    top_venue_dict = load_top_venue_dict()
-    df = add_top_venues_count(df,top_venue_dict)
-    df = add_coauthor(df)
-    df = drop_author_self_link(df)
-    df = add_weight(df)
-    df = add_paper_list(df)
-    df = drop_author_coauthor_duplicates(df)
-    df = add_coauthor_attributes(df)
-    df = drop_redundant_cols(df)
-    df = tay_kian_boon_create_pid(df)
-    verify_correct_nodes(df)
-    transform_isolated_nodes_to_author(df)
-    return df
+    return preprocess_core(df)
+
 
 '''
 Inputs: 
