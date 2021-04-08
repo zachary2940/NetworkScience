@@ -1,4 +1,6 @@
 # Network Science Project 1
+Install Package Manager tool:
+```pip install pipenv```
 
 Install required packages:
 
@@ -8,3 +10,7 @@ Activate virtual environment:
 
 ```pipenv shell```
 
+Start WebApp:
+```py project.py```
+
+Go to <http://127.0.0.1:8050/>

@@ -1,10 +1,15 @@
 import networkx as nx
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 from preprocessing import preprocess_create_graph 
+from preprocessing import create_graph 
+from preprocessing import preprocess_range 
 from preprocessing import visualize_graph
+from preprocessing import preprocess
 import collections
 import math
+from functools import reduce
 # https://networkx.org/documentation/stable/reference/algorithms/centrality.html
 
 def plot_degree_distribution(G):
@@ -136,9 +141,7 @@ def external_collab(df, column, *, group=False, normalize=False):
         
     return collab_dict
 
-df = pd.read_csv('../data/SCSE_Records.csv')
-for year in range(2000,2021):
-    G = preprocess_create_graph(df,year)
+def get_network_statistics(G,year):
     # for k in G.edges:
     #     print(G.edges[k]['weight'])
     G.name = year
@@ -159,3 +162,61 @@ for year in range(2000,2021):
         print('Diameter of connected component: ', nx.diameter(C))
         print('Average shortest path length: ', nx.average_shortest_path_length(C))
     print()
+
+def get_excellence_nodes(df,percentile=75):
+    p = np.percentile(df['top_venue_count'].unique(), percentile) # return 50th percentile, e.g median.
+    df_excellence = df.loc[df['top_venue_count']>p]
+    return df_excellence[['author-pid','top_venue_count']].drop_duplicates(subset='author-pid')
+
+
+def get_central_nodes(G):
+    node_centrality_scores_degree = nx.degree_centrality(G)
+    node_centrality_scores_eigenvector = nx.eigenvector_centrality(G)
+    node_centrality_scores_betweeness = nx.betweenness_centrality(G)
+    node_centrality_scores_closeness = nx.closeness_centrality(G)
+
+    def get_top_k_central_nodes(node_centrality_scores):
+        score_arr = []
+        for key in node_centrality_scores:
+            if node_centrality_scores[key] !=0:
+                score_arr.append([key,node_centrality_scores[key]])
+        sorted_score_arr = sorted(score_arr,key=lambda x:-x[1])
+        return sorted_score_arr
+    df_degree = pd.DataFrame(get_top_k_central_nodes(node_centrality_scores_degree),columns=['author-pid','degree_centrality'])
+    df_eigenvector = pd.DataFrame(get_top_k_central_nodes(node_centrality_scores_eigenvector),columns=['author-pid','eigenvector_centrality'])
+    df_betweeness = pd.DataFrame(get_top_k_central_nodes(node_centrality_scores_betweeness),columns=['author-pid','betweeness_centrality'])
+    df_closeness = pd.DataFrame(get_top_k_central_nodes(node_centrality_scores_closeness),columns=['author-pid','closeness_centrality'])
+    data_frames = [df_degree, df_eigenvector, df_betweeness,df_closeness]
+    df_merged = reduce(lambda  left,right: pd.merge(left,right,on=['author-pid'],
+                                            how='outer'), data_frames)
+    return df_merged
+
+def compare_excellence_centrality(df,percentile=75):
+    excellence_nodes = get_excellence_nodes(df,percentile)
+    G = create_graph(df)
+    central_nodes = get_central_nodes(G)
+    central_excellence_nodes = pd.merge(excellence_nodes,central_nodes,on=['author-pid'], how='outer')
+    df_faculty = pd.read_csv('../data/Faculty.csv')
+    central_excellence_nodes = pd.merge(central_excellence_nodes,df_faculty[['Faculty','author-pid']],on=['author-pid'], how='inner')
+    print(central_excellence_nodes)
+    central_excellence_nodes = central_excellence_nodes[central_excellence_nodes['top_venue_count'].notna()]
+    overlap = central_excellence_nodes[~central_excellence_nodes[['degree_centrality','eigenvector_centrality','betweeness_centrality','closeness_centrality']].isnull().values.all(axis=1)]
+    print('No. of central excellence nodes: ', len(overlap))
+    central_excellence_nodes['degree_centrality'] = central_excellence_nodes['degree_centrality']*100
+    central_excellence_nodes['eigenvector_centrality'] = central_excellence_nodes['eigenvector_centrality']*100
+    central_excellence_nodes['betweeness_centrality'] = central_excellence_nodes['betweeness_centrality']*100
+    central_excellence_nodes['closeness_centrality'] = central_excellence_nodes['closeness_centrality']*100
+    central_excellence_nodes.plot()
+    plt.show()
+
+df = pd.read_csv('../data/SCSE_Records.csv')
+year = 2019
+G = preprocess_create_graph(df,year)
+# get_network_statistics(G,year)
+# df = preprocess(df,year)
+# internal_collab(df, 'Area')
+# external_collab(df, 'Area')
+'''We define that a faculty is an excellence node if he/she has published in the top venue frequently (in the last 10 years or 
+since his/her first publication if the first publication appears less than 10 years ago) in his/her respective area'''
+df = preprocess_range(df,2010,2020)
+compare_excellence_centrality(df)

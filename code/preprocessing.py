@@ -276,23 +276,30 @@ def verify_correct_nodes(df):
     if len(df_faculty_unique_pid^df_unique_pid)!=0:
         raise Exception('Wrong no. of nodes: ',len(df_faculty_unique_pid^df_unique_pid)) 
 
+def transform_isolated_nodes_to_author(df):
+    # author,author-pid,paper,conference,year,title,Faculty,Position,Gender,Management,Area
+    df['year'] = np.where(pd.isna(df['year']), df['year'].unique()[0], df['year'])
+    df['author-pid'] = np.where(pd.isna(df['author-pid']), df['co-author-pid'], df['author-pid'])
+    df['author'] = np.where(pd.isna(df['author']), df['Faculty-co-author'], df['author'])
+    df['Position'] = np.where(pd.isna(df['Position']), df['Position-co-author'], df['Position'])
+    df['Gender'] = np.where(pd.isna(df['Gender']), df['Gender-co-author'], df['Gender'])
+    df['Management'] = np.where(pd.isna(df['Management']), df['Management-co-author'], df['Management'])
+    df['Area'] = np.where(pd.isna(df['Area']), df['Area-co-author'], df['Area'])
+    df['Area'] = np.where(pd.isna(df['Area']), df['Area-co-author'], df['Area'])
+    df['top_venue_count'] = np.where(pd.isna(df['top_venue_count']), 0, df['top_venue_count'])
+
+
 def get_isolated_nodes(df):
     df_null = df[df.isnull().any(axis=1)].copy()
-    df_null.loc[:,'year']=df['year'].unique()[0].copy()
-    df_null.loc[:,'author']=df_null['Faculty-co-author'].copy()
-    df_null.loc[:,'Position']=df_null['Position-co-author'].copy()
-    df_null.loc[:,'Gender']=df_null['Gender-co-author'].copy()
-    df_null.loc[:,'Management']=df_null['Management-co-author'].copy()
-    df_null.loc[:,'Area']=df_null['Area-co-author'].copy()
-    df_null.loc[:,'top_venue_count'] = 0
-
-    df_null = df_null.set_index('co-author-pid')
-    df_null = df_null.drop(['author-pid','weight', 'paper-list',
+    df_null = df_null.set_index('author-pid')
+    df_null = df_null.drop(['co-author-pid','weight', 'paper-list',
        'Faculty-co-author', 'Position-co-author', 'Gender-co-author',
        'Management-co-author', 'Area-co-author'],1)
     isolated_nodes_dict = df_null.to_dict('index')
 
     return isolated_nodes_dict
+
+
 
 def create_graph(df):
     isolated_nodes_dict = get_isolated_nodes(df)
@@ -337,6 +344,23 @@ def preprocess(df,year):
     df = drop_redundant_cols(df)
     df = tay_kian_boon_create_pid(df)
     verify_correct_nodes(df)
+    transform_isolated_nodes_to_author(df)
+    return df
+
+def preprocess_range(df,yearStart,yearEnd):
+    df = df.loc[(yearStart<=df['year']) & (df['year']<=yearEnd)].reset_index(drop=True)
+    top_venue_dict = load_top_venue_dict()
+    df = add_top_venues_count(df,top_venue_dict)
+    df = add_coauthor(df)
+    df = drop_author_self_link(df)
+    df = add_weight(df)
+    df = add_paper_list(df)
+    df = drop_author_coauthor_duplicates(df)
+    df = add_coauthor_attributes(df)
+    df = drop_redundant_cols(df)
+    df = tay_kian_boon_create_pid(df)
+    verify_correct_nodes(df)
+    transform_isolated_nodes_to_author(df)
     return df
 
 '''
