@@ -212,10 +212,11 @@ def compare_excellence_centrality(df,percentile=75):
 df = pd.read_csv('../data/SCSE_Records.csv')
 year = 2019
 G = preprocess_create_graph(df,year)
-# get_network_statistics(G,year)
-# df = preprocess(df,year)
-# internal_collab(df, 'Area')
-# external_collab(df, 'Area')
+get_network_statistics(G,year)
+df_collab = preprocess(df,year)
+print(internal_collab(df_collab, 'Area'))
+print(external_collab(df_collab, 'Area'))
+print(external_collab(df_collab, 'Area',group='Computer Networks'))
 '''We define that a faculty is an excellence node if he/she has published in the top venue frequently (in the last 10 years or 
 since his/her first publication if the first publication appears less than 10 years ago) in his/her respective area'''
 df = preprocess_range(df,2010,2020)
