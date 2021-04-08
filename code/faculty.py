@@ -210,6 +210,29 @@ def compare_excellence_centrality(df,percentile=75):
     central_excellence_nodes.plot()
     plt.show()
 
+def faculty_member_collab(df, fac_set):    
+    '''
+    Given a hashable fac_set containing author-pid, find the collaboration
+    of each member of fac_set with every other member over the years.
+    
+    Returns a dictionary with keys being each member in fac_set, and value being another
+    dictionary with key being the year and values being another dictionary
+    with keys being the co-author-pid (who belongs in fac_set) and values being the weights
+    '''
+    collab_dict = defaultdict(lambda: defaultdict(dict))
+    col = 'author-pid'
+    col2 = 'co-author-pid'
+    prep_df = preprocess_range(df, 2000, 2021)
+    for member in fac_set:
+        temp_df = prep_df.loc[(prep_df['author-pid']==member) & (prep_df['co-author-pid'].isin(fac_set))]
+        
+        temp_dict = temp_df[['year', 'weight', 'co-author-pid']].to_dict('list')
+        for i in range(len(temp_df)):
+            collab_dict[member][temp_dict['year'][i]].update({temp_dict['co-author-pid'][i]:temp_dict['weight'][i]})
+    
+    return collab_dict
+    
+    
 df = pd.read_csv('../data/SCSE_Records.csv')
 year = 2011
 G = preprocess_create_graph(df,year)
