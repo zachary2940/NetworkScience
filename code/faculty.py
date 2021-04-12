@@ -232,7 +232,124 @@ def faculty_member_collab(df, fac_set):
     
     return collab_dict
     
+
+def trim_merged_df(df):
+    df = df[['author', 'author-pid', 'paper', 'conference', 'title']]
+    return df
     
+def add_top_venues_count_non_SCSE(df, top_venue_set):
+    def f(conf, top_venue_set):
+        if conf in top_venue_set:
+            return 1
+        return 0
+    
+    df['top_venue'] = df.apply(lambda x: f(x.conference, top_venue_set),axis=1)
+    df['top_venue_count'] = df.groupby('author-pid')['top_venue'].transform('sum')
+    return df    
+    
+def total_weight_non_SCSE(df):
+    df['total_weight'] = df.groupby(['author-pid'])['weight'].transform('sum')
+    return df    
+    
+def remove_SCSE(df):
+    scse_df = pd.read_csv('../data/SCSE_Records.csv')
+    scse_set = set(scse_df['author-pid'])
+    df = df[~df['author-pid'].isin(scse_set)]
+    return df
+    
+def final_trim_non_SCSE(df):
+    df = df[['author', 'author-pid', 'top_venue_count', 'total_weight', 'closeness_centrality']]
+    df = df.drop_duplicates(subset='author-pid')
+    df = remove_SCSE(df)
+    return df    
+    
+def verify_number_authors(df):
+    class NonIsolatedNodeException(Exception):
+        def __init__(self, value):
+            self.value = value
+
+    verification_df = pd.read_csv('../data/Non_SCSE_Records.csv')
+    actual_unique_authors = set(verification_df['author-pid'])
+    given_unique_authors = set(df['author-pid'])
+    
+    authors_not_in_df = actual_unique_authors - given_unique_authors
+
+    papers = set()
+    
+    for authors in authors_not_in_df:
+        papers.update(verification_df[verification_df['author-pid']==authors].paper.tolist())
+    for p in papers:
+        try:
+            if len(verification_df[verification_df['paper']==p]) > 1:
+                raise NonIsolatedNodeException(p)
+        except NonIsolatedNodeException as e:
+            print("The paper {} has co-authors existing in Non_SCSE_Records but is not accounted for in given DataFrame.".format(e.value))        
+    
+def merge_SCSE_non_SCSE(SCSE_path, non_SCSE_path):
+    non_scse_df = pd.read_csv(non_SCSE_path)
+    scse_df = pd.read_csv(SCSE_path)
+    df = pd.concat([non_scse_df, scse_df]).reset_index(drop=True)
+    return df    
+
+def normalized_centrality(df):
+    maximum_degree = len(df)-1
+    df['normalized_degree_centrality'] = df['total_weight'].apply(lambda x: x/maximum_degree)
+    return df
+
+def create_non_SCSE_graph(df):   
+    df = df.dropna().reset_index(drop=True)
+    G = nx.from_pandas_edgelist(df,source='author-pid',target='co-author-pid',edge_attr='weight')        
+    df_attributes = df.drop(['co-author-pid','weight', 'paper-list'],1)
+    df_attributes = df_attributes.set_index('author-pid')
+    df_attributes = df_attributes[~df_attributes.index.duplicated(keep='first')]
+    author_attribute_dict = df_attributes.to_dict('index')
+    nx.set_node_attributes(G, author_attribute_dict)
+    return G
+
+def select_top_1000_non_SCSE_nodes(df, save_file=False):
+    df = df[(df['closeness_centrality'].notnull()) & (df['normalized_degree_centrality'].notnull())]
+    top_venue_nodes = df[df['top_venue_count']>1].sort_values(['top_venue_count', 'normalized_degree_centrality'], ascending=False)
+    
+    top_degree_centrality_nodes_no_top_venue = df[(df['top_venue_count']==0) & (df['normalized_degree_centrality'] >= 0.0047890768290197675)].sort_values(['normalized_degree_centrality'], ascending=False)
+    top_closeness_centrality_nodes_no_top_venue = df[df['top_venue_count']==0].sort_values(['normalized_degree_centrality'], ascending=False)[:((1000-len(top_venue_nodes)-len(top_degree_centrality_nodes_no_top_venue)))]
+    
+    return_df = pd.concat([top_venue_nodes, top_degree_centrality_nodes_no_top_venue, top_closeness_centrality_nodes_no_top_venue]).reset_index(drop=True)
+    
+    if save_file:
+        return_df.to_csv('../data/top_1000_nodes.csv', index=False, encoding='utf8')
+        
+    return return_df
+
+def select_non_SCSE():
+    df = merge_SCSE_non_SCSE('../data/SCSE_Records.csv', '../data/Non_SCSE_Records.csv')
+    df = trim_merged_df(df)
+    top_venue_dict = load_top_venue_dict()
+    top_venue_set = set().union(*(value for value in top_venue_dict.values()))
+
+    df = add_top_venues_count_non_SCSE(df,top_venue_set)
+    df = add_coauthor(df)
+    df = drop_author_self_link(df)
+    df = add_weight(df)
+    df = add_paper_list(df)
+    df = drop_author_coauthor_duplicates(df)
+
+    df = total_weight_non_SCSE(df)
+    G = create_non_SCSE_graph(df)
+    # get_central_nodes takes about 5-10 mins to run.
+    # The results have been stored in Non_SCSE_Centrality.csv for convenience
+    central_nodes = get_central_nodes(G)
+    df = df.merge(central_nodes, on='author-pid', how='left')
+    df = final_trim_non_SCSE(df)
+    verify_number_authors(df)
+    df = normalized_centrality(df)
+    top_1000_df = select_top_1000_non_SCSE_nodes(df, True)
+    
+    return top_1000_df
+
+
+
+
+
 df = pd.read_csv('../data/SCSE_Records.csv')
 year = 2011
 G = preprocess_create_graph(df,year)
