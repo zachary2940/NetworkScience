@@ -22,7 +22,7 @@ def network_graph(year,option):
 
     G = preprocess_create_graph(df, year)
 
-    pos = nx.drawing.layout.spring_layout(G, k=0.4, iterations=50)
+    pos = nx.drawing.layout.spring_layout(G, k=0.4, iterations=20)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
 
@@ -79,11 +79,14 @@ def network_graph(year,option):
             col_list.append(colorsIdxManagement[G.nodes[node][option]])
         elif option == 'Area':
             col_list.append(colorsIdxArea[G.nodes[node][option]])
+        elif option == '1000Nodes':
+            col_list.append('blue')
         index = index + 1
     node_trace['marker']['color'] = col_list
     traceRecode.append(node_trace)
 
-    #################################################################################################################################################################
+    #####################################################################################################################
+
     figure = {
         "data": traceRecode,
         "layout": go.Layout(title='Interactive Visualization', showlegend=False, hovermode='closest',
@@ -135,7 +138,7 @@ tab_style = {
     'align-items': 'center',
     'justify-content': 'center',
     'border-radius': '4px',
-    'padding': '6px'
+    'padding': '12px'
 }
 
 tab_selected_style = {
@@ -147,7 +150,7 @@ tab_selected_style = {
     'align-items': 'center',
     'justify-content': 'center',
     'border-radius': '4px',
-    'padding': '6px'
+    'padding': '12px'
 }
 
 app.layout = html.Div([
@@ -203,7 +206,7 @@ app.layout = html.Div([
                             html.Br(),
                             html.Div(id='output-container-range-slider')
                         ],
-                        style={'height': '300px'}
+                        style={'height': '445px', 'margin-left': '10px'}
                     ),
                     html.Div(className="twelve columns",
                              children =[
@@ -214,7 +217,9 @@ app.layout = html.Div([
                                              selected_style=tab_selected_style),
                                      dcc.Tab(label='Area', value='Area', style=tab_style,
                                              selected_style=tab_selected_style),
-                                 ], style={'height': '40px'}),
+                                     dcc.Tab(label='Add 1000 Nodes', value='1000Nodes', style=tab_style,
+                                             selected_style=tab_selected_style),
+                                 ], style={'height': '40px', 'width': '200px'}),
                                  html.Div(id='tabs-content-inline')
                              ])
                 ]
@@ -263,8 +268,12 @@ app.layout = html.Div([
 def update_output(year,option):
     print(year)
     return network_graph(year,option)
-
 # callback for right side components
+
+# @app.callback(dash.dependencies.Output('tabs-content-inline', 'children'),
+#               dash.dependencies.Input('tabs-styled-with-inline', 'value'))
+# def render_content(tab):
+#     option = tab
 
 @app.callback(
     dash.dependencies.Output('hover-data', 'children'),
