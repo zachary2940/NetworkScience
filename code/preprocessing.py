@@ -218,6 +218,8 @@ def load_top_venue_dict():
 def add_top_venues_count(df,top_venue_dict):
     def f(conf,area,top_venue_dict):
         if conf != None:
+            if area=='nan':
+                return 0
             venue = top_venue_dict[area]
             if conf in venue:
                 return 1
@@ -235,6 +237,8 @@ def add_coauthor(df):
     return df
 
 def drop_author_self_link(df):
+    df['co-author-pid'] = df['co-author-pid'].astype(str)
+    df['author-pid'] = df['author-pid'].astype(str)
     df = df[df['author-pid']!=df['co-author-pid']].reset_index(drop=True)
     return df
 
@@ -322,8 +326,6 @@ def create_graph(df):
     author_attribute_dict = df_attributes.to_dict('index')
     nx.set_node_attributes(G, author_attribute_dict)
     nx.set_node_attributes(G, isolated_nodes_dict)
-    # print("No of unique nodes:", len(G.nodes))
-    # print("No of connections:", len(G.edges))
     return G
 
 def visualize_graph(G):
@@ -344,6 +346,7 @@ def filter_authors(df,author_pid_list):
     return df
 
 def preprocess_core(df):
+    df = df.fillna('nan')
     top_venue_dict = load_top_venue_dict()
     df = add_top_venues_count(df,top_venue_dict)
     df = add_coauthor(df)

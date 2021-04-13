@@ -10,7 +10,7 @@ import plotly.graph_objs as go
 from colour import Color
 from datetime import datetime
 from textwrap import dedent as d
-from preprocessing import preprocess, preprocess_create_graph, preprocess_range,preprocess_authors
+from preprocessing import preprocess, preprocess_create_graph, preprocess_range,preprocess_authors,create_graph
 import plotly.express as px
 import math
 import dash_table
@@ -22,10 +22,10 @@ app.title = "Graph Network"
 
 EXCELLENCE_PERCENTILE = 50
 
-
-def network_graph(year, option):
+# '83/6096', 'b/SSBhowmick', '33/885', '78/5155', '79/8116', '1444536', '126/4778', '14/3737'
+def network_graph(year, option, authors=None):
     if option == '1000Nodes':
-        df = pd.read_csv('../data/SCSE_Records.csv')
+        df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
         G = preprocess_create_graph(df, year)
     elif option == 'Excellence':
         df = pd.read_csv('../data/SCSE_Records.csv')
@@ -33,11 +33,14 @@ def network_graph(year, option):
         df_excellence = faculty.get_excellence_nodes(
             df_range, EXCELLENCE_PERCENTILE)
         excellence_pid_set = set(list(df_excellence['author-pid']))
-        print(excellence_pid_set)
     else:
         df = pd.read_csv('../data/SCSE_Records.csv')
 
-    G = preprocess_create_graph(df, year)
+    if authors!=None:
+        df_authors=preprocess_authors(df,year,authors)
+        G = create_graph(df_authors)
+    else:
+        G = preprocess_create_graph(df, year)
     pos = nx.drawing.layout.spring_layout(G, k=0.35, iterations=50)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
@@ -92,8 +95,7 @@ def network_graph(year, option):
     idxOption = {'Position': colorsIdxPosition, 'Management': colorsIdxManagement,
                  'Area': colorsIdxArea, 'Gender': colorsIdxGender}
 
-    col_list = []
-
+    s = set([None, '1000Nodes', 'Original'])
     index = 0
     for node in G.nodes():
         x, y = G.nodes[node]['pos']
@@ -110,7 +112,6 @@ def network_graph(year, option):
                                 size=10,
                                 color="black"
                                 ))
-        s = set([None, '1000Nodes', 'Original'])
         if option == 'Excellence':
             if G.nodes[node]["author-pid"] in excellence_pid_set:
                 node_trace['legendgroup'] = 'Excellence Nodes'
@@ -232,7 +233,7 @@ tab_selected_style = {
 }
 
 app.layout = html.Div([
-    html.Div([html.H1("SCSE Network Graph")],
+    html.Div([html.H2("SCSE Network Graph")],
              className="row",
              style={'textAlign': "center"}),
 
@@ -310,8 +311,10 @@ app.layout = html.Div([
             html.Center(
                 className="eight columns",
                 children=[html.Div([
-                    dcc.Markdown(d("""**Search by author pid**\nE.g. l/BuSungLee,14/3737,1444536""")),
-                    html.Div(dcc.Input(id='input-on-submit', type='text',placeholder="l/BuSungLee,14/3737,1444536")),
+                    dcc.Markdown(d("""**Search by author pid**""")),
+                    dcc.Markdown(d("""Enter in comma seperated author pid""")),
+                    dcc.Markdown(d("""E.g. 76/440,47/2026-7,b/SSBhowmick""")),
+                    html.Div(dcc.Input(id='input-on-submit', type='text',placeholder="76/440,47/2026-7,b/SSBhowmick")),
                     html.Button('Submit', id='submit-val', n_clicks=0),
                     html.Div(id='container-button-basic',
                              children='Enter a comma seperated list of author-pid and press submit')
@@ -389,11 +392,26 @@ app.layout = html.Div([
 
 
 @ app.callback(
-    dash.dependencies.Output('my-graph', 'figure'),
-    [dash.dependencies.Input('year-range-slider', 'value'),
-     dash.dependencies.Input('tabs-styled-with-inline', 'value')])
-def update_output(year, option):
-    return network_graph(year, option)
+    [dash.dependencies.Output('my-graph', 'figure'),
+    dash.dependencies.Output('container-button-basic', 'children')],
+    [dash.dependencies.Input('submit-val', 'n_clicks'),
+    dash.dependencies.Input('year-range-slider', 'value'),
+     dash.dependencies.Input('tabs-styled-with-inline', 'value')],
+    [dash.dependencies.State('input-on-submit', 'value')])
+def update_output(n_clicks, year, option, author_pid_str):
+    found = 'not found'
+    message ='The input value was "{}" and the authors are {}'.format(author_pid_str,found)
+    if author_pid_str == None:
+        return network_graph(year, option),message
+    author_pid_list = author_pid_str.strip().split(",")
+    df = pd.read_csv('../data/SCSE_Records.csv')
+    df = preprocess_authors(df, year, author_pid_list)
+    if len(df)!=0:
+        found = 'found'
+        return network_graph(year, option, authors = author_pid_list), 'The input value was "{}" and the authors are {}'.format(author_pid_str,found)
+    else:
+        return network_graph(year, option), message 
+    
 
 # callback for right side components
 
@@ -419,30 +437,6 @@ def display_click_data(year):
      dash.dependencies.Input('collab-dropdown', 'value')])
 def update_network_collaboration(year, category):
     return display_network_collaboration(year, category)
-
-
-@app.callback(
-    dash.dependencies.Output('container-button-basic', 'children'),
-    [dash.dependencies.Input('submit-val', 'n_clicks')],
-    [dash.dependencies.State('input-on-submit', 'value'),
-     dash.dependencies.State('year-range-slider', 'value')])
-def update_output_button(n_clicks, author_pid_str, year):
-    df = pd.read_csv('../data/SCSE_Records.csv')
-    if author_pid_str == None:
-        return 'The input value was "{}" and the authors are {}'.format(
-            author_pid_str,
-            'not found'
-        )
-    author_pid_list = author_pid_str.strip().split(",")
-    df = preprocess_authors(df, year, author_pid_list)
-    if len(df == 0):
-        found = 'not found'
-    else:
-        found = 'found'
-    return 'The input value was "{}" and the authors are {}'.format(
-        author_pid_str,
-        found
-    )
 
 
 if __name__ == '__main__':

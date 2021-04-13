@@ -383,10 +383,13 @@ def select_non_SCSE(read_csv=True, save_file=False):
     
     return df
 
-
-df = pd.read_csv('../data/top_1000_nodes_V3.csv')
-print(len(df['author-pid'].unique()))
-year = 2018
+# df_scse = pd.read_csv('../data/SCSE_Records.csv')
+# print(len(df_scse['author-pid'].unique()))
+# df = pd.read_csv('../data/top_1000_nodes_V3.csv')
+# df = pd.merge(df,df_scse,how='outer')
+# df.to_csv('../data/SCSE_top_1000_nodes_V3.csv')
+# print(len(df['author-pid'].unique()))
+# year = 2018
 # G = preprocess_create_graph(df,year)
 # print(get_network_statistics(G,year))
 
