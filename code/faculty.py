@@ -167,18 +167,21 @@ def get_network_statistics(G, year):
     # plot_degree_distribution(G)
     # plot_log_degree_distribution(G)
     n_connected_components = 1
-    for C in (G.subgraph(c).copy() for c in sorted(nx.connected_components(G), key=len, reverse=True)):
+    for C in (G.subgraph(c).copy() for c in sorted(nx.connected_components(G), key=len)):
         largest_C = C
         n_connected_components -= 1
-    return {'Number of Isolates: ': nx.number_of_isolates(G),
-            'Graph Information': str(nx.info(G)),
+    info = {'Number of Isolates': nx.number_of_isolates(G),
+            'Average degree': float(nx.info(G).split('\n')[-1].split(':')[-1].strip()),
             'Average no. of edges: ': len(G.edges)/len(G.nodes),
-            'Average Clustering coefficient: ': nx.average_clustering(G),
-            'Largest Connected Component': {
-            'No. of nodes in connected component: ': len(largest_C.nodes),
-            'Diameter of connected component: ': nx.diameter(largest_C),
-            'Average shortest path length: ': nx.average_shortest_path_length(largest_C)}
+            'Average Clustering coefficient': nx.average_clustering(G),
+            'No. of nodes in largest connected component': len(largest_C.nodes),
+            'Diameter of largest connected component': nx.diameter(largest_C),
+            'Average shortest path length of LCC': nx.average_shortest_path_length(largest_C)
             }
+    df_stats = pd.DataFrame.from_records([info]).T
+    df_stats=df_stats.reset_index()
+    df_stats.columns = ['Attributes','Statistics']
+    return df_stats
 
 
 def get_excellence_nodes(df, percentile=75):
@@ -193,14 +196,12 @@ def get_central_nodes(G):
     node_centrality_scores_eigenvector = nx.eigenvector_centrality(G)
     node_centrality_scores_betweeness = nx.betweenness_centrality(G)
     node_centrality_scores_closeness = nx.closeness_centrality(G)
-
     def get_top_k_central_nodes(node_centrality_scores):
         score_arr = []
         for key in node_centrality_scores:
             if node_centrality_scores[key] != 0:
                 score_arr.append([key, node_centrality_scores[key]])
-        sorted_score_arr = sorted(score_arr, key=lambda x: -x[1])
-        return sorted_score_arr
+        return score_arr
     df_degree = pd.DataFrame(get_top_k_central_nodes(
         node_centrality_scores_degree), columns=['author-pid', 'degree_centrality'])
     df_eigenvector = pd.DataFrame(get_top_k_central_nodes(
@@ -417,14 +418,11 @@ def select_non_SCSE(read_csv=True, save_file=False):
     return top_1000_df
 
 
-# df = pd.read_csv('../data/SCSE_Records.csv')
-# year = 2011
+df = pd.read_csv('../data/top_1000_nodes_V2.csv')
+print(len(df['author-pid'].unique()))
+year = 2018
 # G = preprocess_create_graph(df,year)
-# get_network_statistics(G,year)
-# df_collab = preprocess(df,year)
-# print(internal_collab(df_collab, 'Area'))
-# print(external_collab(df_collab, 'Area'))
-# print(external_collab(df_collab, 'Area',group='Computer Networks'))
+# print(get_network_statistics(G,year))
 
 # df_authors=preprocess_authors(df,year,['l/BuSungLee','14/3737','1444536'])
 # G = create_graph(df_authors)
@@ -432,5 +430,6 @@ def select_non_SCSE(read_csv=True, save_file=False):
 
 # '''We define that a faculty is an excellence node if he/she has published in the top venue frequently (in the last 10 years or
 # since his/her first publication if the first publication appears less than 10 years ago) in his/her respective area'''
-# df = preprocess_range(df,2010,2020)
-# compare_excellence_centrality(df)
+df = pd.read_csv('../data/SCSE_Records.csv')
+df = preprocess_range(df,2010,2020)
+compare_excellence_centrality(df, percentile=50)

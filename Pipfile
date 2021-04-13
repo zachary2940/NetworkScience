@@ -13,6 +13,8 @@ tqdm = "*"
 dash = "*"
 colour = "*"
 decorator = "==4.3.0"
+dash-table = "*"
+statsmodels = "*"
 
 [dev-packages]
 
