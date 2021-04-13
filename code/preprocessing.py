@@ -354,7 +354,6 @@ def preprocess_core(df):
     df = tay_kian_boon_create_pid(df)
     verify_correct_nodes(df)
     transform_isolated_nodes_to_author(df)
-    print(df)
     return df
 
 def preprocess(df,year):

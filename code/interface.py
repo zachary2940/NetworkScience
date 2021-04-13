@@ -12,84 +12,107 @@ from datetime import datetime
 from textwrap import dedent as d
 from preprocessing import preprocess, preprocess_create_graph
 
+import faculty
+
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.title = "Graph Network"
 
 
-def network_graph(year,option):
+def network_graph(year, option):
     df = pd.read_csv('../data/SCSE_Records.csv')
 
     G = preprocess_create_graph(df, year)
 
-    pos = nx.drawing.layout.spring_layout(G, k=0.4, iterations=20)
+    pos = nx.drawing.layout.spring_layout(G, k=0.35, iterations=50)
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
 
-    colors = list(Color('lightcoral').range_to(
-        Color('darkred'), len(G.edges())))
-    colors = ['rgb' + str(x.rgb) for x in colors]
     traceRecode = []
+
+    # edges scatter plot
 
     index = 0
     for edge in G.edges:
         x0, y0 = G.nodes[edge[0]]['pos']
         x1, y1 = G.nodes[edge[1]]['pos']
         weight = G.edges[edge]['weight']
-        trace = go.Scatter(x=tuple([x0, x1, None]), y=tuple([y0, y1, None]),
+        hovertext = "AuthorName: " + str(G.nodes[node]['author'])
+        trace = go.Scatter(x=tuple([x0, x1, None]), y=tuple([y0, y1, None]), showlegend=False,
                            mode='lines', text="",
                            line={'width': weight},
                            marker=dict(color='grey'),
                            line_shape='spline',
                            opacity=1)
         traceRecode.append(trace)
+        # hovertext in middle
+        middle_node_trace = go.Scatter(
+            x=tuple([(x0+x1)/2]),
+            y=tuple([(y0+y1)/2]), showlegend=False,
+            text="",
+            hovertext=["Weight: " + str(weight)],
+            mode='markers',
+            hoverinfo='text',
+            textfont=dict(
+                family="sans serif",
+                size=10,
+                color="black"
+            ),
+            marker=dict(
+                opacity=0
+            )
+        )
+        # middle_node_trace['hovertext'] += tuple([hovertext])
+        traceRecode.append(middle_node_trace)
         index = index + 1
+
     ###############################################################################################################################################################
-    colorsIdxPosition = {'Professor': 'mediumpurple', 'Associate Professor': 'maroon',
+    # nodes scatter plot
+    colorsIdxPosition = {'Professor': 'mediumpurple', 'Associate Professor': 'lightcoral',
                          'Lecturer': 'gold', 'Senior Lecturer': 'limegreen', 'Assistant Professor': 'saddlebrown'}
     colorsIdxManagement = {'Y': 'blue', 'N': 'darkred'}
     colorsIdxArea = {'Computer Networks': 'aquamarine', 'Computer Graphics': 'crimson', 'Computer Architecture': 'chocolate',
-                     'AI/ML': 'darkblue', 'Cyber Security': 'darkgreen', 'HCI': 'magenta', 'Distributed Systems': 'tomato',
-                     'Information Retrieval': 'yellow', 'Data Management': 'darkgoldenrod', 'Data Mining': 'cyan', 'Computer Vision': 'black',
+                     'AI/ML': 'darkblue', 'Cyber Security': 'lightgreen', 'HCI': 'magenta', 'Distributed Systems': 'tomato',
+                     'Information Retrieval': 'gold', 'Data Management': 'darkgoldenrod', 'Data Mining': 'cyan', 'Computer Vision': 'black',
                      'Multimedia': 'saddlebrown', 'Software Engg': 'darkgrey', 'Bioinformatics': 'steelblue'}
+    idxOption = {'Position': colorsIdxPosition, 'Management': colorsIdxManagement,
+                 'Area': colorsIdxArea}
 
     col_list = []
-    node_trace = go.Scatter(x=[], y=[], hovertext=[], text=[], mode='markers+text', textposition="bottom center",
-                            hoverinfo="text", marker={'size': 10, 'color': col_list}, textfont=dict(
-        family="sans serif",
-        size=10,
-        color="black"
-    ))
 
     index = 0
     for node in G.nodes():
         x, y = G.nodes[node]['pos']
         hovertext = "AuthorName: " + str(G.nodes[node]['author']) + "<br>" + "Position: " + str(
-            G.nodes[node]['Position'])
-        text = G.nodes[node]['author']
-        node_trace['x'] += tuple([x])
-        node_trace['y'] += tuple([y])
-        node_trace['hovertext'] += tuple([hovertext])
-        node_trace['text'] += tuple([text])
-        if  option == None:
-            col_list.append('red')
-        elif option == 'Position':
-            col_list.append(colorsIdxPosition[G.nodes[node][option]])
-        elif option == 'Management':
-            col_list.append(colorsIdxManagement[G.nodes[node][option]])
-        elif option == 'Area':
-            col_list.append(colorsIdxArea[G.nodes[node][option]])
-        elif option == '1000Nodes':
-            col_list.append('blue')
+            G.nodes[node]['Position']) + "<br>" + "Mangement: " + str(
+                G.nodes[node]['Management']) + "<br>" + "Area: " + str(
+                G.nodes[node]['Area'])
+
+        node_trace = go.Scatter(x=tuple([x]), y=tuple([y]), hovertext=tuple([hovertext]), text=tuple([G.nodes[node]['author']]),
+                                legendgroup='', showlegend=False, mode='markers+text',
+                                textposition="bottom center",
+                                hoverinfo="text", marker={'size': 10, 'color': 'black'}, textfont=dict(
+                                family="sans serif",
+                                size=10,
+                                color="black"
+                                ))
+        if option != None and option != '1000Nodes' and option!='Original':
+            node_trace['legendgroup'] = G.nodes[node][option]
+            node_trace['marker']['color'] = idxOption[option][G.nodes[node][option]]
+
         index = index + 1
-    node_trace['marker']['color'] = col_list
-    traceRecode.append(node_trace)
+        traceRecode.append(node_trace)
 
+    if option != None and option != '1000Nodes' and option!='Original':
+        for k in idxOption[option]:
+            node_trace = go.Scatter(x=tuple([None]), y=tuple([None]),
+                                    legendgroup=k, showlegend=True, mode='markers', name = k,
+                                    marker={'size': 10, 'color': idxOption[option][k]})
+            traceRecode.append(node_trace)
     #####################################################################################################################
-
     figure = {
         "data": traceRecode,
-        "layout": go.Layout(title='Interactive Visualization', showlegend=False, hovermode='closest',
+        "layout": go.Layout(title='Interactive Visualization', showlegend=True, hovermode='closest',
                             margin={'b': 40, 'l': 40, 'r': 40, 't': 40},
                             xaxis={'showgrid': False, 'zeroline': False,
                                    'showticklabels': False},
@@ -97,20 +120,6 @@ def network_graph(year,option):
                                    'showticklabels': False},
                             height=600,
                             clickmode='event+select'
-                            # annotations=[
-                            #     dict(
-                            #         ax=(G.nodes[edge[0]]['pos'][0] + G.nodes[edge[1]]['pos'][0]) / 2,
-                            #         ay=(G.nodes[edge[0]]['pos'][1] + G.nodes[edge[1]]['pos'][1]) / 2, axref='x',
-                            #         ayref='y',
-                            #         x=(G.nodes[edge[1]]['pos'][0] * 3 + G.nodes[edge[0]]['pos'][0]) / 4,
-                            #         y=(G.nodes[edge[1]]['pos'][1] * 3 + G.nodes[edge[0]]['pos'][1]) / 4, xref='x',
-                            #         yref='y',
-                            #         showarrow=False,
-                            #         arrowhead=3,
-                            #         arrowsize=4,
-                            #         arrowwidth=1,
-                            #         opacity=1
-                            # ) for edge in G.edges]
                             )}
     return figure
 
@@ -124,13 +133,9 @@ styles = {
     }
 }
 
-# tabs_styles = {'zIndex': 99, 'display': 'inlineBlock', 'height': '4vh', 'width': '12vw',
-#                'position': 'fixed', "background": "#323130", 'top': '12.5vh', 'left': '7.5vw',
-#                'border': 'grey', 'border-radius': '4px'}
-
 tab_style = {
     "background": "#323130",
-    'text-transform': 'uppercase',
+    'text-transform': 'capitalize',
     'color': 'white',
     'border': 'grey',
     'font-size': '11px',
@@ -143,7 +148,7 @@ tab_style = {
 
 tab_selected_style = {
     "background": "grey",
-    'text-transform': 'uppercase',
+    'text-transform': 'capitalize',
     'color': 'white',
     'font-size': '11px',
     'font-weight': 600,
@@ -165,11 +170,11 @@ app.layout = html.Div([
                 className="two columns",
                 children=[
                     dcc.Markdown(d("""
-                            **Time Range To Visualize**
-                            Slide the bar to define year range.
+                            **Select Year To Visualize**\n
+                            Slide the bar to define the year chosen.
                             """)),
                     html.Div(
-                        className="twelve columns",
+                        className="year-slider",
                         children=[
                             dcc.Slider(
                                 id='year-range-slider',
@@ -209,8 +214,10 @@ app.layout = html.Div([
                         style={'height': '445px', 'margin-left': '10px'}
                     ),
                     html.Div(className="twelve columns",
-                             children =[
-                                 dcc.Tabs(id="tabs-styled-with-inline", value=None, children=[
+                             children=[
+                                 dcc.Tabs(id="tabs-styled-with-inline", value=None, vertical=True, children=[
+                                     dcc.Tab(label='Original', value='Original', style=tab_style,
+                                             selected_style=tab_selected_style),
                                      dcc.Tab(label='Position', value='Position', style=tab_style,
                                              selected_style=tab_selected_style),
                                      dcc.Tab(label='Management', value='Management', style=tab_style,
@@ -219,7 +226,7 @@ app.layout = html.Div([
                                              selected_style=tab_selected_style),
                                      dcc.Tab(label='Add 1000 Nodes', value='1000Nodes', style=tab_style,
                                              selected_style=tab_selected_style),
-                                 ], style={'height': '40px', 'width': '200px'}),
+                                 ], style={'height': '50px', 'width': '200px'}),
                                  html.Div(id='tabs-content-inline')
                              ])
                 ]
@@ -227,7 +234,7 @@ app.layout = html.Div([
             html.Div(
                 className="eight columns",
                 children=[dcc.Graph(id="my-graph",
-                                    figure=network_graph(2019,None))],
+                                    figure=network_graph(2019, None))],
             ),
             html.Div(
                 className="two columns",
@@ -236,17 +243,17 @@ app.layout = html.Div([
                         className='twelve columns',
                         children=[
                             dcc.Markdown(d("""
-                            **Hover Data**
+                            **Hover Data**\n
                             Mouse over values in the graph.
                             """)),
                             html.Pre(id='hover-data', style=styles['pre'])
                         ],
-                        style={'height': '400px'}),
+                        style={'height': '400px','width':'500px'}),
                     html.Div(
                         className='twelve columns',
                         children=[
                             dcc.Markdown(d("""
-                            **Click Data**
+                            **Click Data**\n
                             Click on points in the graph.
                             """)),
                             html.Pre(id='click-data', style=styles['pre'])
@@ -264,22 +271,18 @@ app.layout = html.Div([
 @app.callback(
     dash.dependencies.Output('my-graph', 'figure'),
     [dash.dependencies.Input('year-range-slider', 'value'),
-    dash.dependencies.Input('tabs-styled-with-inline', 'value')])
-def update_output(year,option):
-    print(year)
-    return network_graph(year,option)
+     dash.dependencies.Input('tabs-styled-with-inline', 'value')])
+def update_output(year, option):
+    return network_graph(year, option)
+
 # callback for right side components
-
-# @app.callback(dash.dependencies.Output('tabs-content-inline', 'children'),
-#               dash.dependencies.Input('tabs-styled-with-inline', 'value'))
-# def render_content(tab):
-#     option = tab
-
 @app.callback(
     dash.dependencies.Output('hover-data', 'children'),
-    [dash.dependencies.Input('my-graph', 'hoverData')])
-def display_hover_data(hoverData):
-    return json.dumps(hoverData, indent=2)
+    [dash.dependencies.Input('year-range-slider', 'value')])
+def display_hover_data(year):
+    df = pd.read_csv('../data/SCSE_Records.csv')
+    G = preprocess_create_graph(df,year)
+    return json.dumps(faculty.get_network_statistics(G,year), indent=2)
 
 
 @app.callback(
