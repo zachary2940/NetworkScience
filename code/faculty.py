@@ -312,8 +312,7 @@ def create_non_SCSE_graph(df):
     nx.set_node_attributes(G, author_attribute_dict)
     return G
 
-def select_top_1000_non_SCSE_nodes(df, save_file=False):
-    df = df[(df['closeness_centrality'].notnull()) & (df['normalized_degree_centrality'].notnull())]
+def select_top_1000_non_SCSE_nodes(df, save_file=False, file_path='../data/top_1000_nodes.csv'):
     top_venue_nodes = df[df['top_venue_count']>1].sort_values(['top_venue_count', 'normalized_degree_centrality'], ascending=False)
     
     top_degree_centrality_nodes_no_top_venue = df[(df['top_venue_count']==0) & (df['normalized_degree_centrality']>=df.normalized_degree_centrality.quantile(0.95))]
@@ -323,39 +322,47 @@ def select_top_1000_non_SCSE_nodes(df, save_file=False):
     
     if save_file:
         return_df.to_csv('../data/top_1000_nodes.csv', index=False, encoding='utf8')
-        
+    
+    print("Length of top_venue_nodes:", len(top_venue_nodes))
+    print("Length of top_degree_centrality_nodes_no_top_venue:", len(top_degree_centrality_nodes_no_top_venue))
+    print("Length of top_closeness_centrality_nodes_no_top_venue:", len(top_closeness_centrality_nodes_no_top_venue))
+    
     return return_df
+
+def drop_redundant_cols_non_SCSE(df):
+    df = df.drop(['paper','conference','top_venue','title'],axis=1).reset_index(drop=True)
+    return df
 
 def select_non_SCSE(read_csv=True, save_file=False):
     df = merge_SCSE_non_SCSE('../data/SCSE_Records.csv', '../data/Non_SCSE_Records.csv')
     df = trim_merged_df(df)
     top_venue_dict = load_top_venue_dict()
     top_venue_set = set().union(*(value for value in top_venue_dict.values()))
-
     df = add_top_venues_count_non_SCSE(df,top_venue_set)
     df = add_coauthor(df)
     df = drop_author_self_link(df)
     df = add_weight(df)
     df = add_paper_list(df)
     df = drop_author_coauthor_duplicates(df)
+    df = drop_redundant_cols_non_SCSE(df)
     df = total_weight_non_SCSE(df)
 
     if read_csv:
-        central_nodes = pd.read_csv('../data/Non_SCSE_Centrality.csv')
-        
+        central_nodes = pd.read_csv('../data/Non_SCSE_Centrality_V2.csv')
+
     else:
         G = create_non_SCSE_graph(df)
-        # get_central_nodes takes about 5-10 mins to run.
+        # get_central_nodes takes about 15 mins to run.
         # The results have been stored in Non_SCSE_Centrality.csv for convenience
         central_nodes = get_central_nodes(G)
-        
+
     df = df.merge(central_nodes, on='author-pid', how='left')
     df = final_trim_non_SCSE(df)
     verify_number_authors(df)
     df = normalized_centrality(df)
-    top_1000_df = select_top_1000_non_SCSE_nodes(df, save_file)
+    top_1000_df = select_top_1000_non_SCSE_nodes(df, save_file=False)
     
-    return top_1000_df
+    return top_1000_df   
 
 
 
