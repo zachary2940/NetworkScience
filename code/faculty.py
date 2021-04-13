@@ -223,21 +223,9 @@ def compare_excellence_centrality(df, percentile=75):
     central_excellence_nodes = pd.merge(excellence_nodes, central_nodes, on=[
                                         'author-pid'], how='outer')
     df_faculty = pd.read_csv('../data/Faculty.csv')
-    central_excellence_nodes = pd.merge(central_excellence_nodes, df_faculty[[
+    central_excellence_nodes_df = pd.merge(central_excellence_nodes, df_faculty[[
                                         'Faculty', 'author-pid']], on=['author-pid'], how='inner')
-    print(central_excellence_nodes)
-    central_excellence_nodes = central_excellence_nodes[central_excellence_nodes['top_venue_count'].notna(
-    )]
-    overlap = central_excellence_nodes[~central_excellence_nodes[[
-        'degree_centrality', 'eigenvector_centrality', 'betweeness_centrality', 'closeness_centrality']].isnull().values.all(axis=1)]
-    print('No. of central excellence nodes: ', len(overlap))
-    central_excellence_nodes['degree_centrality'] = central_excellence_nodes['degree_centrality']*100
-    central_excellence_nodes['eigenvector_centrality'] = central_excellence_nodes['eigenvector_centrality']*100
-    central_excellence_nodes['betweeness_centrality'] = central_excellence_nodes['betweeness_centrality']*100
-    central_excellence_nodes['closeness_centrality'] = central_excellence_nodes['closeness_centrality']*100
-    central_excellence_nodes.plot()
-    plt.show()
-
+    return central_excellence_nodes_df
 
 def faculty_member_collab(df, fac_set):
     '''
@@ -430,6 +418,6 @@ year = 2018
 
 # '''We define that a faculty is an excellence node if he/she has published in the top venue frequently (in the last 10 years or
 # since his/her first publication if the first publication appears less than 10 years ago) in his/her respective area'''
-df = pd.read_csv('../data/SCSE_Records.csv')
-df = preprocess_range(df,2010,2020)
-compare_excellence_centrality(df, percentile=50)
+# df = pd.read_csv('../data/SCSE_Records.csv')
+# df = preprocess_range(df,2010,2021)
+# compare_excellence_centrality(df, percentile=0)

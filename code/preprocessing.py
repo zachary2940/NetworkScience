@@ -297,6 +297,7 @@ def transform_isolated_nodes_to_author(df):
 def get_isolated_nodes(df):
     df_null = df[df.isnull().any(axis=1)].copy()
     df_null = df_null.set_index('author-pid')
+    df_null['author-pid'] = df_null.index
     df_null = df_null.drop(['co-author-pid','weight', 'paper-list',
        'Faculty-co-author', 'Position-co-author', 'Gender-co-author',
        'Management-co-author', 'Area-co-author'],1)
@@ -317,6 +318,7 @@ def create_graph(df):
        'Management-co-author', 'Area-co-author'],1)
     df_attributes = df_attributes.set_index('author-pid')
     df_attributes = df_attributes[~df_attributes.index.duplicated(keep='first')]
+    df_attributes['author-pid'] = df_attributes.index
     author_attribute_dict = df_attributes.to_dict('index')
     nx.set_node_attributes(G, author_attribute_dict)
     nx.set_node_attributes(G, isolated_nodes_dict)
@@ -376,7 +378,7 @@ def preprocess_range(df,yearStart,yearEnd):
 '''
 Inputs: 
     df - DataFrame
-    year - int (2000 to 2020)
+    year - int (2000 to 2021)
 
 Outputs: 
     Networkx Graph
