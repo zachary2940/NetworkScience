@@ -41,7 +41,12 @@ def network_graph(year, option, authors=None):
         G = create_graph(df_authors)
     else:
         G = preprocess_create_graph(df, year)
+
     pos = nx.drawing.layout.spring_layout(G, k=0.35, iterations=50)
+
+    if option == '1000Nodes':
+        pos = nx.drawing.layout.spring_layout(G, k=0.65, iterations=50)
+
     for node in G.nodes:
         G.nodes[node]['pos'] = list(pos[node])
 
@@ -99,6 +104,9 @@ def network_graph(year, option, authors=None):
     index = 0
     for node in G.nodes():
         x, y = G.nodes[node]['pos']
+        if 'author' not in G.nodes[node]:
+            # print(G.nodes[node])
+            continue
         hovertext = "AuthorName: " + str(G.nodes[node]['author']) + "<br>" + "AuthorPid: " + str(G.nodes[node]['author-pid']) + "<br>" + "Position: " + str(
             G.nodes[node]['Position']) + "<br>" + "Mangement: " + str(
                 G.nodes[node]['Management']) + "<br>" + "Area: " + str(
@@ -149,9 +157,13 @@ def network_graph(year, option, authors=None):
     return figure
 
 
-def display_network_statistics(year):
-    df = pd.read_csv('../data/SCSE_Records.csv')
-    G = preprocess_create_graph(df, year)
+def display_network_statistics(year,option=None):
+    if option=='1000Nodes':
+        df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
+        G = preprocess_create_graph(df, year)
+    else:
+        df = pd.read_csv('../data/SCSE_Records.csv')
+        G = preprocess_create_graph(df, year)
     return faculty.get_network_statistics(G, year)
 
 
@@ -168,9 +180,13 @@ def display_network_collaboration(year, category):
     return fig
 
 
-def display_degree_distribution(year):
-    df = pd.read_csv('../data/SCSE_Records.csv')
-    G = preprocess_create_graph(df, year)
+def display_degree_distribution(year,option=None):
+    if option=='1000Nodes':
+        df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
+        G = preprocess_create_graph(df, year)
+    else:
+        df = pd.read_csv('../data/SCSE_Records.csv')
+        G = preprocess_create_graph(df, year)
     degree_sequence = sorted([d for n, d in G.degree()],
                              reverse=True)  # degree sequence
     degreeCount = collections.Counter(degree_sequence)
@@ -320,7 +336,7 @@ app.layout = html.Div([
                              children='Enter a comma seperated list of author-pid and press submit')
                 ]),
                     dcc.Graph(id="my-graph", figure=network_graph(2019, None)),
-                    html.P("Scroll down for more visualizations"),
+                    html.H3("Scroll down for more visualizations"),
                     html.Div(
                     className='two columns',
                     children=[
@@ -334,7 +350,7 @@ app.layout = html.Div([
                     ],
                     style={'height': '300px', 'width': '800px'})
                 ],
-                style={'height': '800px', 'width': '800px'}
+                style={'height': '800px', 'width': '1000px'}
             ),
             html.Div(
                 className="two columns",
@@ -353,7 +369,7 @@ app.layout = html.Div([
                                     2019).to_dict('records'),
                             ),
                         ],
-                        style={'height': '300px', 'width': '300px'}),
+                        style={'height': '350px', 'width': '300px'}),
 
                     html.Div(
                         className='twelve columns',
@@ -419,16 +435,18 @@ def update_output(n_clicks, year, option, author_pid_str):
 @ app.callback(
     [dash.dependencies.Output('table_network_statistics', 'columns'),
      dash.dependencies.Output('table_network_statistics', 'data')],
-    [dash.dependencies.Input('year-range-slider', 'value')])
-def update_network_statistics(year):
-    return [{"name": i, "id": i} for i in display_network_statistics(year).columns], display_network_statistics(year).to_dict('records')
+    [dash.dependencies.Input('year-range-slider', 'value'),
+    dash.dependencies.Input('tabs-styled-with-inline', 'value')])
+def update_network_statistics(year,option):
+    return [{"name": i, "id": i} for i in display_network_statistics(year,option).columns], display_network_statistics(year,option).to_dict('records')
 
 
 @ app.callback(
     dash.dependencies.Output('degree_dist', 'figure'),
-    [dash.dependencies.Input('year-range-slider', 'value')])
-def display_click_data(year):
-    return display_degree_distribution(year)
+    [dash.dependencies.Input('year-range-slider', 'value'),
+    dash.dependencies.Input('tabs-styled-with-inline', 'value')])
+def update_degree_dist(year,option):
+    return display_degree_distribution(year,option)
 
 
 @ app.callback(

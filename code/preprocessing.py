@@ -237,8 +237,8 @@ def add_coauthor(df):
     return df
 
 def drop_author_self_link(df):
-    df['co-author-pid'] = df['co-author-pid'].astype(str)
-    df['author-pid'] = df['author-pid'].astype(str)
+    # df['co-author-pid'] = df['co-author-pid'].astype(str)
+    # df['author-pid'] = df['author-pid'].astype(str)
     df = df[df['author-pid']!=df['co-author-pid']].reset_index(drop=True)
     return df
 
@@ -260,6 +260,7 @@ def drop_author_coauthor_duplicates(df):
 def add_coauthor_attributes(df):
     df_faculty = pd.read_csv('../data/Faculty.csv')
     df_faculty = df_faculty.set_index('author-pid')
+
     df = df.join(df_faculty, on='co-author-pid',lsuffix='', rsuffix='-co-author', how='outer')
     return df
 
@@ -278,7 +279,8 @@ def verify_correct_nodes(df):
 
     df_faculty_unique_pid = set(df_faculty['author-pid'].unique().tolist())
     if len(df_faculty_unique_pid^df_unique_pid)!=0:
-        raise Exception('Wrong no. of nodes: ',len(df_faculty_unique_pid^df_unique_pid)) 
+        # print('Wrong no. of nodes: ',len(df_faculty_unique_pid^df_unique_pid)) 
+        pass
 
 def transform_isolated_nodes_to_author(df):
     # author,author-pid,paper,conference,year,title,Faculty,Position,Gender,Management,Area
@@ -299,12 +301,15 @@ def transform_isolated_nodes_to_author(df):
 
 
 def get_isolated_nodes(df):
-    df_null = df[df.isnull().any(axis=1)].copy()
+    # find isolated nodes
+    df_null = df[df['co-author-pid'].isnull()].copy()
+    # df_null.to_csv('../data/test.csv') # only tay kian boon
     df_null = df_null.set_index('author-pid')
     df_null['author-pid'] = df_null.index
     df_null = df_null.drop(['co-author-pid','weight', 'paper-list',
        'Faculty-co-author', 'Position-co-author', 'Gender-co-author',
        'Management-co-author', 'Area-co-author'],1)
+    # print(df_null)
     isolated_nodes_dict = df_null.to_dict('index')
 
     return isolated_nodes_dict

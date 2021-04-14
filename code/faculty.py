@@ -2,7 +2,7 @@ import networkx as nx
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from preprocessing import preprocess_create_graph
+from preprocessing import preprocess_create_graph, preprocess_core
 from preprocessing import create_graph
 from preprocessing import preprocess_range
 from preprocessing import visualize_graph
@@ -161,18 +161,16 @@ def external_collab(df, column, *, group=False, normalize=False):
 
 
 def get_network_statistics(G, year):
-    # for k in G.edges:
-    #     print(G.edges[k]['weight'])
     G.name = year
-    # plot_degree_distribution(G)
-    # plot_log_degree_distribution(G)
     n_connected_components = 1
     for C in (G.subgraph(c).copy() for c in sorted(nx.connected_components(G), key=len)):
         largest_C = C
         n_connected_components -= 1
     info = {'Number of Isolates': nx.number_of_isolates(G),
+            'No. of nodes': float(nx.info(G).split('\n')[-3].split(':')[-1].strip()),
+            'No. of edges': float(nx.info(G).split('\n')[-2].split(':')[-1].strip()),   
+            'Average no. of edges': len(G.edges)/len(G.nodes),
             'Average degree': float(nx.info(G).split('\n')[-1].split(':')[-1].strip()),
-            'Average no. of edges: ': len(G.edges)/len(G.nodes),
             'Average Clustering coefficient': nx.average_clustering(G),
             'No. of nodes in largest connected component': len(largest_C.nodes),
             'Diameter of largest connected component': nx.diameter(largest_C),
@@ -383,12 +381,23 @@ def select_non_SCSE(read_csv=True, save_file=False):
     
     return df
 
-# df_scse = pd.read_csv('../data/SCSE_Records.csv')
-# print(len(df_scse['author-pid'].unique()))
+# df_scse = pd.read_csv('../data/Non_SCSE_Records.csv')
+# print(len(df_scse['author-pid']))
 # df = pd.read_csv('../data/top_1000_nodes_V3.csv')
-# df = pd.merge(df,df_scse,how='outer')
-# df.to_csv('../data/SCSE_top_1000_nodes_V3.csv')
+# df = df.drop_duplicates(subset='author-pid')
+# print(len(df['author-pid']))
+# df = df_scse[df_scse['author-pid'].isin(df['author-pid'])]
+# print(len(df['author-pid']))
 # print(len(df['author-pid'].unique()))
+# print(df)
+# df_scse = pd.read_csv('../data/SCSE_Records.csv')
+
+# # df =pd.merge(df,df_scse,how='inner')
+# df = pd.concat([df,df_scse])
+# print(df)
+# print(len(df['author-pid'].unique()))
+# df.to_csv('../SCSE_top_1000_nodes_V3.csv')
+
 # year = 2018
 # G = preprocess_create_graph(df,year)
 # print(get_network_statistics(G,year))
@@ -402,3 +411,8 @@ def select_non_SCSE(read_csv=True, save_file=False):
 # df = pd.read_csv('../data/SCSE_Records.csv')
 # df = preprocess_range(df,2010,2021)
 # compare_excellence_centrality(df, percentile=0)
+
+
+# df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
+# df = preprocess_core(df)
+# G = create_graph(df)
