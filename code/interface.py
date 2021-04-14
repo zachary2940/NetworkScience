@@ -33,6 +33,7 @@ def network_graph(year, option, authors=None):
         df_excellence = faculty.get_excellence_nodes(
             df_range, EXCELLENCE_PERCENTILE)
         excellence_pid_set = set(list(df_excellence['author-pid']))
+        print(excellence_pid_set)
     else:
         df = pd.read_csv('../data/SCSE_Records.csv')
 
@@ -157,25 +158,39 @@ def network_graph(year, option, authors=None):
     return figure
 
 
-def display_network_statistics(year,option=None):
+def display_network_statistics(year,option=None,authors=None):
     if option=='1000Nodes':
         df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
         G = preprocess_create_graph(df, year)
+    elif authors!=None:
+        print('authors')
+        df = pd.read_csv('../data/SCSE_Records.csv')
+        df_collab = preprocess_authors(df, year, authors)
+        G = create_graph(df_collab)
     else:
         df = pd.read_csv('../data/SCSE_Records.csv')
         G = preprocess_create_graph(df, year)
     return faculty.get_network_statistics(G, year)
 
 
-def display_network_collaboration(year, category):
+def display_network_collaboration(year, category, authors=None):
     df = pd.read_csv('../data/SCSE_Records.csv')
-    df_collab = preprocess(df, year)
+    if authors:
+        df_collab = preprocess_authors(df, year, authors)
+    else:
+        df_collab = preprocess(df, year)
     df_collab = df_collab.dropna()
     df_collab = df_collab.loc[df_collab.index.repeat(df_collab.weight)]
-    df_collab = df_collab[[category, category+'-co-author']]
+    if category=='authors':
+        df_collab = df_collab[['author', 'Faculty-co-author']]
+    else:
+        df_collab = df_collab[[category, category+'-co-author']]
+
     df_collab.columns = ['Groups', 'Groups_']
-    fig = px.density_heatmap(df_collab, x="Groups", y="Groups_").update_xaxes(
-        categoryorder="total descending").update_yaxes(categoryorder="total descending")
+    # fig = px.density_heatmap(df_collab, x="Groups", y="Groups_")
+    fig = px.density_heatmap(df_collab, x="Groups", y="Groups_").update_xaxes(categoryorder='category ascending').update_yaxes(categoryorder='category ascending')    
+    # fig = px.density_heatmap(df_collab, x="Groups", y="Groups_").update_xaxes(
+    #     categoryorder="total descending").update_yaxes(categoryorder="total descending")
 
     return fig
 
@@ -193,7 +208,7 @@ def display_degree_distribution(year,option=None):
     logDegreeCount = {}
     deg = []
     cnt = []
-    for k in degreeCount:
+    for k in degreeCount:    
         cnt.append(math.log(degreeCount[k], 10))
         if k == 0:
             deg.append(k)
@@ -332,7 +347,7 @@ app.layout = html.Div([
                 children=[html.Div([
                     dcc.Markdown(d("""**Search by author pid**""")),
                     dcc.Markdown(d("""Enter in comma seperated author pid""")),
-                    dcc.Markdown(d("""E.g. 76/440,47/2026-7,b/SSBhowmick""")),
+                    dcc.Markdown(d("""E.g. Excellence nodes: 126/4778, 1444536, 83/6096, 79/8116, 33/885, 78/5155, b/SSBhowmick, 14/3737""")),
                     html.Div(dcc.Input(id='input-on-submit', type='text',placeholder="76/440,47/2026-7,b/SSBhowmick")),
                     html.Button('Submit', id='submit-val', n_clicks=0),
                     html.Div(id='container-button-basic',
@@ -385,7 +400,8 @@ app.layout = html.Div([
                                 options=[
                                     {'label': 'Area', 'value': 'Area'},
                                     {'label': 'Management', 'value': 'Management'},
-                                    {'label': 'Position', 'value': 'Position'}
+                                    {'label': 'Position', 'value': 'Position'},
+                                    {'label': 'Authors', 'value': 'authors'}
                                 ],
                                 value='Area'
                             ),
@@ -422,7 +438,7 @@ def update_output(n_clicks, year, option, author_pid_str):
     message ='The input value was "{}" and the authors are {}'.format(author_pid_str,found)
     if author_pid_str == None:
         return network_graph(year, option),message
-    author_pid_list = author_pid_str.strip().split(",")
+    author_pid_list = author_pid_str.replace(" ", "").split(",")
     df = pd.read_csv('../data/SCSE_Records.csv')
     df = preprocess_authors(df, year, author_pid_list)
     if len(df)!=0:
@@ -438,9 +454,20 @@ def update_output(n_clicks, year, option, author_pid_str):
 @ app.callback(
     [dash.dependencies.Output('table_network_statistics', 'columns'),
      dash.dependencies.Output('table_network_statistics', 'data')],
-    [dash.dependencies.Input('year-range-slider', 'value'),
-    dash.dependencies.Input('tabs-styled-with-inline', 'value')])
-def update_network_statistics(year,option):
+    [dash.dependencies.Input('submit-val', 'n_clicks'),
+    dash.dependencies.Input('year-range-slider', 'value'),
+    dash.dependencies.Input('tabs-styled-with-inline', 'value')],
+    [dash.dependencies.State('input-on-submit', 'value')])
+def update_network_statistics(n_clicks,year,option,author_pid_str):
+    if author_pid_str == None:
+        return [{"name": i, "id": i} for i in display_network_statistics(year,option).columns], display_network_statistics(year,option).to_dict('records')
+    author_pid_list = author_pid_str.replace(" ", "").split(",")
+    df = pd.read_csv('../data/SCSE_Records.csv')
+    df = preprocess_authors(df, year, author_pid_list)
+    if len(df)!=0:
+        return [{"name": i, "id": i} for i in display_network_statistics(year,option,author_pid_list).columns], display_network_statistics(year,option,author_pid_list).to_dict('records')
+    else:
+        return [{"name": i, "id": i} for i in display_network_statistics(year,option).columns], display_network_statistics(year,option).to_dict('records')
     return [{"name": i, "id": i} for i in display_network_statistics(year,option).columns], display_network_statistics(year,option).to_dict('records')
 
 
@@ -461,9 +488,19 @@ def update_ec_corr(option):
 @ app.callback(
     dash.dependencies.Output('2d_hist', 'figure'),
     [dash.dependencies.Input('year-range-slider', 'value'),
-     dash.dependencies.Input('collab-dropdown', 'value')])
-def update_network_collaboration(year, category):
-    return display_network_collaboration(year, category)
+     dash.dependencies.Input('collab-dropdown', 'value'),
+     dash.dependencies.Input('submit-val', 'n_clicks')],
+     [dash.dependencies.State('input-on-submit', 'value')])
+def update_network_collaboration(year, category,n_clicks, author_pid_str):
+    if author_pid_str == None:
+        return display_network_collaboration(year, category)
+    author_pid_list = author_pid_str.replace(" ", "").split(",")
+    df = pd.read_csv('../data/SCSE_Records.csv')
+    df = preprocess_authors(df, year, author_pid_list)
+    if len(df)!=0:
+        return display_network_collaboration(year, category,author_pid_list)
+    else:
+        return display_network_collaboration(year, category)
 
 
 if __name__ == '__main__':

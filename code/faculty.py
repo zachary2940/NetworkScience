@@ -399,10 +399,12 @@ def select_non_SCSE(read_csv=True, save_file=False):
 # df.to_csv('../SCSE_top_1000_nodes_V3.csv')
 
 # year = 2018
-# G = preprocess_create_graph(df,year)
-# print(get_network_statistics(G,year))
-
-# df_authors=preprocess_authors(df,year,['l/BuSungLee','14/3737','1444536'])
+# # G = preprocess_create_graph(df,year)
+# # print(get_network_statistics(G,year))
+# df = pd.read_csv('../data/SCSE_Records.csv')
+# df_authors=preprocess_authors(df,year,['126/4778', '1444536', '83/6096', '79/8116', '33/885', '78/5155', 'b/SSBhowmick', '14/3737'])
+# print(df_authors['co-author-pid'])
+# print(df_authors)
 # G = create_graph(df_authors)
 # visualize_graph(G)
 

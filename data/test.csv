@@ -1,0 +1,160 @@
+,author,author-pid,year,Position,Gender,Management,Area,top_venue_count,co-author-pid,weight,paper-list,Faculty-co-author,Position-co-author,Gender-co-author,Management-co-author,Area-co-author
+0,Sourav Sen Gupta,41/8030,2019.0,Lecturer,M,N,Cyber Security,0.0,99/4535,5.0,"['journals/mam/RaviNBKGC19', 'conf/cardis/RaviGCB19', 'conf/ijcnn/ChattopadhyayCG19', 'journals/iacr/RaviGCKNB19', 'journals/iacr/RaviGCB19']",Anupam Chattopadhyay,Associate Professor,M,N,Computer Architecture
+1,Owen Noel Newton Fernando,84/2408,2019.0,Senior Lecturer,M,N,HCI,0.0,99/4535,2.0,"['conf/cw/KannappanFCTHSL19', 'conf/vrcai/FernandoKTHCS19']",Anupam Chattopadhyay,Associate Professor,M,N,Computer Architecture
+2,Hock Soon Seah,s/SeahHockSoon,2019.0,Professor,M,Y,Computer Graphics,0.0,99/4535,2.0,"['conf/cw/KannappanFCTHSL19', 'conf/vrcai/FernandoKTHCS19']",Anupam Chattopadhyay,Associate Professor,M,N,Computer Architecture
+3,Anupam Chattopadhyay,99/4535,2019.0,Associate Professor,M,N,Computer Architecture,0.0,41/8030,5.0,"['journals/mam/RaviNBKGC19', 'conf/cardis/RaviGCB19', 'conf/ijcnn/ChattopadhyayCG19', 'journals/iacr/RaviGCKNB19', 'journals/iacr/RaviGCB19']",Sourav Sen Gupta,Lecturer,M,N,Cyber Security
+4,Owen Noel Newton Fernando,84/2408,2019.0,Senior Lecturer,M,N,HCI,0.0,s/SeahHockSoon,2.0,"['conf/cw/KannappanFCTHSL19', 'conf/vrcai/FernandoKTHCS19']",Seah Hock Soon,Professor,M,Y,Computer Graphics
+5,Anupam Chattopadhyay,99/4535,2019.0,Associate Professor,M,N,Computer Architecture,0.0,s/SeahHockSoon,2.0,"['conf/cw/KannappanFCTHSL19', 'conf/vrcai/FernandoKTHCS19']",Seah Hock Soon,Professor,M,Y,Computer Graphics
+6,Feng Lin 0002,75/2611-2,2019.0,Associate Professor,M,N,Bioinformatics,0.0,s/SeahHockSoon,3.0,"['journals/vc/WangZLGS19', 'conf/apvis/WangZ0S19', 'journals/corr/abs-1904-02348']",Seah Hock Soon,Professor,M,Y,Computer Graphics
+7,Jianmin Zheng,1297587,2019.0,Associate Professor,M,N,Computer Graphics,0.0,s/SeahHockSoon,1.0,['journals/cg/WangZS19'],Seah Hock Soon,Professor,M,Y,Computer Graphics
+8,Anupam Chattopadhyay,99/4535,2019.0,Associate Professor,M,N,Computer Architecture,0.0,84/2408,2.0,"['conf/cw/KannappanFCTHSL19', 'conf/vrcai/FernandoKTHCS19']",Owen Noel Newton Fernando,Senior Lecturer,M,N,HCI
+9,Hock Soon Seah,s/SeahHockSoon,2019.0,Professor,M,Y,Computer Graphics,0.0,84/2408,2.0,"['conf/cw/KannappanFCTHSL19', 'conf/vrcai/FernandoKTHCS19']",Owen Noel Newton Fernando,Senior Lecturer,M,N,HCI
+10,Arvind Easwaran,73/1708,2019.0,Associate Professor,M,N,Computer Architecture,0.0,00/5179,3.0,"['journals/sigbed/SamaddarET19', 'conf/rtcsa/JhaveriTER19', 'journals/corr/abs-1910-12000']",Tan Rui,Assistant Professor,M,N,Computer Architecture
+11,Jun Zhao 0007,47/2026-7,2019.0,Assistant Professor,M,N,Computer Networks,0.0,00/5179,1.0,['journals/corr/abs-1906-10893'],Tan Rui,Assistant Professor,M,N,Computer Architecture
+12,Dusit Niyato,76/440,2019.0,Professor,M,N,Computer Networks,0.0,00/5179,1.0,['journals/corr/abs-1906-10893'],Tan Rui,Assistant Professor,M,N,Computer Architecture
+13,Adams Wai-Kin Kong,16/3792,2019.0,Associate Professor,M,N,Computer Vision,0.0,00/5179,2.0,"['conf/mobicom/YanSTLK19', 'journals/corr/abs-1902-07057']",Tan Rui,Assistant Professor,M,N,Computer Architecture
+14,Guosheng Lin,126/4778,2019.0,Assistant Professor,M,N,Computer Vision,2.0,00/5179,2.0,"['conf/iotdi/JiangTLL19', 'journals/corr/abs-1902-05197']",Tan Rui,Assistant Professor,M,N,Computer Architecture
+15,Yonggang Wen 0001,33/885,2019.0,Professor,M,N,Multimedia,0.0,00/5179,2.0,"['conf/icdcs/YiZWT19', 'conf/sensys/LeLWTWW19']",Tan Rui,Assistant Professor,M,N,Computer Architecture
+16,Rui Tan,00/5179,2019.0,Assistant Professor,M,N,Computer Architecture,0.0,73/1708,3.0,"['journals/sigbed/SamaddarET19', 'conf/rtcsa/JhaveriTER19', 'journals/corr/abs-1910-12000']",Arvind Easwaran,Associate Professor,M,N,Computer Architecture
+17,Bo An 0001,42/6178-1,2019.0,Associate Professor,M,N,AI/ML,1.0,93/4009,1.0,['journals/corr/abs-1911-06992'],Zinovi Rabinovich,Assistant Professor,M,N,AI/ML
+18,Svetlana Obraztsova,2931407,2019.0,Assistant Professor,F,N,AI/ML,0.0,93/4009,6.0,"['conf/atal/LuZROV19', 'conf/ijcai/ElkindGORV19', 'journals/corr/abs-1905-04933', 'journals/corr/abs-1905-07173', 'journals/corr/abs-1906-07071', 'journals/corr/abs-1911-12472']",Zinovi Rabinovich,Assistant Professor,M,N,AI/ML
+19,Zinovi Rabinovich,93/4009,2019.0,Assistant Professor,M,N,AI/ML,0.0,42/6178-1,1.0,['journals/corr/abs-1911-06992'],Bo An,Associate Professor,M,N,AI/ML
+20,Jianmin Zheng,1297587,2019.0,Associate Professor,M,N,Computer Graphics,0.0,83/6096,9.0,"['journals/cgf/DengZCC19', 'journals/cgf/NiJCZLL19', 'journals/pami/GuoZCJZ19', 'conf/iccv/JiangCZ19', 'conf/ijcai/XuZCZ19', 'journals/corr/abs-1901-06765', 'journals/corr/abs-1902-09907', 'journals/corr/abs-1905-05622', 'journals/corr/abs-1911-11999']",Cai Jianfei,Professor,M,N,Computer Vision
+21,Tat-Jen Cham,29/3808,2019.0,Associate Professor,M,N,Computer Vision,1.0,83/6096,11.0,"['journals/cgf/DengZCC19', 'journals/ijon/LiuSCCZ19', 'journals/pami/ShengCCPN19', 'conf/cvpr/ZhengCC19', 'conf/iccv/CaiGLCCYM19', 'journals/corr/abs-1901-06765', 'journals/corr/abs-1903-00304', 'journals/corr/abs-1903-04227', 'journals/corr/abs-1903-10143', 'journals/corr/abs-1905-02114', 'journals/corr/abs-1911-11999']",Cai Jianfei,Professor,M,N,Computer Vision
+22,Guosheng Lin,126/4778,2019.0,Assistant Professor,M,N,Computer Vision,2.0,83/6096,5.0,"['journals/ivc/WuLC19', 'journals/tmm/ZhangLCSSK19', 'conf/mm/WuLTC19', 'conf/vcip/0004LCK19', 'conf/vcip/ZhangYZLCK19']",Cai Jianfei,Professor,M,N,Computer Vision
+23,Yew-Soon Ong,64/4136,2019.0,Professor,M,Y,AI/ML,0.0,83/6096,2.0,"['journals/kbs/LiuCOW19', 'journals/corr/abs-1909-06541']",Cai Jianfei,Professor,M,N,Computer Vision
+24,Hanwang Zhang,79/8116,2019.0,Assistant Professor,M,N,Computer Vision,4.0,83/6096,3.0,"['conf/cvpr/YangTZC19', 'conf/iccv/YangZC19', 'journals/corr/abs-1904-08608']",Cai Jianfei,Professor,M,N,Computer Vision
+25,Shafiq R. Joty,62/2078,2019.0,Assistant Professor,M,N,AI/ML,0.0,83/6096,4.0,"['conf/iccv/GuJCZYW19', 'conf/mm/ShiCJG19', 'journals/corr/abs-1903-10658', 'journals/corr/abs-1907-12905']",Cai Jianfei,Professor,M,N,Computer Vision
+26,Jianmin Zheng,1297587,2019.0,Associate Professor,M,N,Computer Graphics,0.0,29/3808,3.0,"['journals/cgf/DengZCC19', 'journals/corr/abs-1901-06765', 'journals/corr/abs-1911-11999']",Cham Tat Jen,Associate Professor,M,N,Computer Vision
+27,Jianfei Cai 0001,83/6096,2019.0,Professor,M,N,Computer Vision,4.0,29/3808,11.0,"['journals/cgf/DengZCC19', 'journals/ijon/LiuSCCZ19', 'journals/pami/ShengCCPN19', 'conf/cvpr/ZhengCC19', 'conf/iccv/CaiGLCCYM19', 'journals/corr/abs-1901-06765', 'journals/corr/abs-1903-00304', 'journals/corr/abs-1903-04227', 'journals/corr/abs-1903-10143', 'journals/corr/abs-1905-02114', 'journals/corr/abs-1911-11999']",Cham Tat Jen,Associate Professor,M,N,Computer Vision
+28,Jianfei Cai 0001,83/6096,2019.0,Professor,M,N,Computer Vision,4.0,1297587,9.0,"['journals/cgf/DengZCC19', 'journals/cgf/NiJCZLL19', 'journals/pami/GuoZCJZ19', 'conf/iccv/JiangCZ19', 'conf/ijcai/XuZCZ19', 'journals/corr/abs-1901-06765', 'journals/corr/abs-1902-09907', 'journals/corr/abs-1905-05622', 'journals/corr/abs-1911-11999']",Zheng Jianmin,Associate Professor,M,N,Computer Graphics
+29,Tat-Jen Cham,29/3808,2019.0,Associate Professor,M,N,Computer Vision,1.0,1297587,3.0,"['journals/cgf/DengZCC19', 'journals/corr/abs-1901-06765', 'journals/corr/abs-1911-11999']",Zheng Jianmin,Associate Professor,M,N,Computer Graphics
+30,Ying He 0001,h/YingHe1,2019.0,Associate Professor,M,N,Computer Graphics,0.0,1297587,1.0,['journals/cad/YeLZHH19'],Zheng Jianmin,Associate Professor,M,N,Computer Graphics
+31,Hock Soon Seah,s/SeahHockSoon,2019.0,Professor,M,Y,Computer Graphics,0.0,1297587,1.0,['journals/cg/WangZS19'],Zheng Jianmin,Associate Professor,M,N,Computer Graphics
+32,Jianfei Cai 0001,83/6096,2019.0,Professor,M,N,Computer Vision,4.0,126/4778,5.0,"['journals/ivc/WuLC19', 'journals/tmm/ZhangLCSSK19', 'conf/mm/WuLTC19', 'conf/vcip/0004LCK19', 'conf/vcip/ZhangYZLCK19']",Lin Guosheng,Assistant Professor,M,N,Computer Vision
+33,Weisi Lin,14/3737,2019.0,Professor,M,N,Multimedia,2.0,126/4778,3.0,"['conf/cvpr/LiuLYLLG19', 'journals/corr/abs-1903-08836', 'journals/corr/abs-1904-03571']",Lin Guosheng,Assistant Professor,M,N,Computer Vision
+34,Rui Tan,00/5179,2019.0,Assistant Professor,M,N,Computer Architecture,0.0,126/4778,2.0,"['conf/iotdi/JiangTLL19', 'journals/corr/abs-1902-05197']",Lin Guosheng,Assistant Professor,M,N,Computer Vision
+35,Jianfei Cai 0001,83/6096,2019.0,Professor,M,N,Computer Vision,4.0,64/4136,2.0,"['journals/kbs/LiuCOW19', 'journals/corr/abs-1909-06541']",Ong Yew Soon,Professor,M,Y,AI/ML
+36,Mahardhika Pratama,55/9613,2019.0,Assistant Professor,M,N,AI/ML,0.0,64/4136,3.0,"['conf/cikm/PratamaZAO019', 'journals/corr/abs-1910-03437', 'journals/corr/abs-1910-04062']",Ong Yew Soon,Professor,M,Y,AI/ML
+37,Jianfei Cai 0001,83/6096,2019.0,Professor,M,N,Computer Vision,4.0,79/8116,3.0,"['conf/cvpr/YangTZC19', 'conf/iccv/YangZC19', 'journals/corr/abs-1904-08608']",Zhang Hanwang,Assistant Professor,M,N,Computer Vision
+38,Chunyan Miao,m/ChunyanMiao,2019.0,Professor,F,Y,AI/ML,0.0,79/8116,1.0,['conf/mm/MengCYTZMC19'],Zhang Hanwang,Assistant Professor,M,N,Computer Vision
+39,Jianfei Cai 0001,83/6096,2019.0,Professor,M,N,Computer Vision,4.0,62/2078,4.0,"['conf/iccv/GuJCZYW19', 'conf/mm/ShiCJG19', 'journals/corr/abs-1903-10658', 'journals/corr/abs-1907-12905']",Joty Shafiq Rayhan,Assistant Professor,M,N,AI/ML
+40,Sourav S. Bhowmick,b/SSBhowmick,2019.0,Associate Professor,M,N,Data Management,3.0,62/2078,1.0,['conf/sigmod/LiuBZWHJ19'],Joty Shafiq Rayhan,Assistant Professor,M,N,AI/ML
+41,Xueyan Tang,23/2460,2019.0,Associate Professor,M,N,Distributed Systems,0.0,83/3179,2.0,"['journals/tpds/LiTCTLW19', 'conf/hpdc/LiSCTCTLWGZ19']",Cai Wentong,Professor,M,Y,Distributed Systems
+42,Wentong Cai 0001,83/3179,2019.0,Professor,M,Y,Distributed Systems,0.0,23/2460,2.0,"['journals/tpds/LiTCTLW19', 'conf/hpdc/LiSCTCTLWGZ19']",Tang Xueyan,Associate Professor,M,N,Distributed Systems
+43,Aixin Sun,78/5155,2019.0,Associate Professor,M,N,Information Retrieval,1.0,23/2460,2.0,"['conf/sigmod/TangHXLTSL19', 'journals/corr/abs-1907-09668']",Tang Xueyan,Associate Professor,M,N,Distributed Systems
+44,Cheng Long,58/10813,2019.0,Assistant Professor,M,N,Data Mining,1.0,33/3180,2.0,"['conf/kdd/WangLCJ19', 'journals/corr/abs-1902-10928']",Cong Gao,Professor,M,N,Data Mining
+45,Aixin Sun,78/5155,2019.0,Associate Professor,M,N,Information Retrieval,1.0,33/3180,1.0,['conf/www/LiCSC19'],Cong Gao,Professor,M,N,Data Mining
+46,Gao Cong,33/3180,2019.0,Professor,M,N,Data Mining,1.0,58/10813,2.0,"['conf/kdd/WangLCJ19', 'journals/corr/abs-1902-10928']",Long Cheng,Assistant Professor,M,N,Data Mining
+47,Gao Cong,33/3180,2019.0,Professor,M,N,Data Mining,1.0,78/5155,1.0,['conf/www/LiCSC19'],Sun Aixin,Associate Professor,M,N,Information Retrieval
+48,Jun Luo 0001,42/2501-1,2019.0,Associate Professor,M,N,Computer Networks,0.0,78/5155,1.0,['journals/tmc/WangLPS19'],Sun Aixin,Associate Professor,M,N,Information Retrieval
+49,Sinno Jialin Pan,80/5412,2019.0,Associate Professor,M,N,AI/ML,1.0,78/5155,1.0,['journals/tmc/WangLPS19'],Sun Aixin,Associate Professor,M,N,Information Retrieval
+50,Xueyan Tang,23/2460,2019.0,Associate Professor,M,N,Distributed Systems,0.0,78/5155,2.0,"['conf/sigmod/TangHXLTSL19', 'journals/corr/abs-1907-09668']",Sun Aixin,Associate Professor,M,N,Information Retrieval
+51,Bu-Sung Lee,l/BuSungLee,2019.0,Associate Professor,M,N,Computer Networks,0.0,95/3115,3.0,"['journals/mva/LiuLRSM19', 'conf/icaiic/LiuLR19', 'conf/percom/WongYHLLR19']",Deepu Rajan,Associate Professor,M,N,Computer Vision
+52,Chai Quek,q/HiokChaiQuek,2019.0,Associate Professor,M,N,AI/ML,0.0,95/3115,1.0,['journals/tits/PrasadPRRRQ19'],Deepu Rajan,Associate Professor,M,N,Computer Vision
+53,Deepu Rajan,95/3115,2019.0,Associate Professor,M,N,Computer Vision,0.0,l/BuSungLee,3.0,"['journals/mva/LiuLRSM19', 'conf/icaiic/LiuLR19', 'conf/percom/WongYHLLR19']",Lee Bu Sung Francis,Associate Professor,M,N,Computer Networks
+54,Deepu Rajan,95/3115,2019.0,Associate Professor,M,N,Computer Vision,0.0,q/HiokChaiQuek,1.0,['journals/tits/PrasadPRRRQ19'],Quek Hiok Chai,Associate Professor,M,N,AI/ML
+55,Dusit Niyato,76/440,2019.0,Professor,M,N,Computer Networks,0.0,33/885,1.0,['journals/access/WangHHXNWWK19'],Wen Yonggang,Professor,M,N,Multimedia
+56,Rui Tan,00/5179,2019.0,Assistant Professor,M,N,Computer Architecture,0.0,33/885,2.0,"['conf/icdcs/YiZWT19', 'conf/sensys/LeLWTWW19']",Wen Yonggang,Professor,M,N,Multimedia
+57,Yonggang Wen 0001,33/885,2019.0,Professor,M,N,Multimedia,0.0,76/440,1.0,['journals/access/WangHHXNWWK19'],Dusit Niyato,Professor,M,N,Computer Networks
+58,Jun Luo 0001,42/2501-1,2019.0,Associate Professor,M,N,Computer Networks,0.0,76/440,2.0,"['journals/cm/NieLXNWG19', 'journals/twc/NieLXNW19']",Dusit Niyato,Professor,M,N,Computer Networks
+59,Jun Zhao 0007,47/2026-7,2019.0,Assistant Professor,M,N,Computer Networks,0.0,76/440,9.0,"['journals/tvt/KangXNYKZ19', 'conf/globecom/XiongZNWZ19', 'conf/smartgridcomm/Jiao0NZLK19', 'journals/corr/abs-1906-10893', 'journals/corr/abs-1907-08927', 'journals/corr/abs-1910-09172', 'journals/corr/abs-1910-14383', 'journals/corr/abs-1911-03298', 'journals/corr/abs-1912-05744']",Dusit Niyato,Professor,M,N,Computer Networks
+60,Han Yu 0001,35/1096-1,2019.0,Assistant Professor,M,N,AI/ML,0.0,76/440,2.0,"['conf/apwcs2/KangXN0LK19', 'journals/corr/abs-1905-07479']",Dusit Niyato,Professor,M,N,Computer Networks
+61,Rui Tan,00/5179,2019.0,Assistant Professor,M,N,Computer Architecture,0.0,76/440,1.0,['journals/corr/abs-1906-10893'],Dusit Niyato,Professor,M,N,Computer Networks
+62,Chunyan Miao,m/ChunyanMiao,2019.0,Professor,F,Y,AI/ML,0.0,76/440,1.0,['journals/corr/abs-1909-11875'],Dusit Niyato,Professor,M,N,Computer Networks
+63,Kwok-Yan Lam,34243,2019.0,Professor,M,N,Cyber Security,0.0,76/440,1.0,['journals/corr/abs-1911-03298'],Dusit Niyato,Professor,M,N,Computer Networks
+64,Dusit Niyato,76/440,2019.0,Professor,M,N,Computer Networks,0.0,42/2501-1,2.0,"['journals/cm/NieLXNWG19', 'journals/twc/NieLXNW19']",Luo Jun,Associate Professor,M,N,Computer Networks
+65,Ying He 0001,h/YingHe1,2019.0,Associate Professor,M,N,Computer Graphics,0.0,42/2501-1,2.0,"['journals/cviu/LuDLCYH19', 'journals/iotj/LiHWLHYC19']",Luo Jun,Associate Professor,M,N,Computer Networks
+66,Sinno Jialin Pan,80/5412,2019.0,Associate Professor,M,N,AI/ML,1.0,42/2501-1,1.0,['journals/tmc/WangLPS19'],Luo Jun,Associate Professor,M,N,Computer Networks
+67,Aixin Sun,78/5155,2019.0,Associate Professor,M,N,Information Retrieval,1.0,42/2501-1,1.0,['journals/tmc/WangLPS19'],Luo Jun,Associate Professor,M,N,Computer Networks
+68,Dusit Niyato,76/440,2019.0,Professor,M,N,Computer Networks,0.0,47/2026-7,9.0,"['journals/tvt/KangXNYKZ19', 'conf/globecom/XiongZNWZ19', 'conf/smartgridcomm/Jiao0NZLK19', 'journals/corr/abs-1906-10893', 'journals/corr/abs-1907-08927', 'journals/corr/abs-1910-09172', 'journals/corr/abs-1910-14383', 'journals/corr/abs-1911-03298', 'journals/corr/abs-1912-05744']",Zhao Jun,Assistant Professor,M,N,Computer Networks
+69,Rui Tan,00/5179,2019.0,Assistant Professor,M,N,Computer Architecture,0.0,47/2026-7,1.0,['journals/corr/abs-1906-10893'],Zhao Jun,Assistant Professor,M,N,Computer Networks
+70,Kwok-Yan Lam,34243,2019.0,Professor,M,N,Cyber Security,0.0,47/2026-7,3.0,"['journals/corr/abs-1911-03298', 'conf/ipccc/WangYRZL19', 'journals/corr/abs-1911-12060']",Zhao Jun,Assistant Professor,M,N,Computer Networks
+71,Siu Cheung Hui,65/3225,2019.0,Associate Professor,M,N,Information Retrieval,0.0,47/2026-7,2.0,"['conf/icde/WangXYZHSS019', 'journals/corr/abs-1907-00782']",Zhao Jun,Assistant Professor,M,N,Computer Networks
+72,Han Yu 0001,35/1096-1,2019.0,Assistant Professor,M,N,AI/ML,0.0,47/2026-7,1.0,['journals/corr/abs-1911-12060'],Zhao Jun,Assistant Professor,M,N,Computer Networks
+73,Mo Li 0001,87/4982-1,2019.0,Associate Professor,M,N,Computer Networks,0.0,47/2026-7,1.0,['conf/infocom/ShiXLLZ19'],Zhao Jun,Assistant Professor,M,N,Computer Networks
+74,Sourav S. Bhowmick,b/SSBhowmick,2019.0,Associate Professor,M,N,Data Management,3.0,47/2026-7,2.0,"['conf/sigmod/YangXWBZL19', 'journals/corr/abs-1904-02707']",Zhao Jun,Assistant Professor,M,N,Computer Networks
+75,Dusit Niyato,76/440,2019.0,Professor,M,N,Computer Networks,0.0,35/1096-1,2.0,"['conf/apwcs2/KangXN0LK19', 'journals/corr/abs-1905-07479']",Yu Han,Assistant Professor,M,N,AI/ML
+76,Jun Zhao 0007,47/2026-7,2019.0,Assistant Professor,M,N,Computer Networks,0.0,35/1096-1,1.0,['journals/corr/abs-1911-12060'],Yu Han,Assistant Professor,M,N,AI/ML
+77,Kwok-Yan Lam,34243,2019.0,Professor,M,N,Cyber Security,0.0,35/1096-1,1.0,['journals/corr/abs-1911-12060'],Yu Han,Assistant Professor,M,N,AI/ML
+78,Chunyan Miao,m/ChunyanMiao,2019.0,Professor,F,Y,AI/ML,0.0,35/1096-1,8.0,"['journals/tist/WangZYM19', 'conf/aies/YuMZCFL19', 'conf/cikm/LiuD0SGWZRXCM19', 'conf/ijcai/Guo0MC19', 'conf/ijcai/Zeng0GOHHSZM19', 'conf/ijcai/Zheng0ZSLM19', 'journals/corr/abs-1901-00298', 'journals/corr/abs-1908-11588']",Yu Han,Assistant Professor,M,N,AI/ML
+79,Zhiqi Shen,03/1554,2019.0,Senior Lecturer,M,N,AI/ML,0.0,35/1096-1,5.0,"['conf/cikm/LiuD0SGWZRXCM19', 'journals/corr/abs-1908-11588', 'conf/atal/YuSCZL19', 'conf/mm/DongLS0GWZRX19', 'conf/mmasia/Dong0SGWZRX0H19']",Yu Han,Assistant Professor,M,N,AI/ML
+80,Dusit Niyato,76/440,2019.0,Professor,M,N,Computer Networks,0.0,m/ChunyanMiao,1.0,['journals/corr/abs-1909-11875'],Miao Chunyan,Professor,F,Y,AI/ML
+81,Ah-Hwee Tan,38/3641,2019.0,Professor,M,Y,AI/ML,0.0,m/ChunyanMiao,3.0,"['journals/ijon/ParmarWZTMJZ19', 'journals/nn/MengTM19', 'conf/aaai/0004TMM19']",Miao Chunyan,Professor,F,Y,AI/ML
+82,Han Yu 0001,35/1096-1,2019.0,Assistant Professor,M,N,AI/ML,0.0,m/ChunyanMiao,8.0,"['journals/tist/WangZYM19', 'conf/aies/YuMZCFL19', 'conf/cikm/LiuD0SGWZRXCM19', 'conf/ijcai/Guo0MC19', 'conf/ijcai/Zeng0GOHHSZM19', 'conf/ijcai/Zheng0ZSLM19', 'journals/corr/abs-1901-00298', 'journals/corr/abs-1908-11588']",Miao Chunyan,Professor,F,Y,AI/ML
+83,Sinno Jialin Pan,80/5412,2019.0,Associate Professor,M,N,AI/ML,1.0,m/ChunyanMiao,2.0,"['conf/aaai/QianPM19', 'conf/ijcai/QianPDM19']",Miao Chunyan,Professor,F,Y,AI/ML
+84,Zhiqi Shen,03/1554,2019.0,Senior Lecturer,M,N,AI/ML,0.0,m/ChunyanMiao,5.0,"['conf/aaai/ZengMLSC19', 'conf/chiplay/00490MSL19', 'conf/cikm/LiuD0SGWZRXCM19', 'conf/hci/ZhangM0TS19', 'journals/corr/abs-1908-11588']",Miao Chunyan,Professor,F,Y,AI/ML
+85,Hanwang Zhang,79/8116,2019.0,Assistant Professor,M,N,Computer Vision,4.0,m/ChunyanMiao,1.0,['conf/mm/MengCYTZMC19'],Miao Chunyan,Professor,F,Y,AI/ML
+86,Jun Zhao 0007,47/2026-7,2019.0,Assistant Professor,M,N,Computer Networks,0.0,34243,3.0,"['journals/corr/abs-1911-03298', 'conf/ipccc/WangYRZL19', 'journals/corr/abs-1911-12060']",Lam Kwok Yan,Professor,M,N,Cyber Security
+87,Dusit Niyato,76/440,2019.0,Professor,M,N,Computer Networks,0.0,34243,1.0,['journals/corr/abs-1911-03298'],Lam Kwok Yan,Professor,M,N,Cyber Security
+88,Adams Wai-Kin Kong,16/3792,2019.0,Associate Professor,M,N,Computer Vision,0.0,34243,2.0,"['conf/bmvc/HuangKL19', 'conf/pricai/HuangKL19']",Lam Kwok Yan,Professor,M,N,Cyber Security
+89,Han Yu 0001,35/1096-1,2019.0,Assistant Professor,M,N,AI/ML,0.0,34243,1.0,['journals/corr/abs-1911-12060'],Lam Kwok Yan,Professor,M,N,Cyber Security
+90,Wooi Boon Goh,97/6922,2019.0,Associate Professor,M,N,HCI,0.0,95/7006,1.0,['conf/bhi/FahimiZGAG19'],Guan Cuntai,Professor,M,N,AI/ML
+91,Cuntai Guan,95/7006,2019.0,Professor,M,N,AI/ML,0.0,97/6922,1.0,['conf/bhi/FahimiZGAG19'],Goh Wooi Boon,Associate Professor,M,N,HCI
+92,Kheng Leong Tan,242/0323,2019.0,Lecturer,M,N,Cyber Security,0.0,97/6922,1.0,['conf/educon/TanG19'],Goh Wooi Boon,Associate Professor,M,N,HCI
+93,Wooi Boon Goh,97/6922,2019.0,Associate Professor,M,N,HCI,0.0,242/0323,1.0,['conf/educon/TanG19'],Tan Kheng Leong,Lecturer,M,N,Cyber Security
+94,Jianmin Zheng,1297587,2019.0,Associate Professor,M,N,Computer Graphics,0.0,h/YingHe1,1.0,['journals/cad/YeLZHH19'],He Ying,Associate Professor,M,N,Computer Graphics
+95,Jun Luo 0001,42/2501-1,2019.0,Associate Professor,M,N,Computer Networks,0.0,h/YingHe1,2.0,"['journals/cviu/LuDLCYH19', 'journals/iotj/LiHWLHYC19']",He Ying,Associate Professor,M,N,Computer Graphics
+96,Luu Anh Tuan,81/8329,2019.0,Assistant Professor,M,N,AI/ML,1.0,65/3225,6.0,"['conf/aaai/Tay0LHYV19', 'conf/acl/TayZLRZWFH19', 'conf/acl/TayWLFPYRHZ19', 'conf/nips/TayLZWH19', 'journals/corr/abs-1905-10847', 'journals/corr/abs-1906-04393']",Hui Siu Cheung,Associate Professor,M,N,Information Retrieval
+97,Jun Zhao 0007,47/2026-7,2019.0,Assistant Professor,M,N,Computer Networks,0.0,65/3225,2.0,"['conf/icde/WangXYZHSS019', 'journals/corr/abs-1907-00782']",Hui Siu Cheung,Associate Professor,M,N,Information Retrieval
+98,Siu Cheung Hui,65/3225,2019.0,Associate Professor,M,N,Information Retrieval,0.0,81/8329,6.0,"['conf/aaai/Tay0LHYV19', 'conf/acl/TayZLRZWFH19', 'conf/acl/TayWLFPYRHZ19', 'conf/nips/TayLZWH19', 'journals/corr/abs-1905-10847', 'journals/corr/abs-1906-04393']",Luu Anh Tuan,Assistant Professor,M,N,AI/ML
+99,Shafiq R. Joty,62/2078,2019.0,Assistant Professor,M,N,AI/ML,0.0,b/SSBhowmick,1.0,['conf/sigmod/LiuBZWHJ19'],Sourav S Bhowmick,Associate Professor,M,N,Data Management
+100,Jun Zhao 0007,47/2026-7,2019.0,Assistant Professor,M,N,Computer Networks,0.0,b/SSBhowmick,2.0,"['conf/sigmod/YangXWBZL19', 'journals/corr/abs-1904-02707']",Sourav S Bhowmick,Associate Professor,M,N,Data Management
+101,Kwok-Yan Lam,34243,2019.0,Professor,M,N,Cyber Security,0.0,16/3792,2.0,"['conf/bmvc/HuangKL19', 'conf/pricai/HuangKL19']",Kong Wai-Kin Adams,Associate Professor,M,N,Computer Vision
+102,Rui Tan,00/5179,2019.0,Assistant Professor,M,N,Computer Architecture,0.0,16/3792,2.0,"['conf/mobicom/YanSTLK19', 'journals/corr/abs-1902-07057']",Kong Wai-Kin Adams,Associate Professor,M,N,Computer Vision
+103,Siew-Kei Lam,74/1907,2019.0,Assistant Professor,M,N,Computer Architecture,0.0,23/1694,1.0,['conf/socc/KadiyalaPGNLS19'],Thambipillai Srikanthan,Professor,M,Y,Computer Architecture
+104,Thambipillai Srikanthan,23/1694,2019.0,Professor,M,Y,Computer Architecture,0.0,74/1907,1.0,['conf/socc/KadiyalaPGNLS19'],Lam Siew Kei,Assistant Professor,M,N,Computer Architecture
+105,Zinovi Rabinovich,93/4009,2019.0,Assistant Professor,M,N,AI/ML,0.0,2931407,6.0,"['conf/atal/LuZROV19', 'conf/ijcai/ElkindGORV19', 'journals/corr/abs-1905-04933', 'journals/corr/abs-1905-07173', 'journals/corr/abs-1906-07071', 'journals/corr/abs-1911-12472']",Lana Obraztsova,Assistant Professor,F,N,AI/ML
+106,Jun Zhao 0007,47/2026-7,2019.0,Assistant Professor,M,N,Computer Networks,0.0,87/4982-1,1.0,['conf/infocom/ShiXLLZ19'],Li Mo,Associate Professor,M,N,Computer Networks
+107,Yi Li 0008,59/871-8,2019.0,Assistant Professor,M,N,Software Engg,0.0,55/4730-1,1.0,['conf/icse/WangLLML19'],Lin Shang-Wei,Assistant Professor,M,N,Software Engg
+108,Yang Liu 0003,51/3710-3,2019.0,Professor,M,N,Software Engg,0.0,55/4730-1,7.0,"['conf/icse/WangLLML19', 'journals/tsmc/ZhouHLLD19', 'conf/iceccs/FengCX0M0L19', 'conf/icfem/Feng0L19', 'conf/icst/FengMXSLL19', 'conf/sigsoft/WangXLLLQLL19', 'journals/corr/abs-1909-06605']",Lin Shang-Wei,Assistant Professor,M,N,Software Engg
+109,Yi Li 0008,59/871-8,2019.0,Assistant Professor,M,N,Software Engg,0.0,51/3710-3,4.0,"['conf/icse/WangLLML19', 'conf/kbse/DuX000Z19', 'conf/kbse/XieCLM0Z19', 'conf/sigsoft/DuXLM0Z19']",Liu Yang,Professor,M,N,Software Engg
+110,Shang-Wei Lin 0001,55/4730-1,2019.0,Assistant Professor,M,N,Software Engg,0.0,51/3710-3,7.0,"['conf/icse/WangLLML19', 'journals/tsmc/ZhouHLLD19', 'conf/iceccs/FengCX0M0L19', 'conf/icfem/Feng0L19', 'conf/icst/FengMXSLL19', 'conf/sigsoft/WangXLLLQLL19', 'journals/corr/abs-1909-06605']",Liu Yang,Professor,M,N,Software Engg
+111,Jie Zhang 0002,84/6889-2,2019.0,Associate Professor,M,N,AI/ML,0.0,51/3710-3,1.0,['journals/tifs/MengPXLZ19'],Liu Yang,Professor,M,N,Software Engg
+112,Shang-Wei Lin 0001,55/4730-1,2019.0,Assistant Professor,M,N,Software Engg,0.0,59/871-8,1.0,['conf/icse/WangLLML19'],Li Yi,Assistant Professor,M,N,Software Engg
+113,Yang Liu 0003,51/3710-3,2019.0,Professor,M,N,Software Engg,0.0,59/871-8,4.0,"['conf/icse/WangLLML19', 'conf/kbse/DuX000Z19', 'conf/kbse/XieCLM0Z19', 'conf/sigsoft/DuXLM0Z19']",Li Yi,Assistant Professor,M,N,Software Engg
+114,Hock Soon Seah,s/SeahHockSoon,2019.0,Professor,M,Y,Computer Graphics,0.0,75/2611-2,3.0,"['journals/vc/WangZLGS19', 'conf/apvis/WangZ0S19', 'journals/corr/abs-1904-02348']",Lin Feng,Associate Professor,M,N,Bioinformatics
+115,Guosheng Lin,126/4778,2019.0,Assistant Professor,M,N,Computer Vision,2.0,14/3737,3.0,"['conf/cvpr/LiuLYLLG19', 'journals/corr/abs-1903-08836', 'journals/corr/abs-1904-03571']",Lin Weisi,Professor,M,N,Multimedia
+116,Yang Liu 0003,51/3710-3,2019.0,Professor,M,N,Software Engg,0.0,84/6889-2,1.0,['journals/tifs/MengPXLZ19'],Zhang Jie,Associate Professor,M,N,AI/ML
+117,Mahardhika Pratama,55/9613,2019.0,Assistant Professor,M,N,AI/ML,0.0,84/6889-2,1.0,['conf/icdm/DasPSZ19'],Zhang Jie,Associate Professor,M,N,AI/ML
+118,Jun Luo 0001,42/2501-1,2019.0,Associate Professor,M,N,Computer Networks,0.0,80/5412,1.0,['journals/tmc/WangLPS19'],Pan Sinno Jialin,Associate Professor,M,N,AI/ML
+119,Aixin Sun,78/5155,2019.0,Associate Professor,M,N,Information Retrieval,1.0,80/5412,1.0,['journals/tmc/WangLPS19'],Pan Sinno Jialin,Associate Professor,M,N,AI/ML
+120,Chunyan Miao,m/ChunyanMiao,2019.0,Professor,F,Y,AI/ML,0.0,80/5412,2.0,"['conf/aaai/QianPM19', 'conf/ijcai/QianPDM19']",Pan Sinno Jialin,Associate Professor,M,N,AI/ML
+121,Yew-Soon Ong,64/4136,2019.0,Professor,M,Y,AI/ML,0.0,55/9613,3.0,"['conf/cikm/PratamaZAO019', 'journals/corr/abs-1910-03437', 'journals/corr/abs-1910-04062']",Mahardhika Pratama,Assistant Professor,M,N,AI/ML
+122,Jie Zhang 0002,84/6889-2,2019.0,Associate Professor,M,N,AI/ML,0.0,55/9613,1.0,['conf/icdm/DasPSZ19'],Mahardhika Pratama,Assistant Professor,M,N,AI/ML
+123,Chunyan Miao,m/ChunyanMiao,2019.0,Professor,F,Y,AI/ML,0.0,38/3641,3.0,"['journals/ijon/ParmarWZTMJZ19', 'journals/nn/MengTM19', 'conf/aaai/0004TMM19']",Tan Ah Hwee,Professor,M,Y,AI/ML
+124,Chunyan Miao,m/ChunyanMiao,2019.0,Professor,F,Y,AI/ML,0.0,03/1554,5.0,"['conf/aaai/ZengMLSC19', 'conf/chiplay/00490MSL19', 'conf/cikm/LiuD0SGWZRXCM19', 'conf/hci/ZhangM0TS19', 'journals/corr/abs-1908-11588']",Shen Zhiqi,Senior Lecturer,M,N,AI/ML
+125,Han Yu 0001,35/1096-1,2019.0,Assistant Professor,M,N,AI/ML,0.0,03/1554,5.0,"['conf/cikm/LiuD0SGWZRXCM19', 'journals/corr/abs-1908-11588', 'conf/atal/YuSCZL19', 'conf/mm/DongLS0GWZRX19', 'conf/mmasia/Dong0SGWZRX0H19']",Shen Zhiqi,Senior Lecturer,M,N,AI/ML
+126,A S Madhukumar,66/549,2019.0,Associate Professor,M,N,Computer Networks,0.0,,,,,,,,
+127,Alexei Sourin,15/3108,2019.0,Associate Professor,M,N,Computer Graphics,0.0,,,,,,,,
+128,Anwitaman Datta,d/AnwitamanDatta,2019.0,Associate Professor,M,N,Distributed Systems,0.0,,,,,,,,
+129,Arijit Khan,67/2933,2019.0,Assistant Professor,M,N,Data Management,0.0,,,,,,,,
+130,Chan Syin,80/2106,2019.0,Associate Professor,F,N,Computer Networks,0.0,,,,,,,,
+131,Chia Liang Tien Clement,384358,2019.0,Associate Professor,M,N,Multimedia,0.0,,,,,,,,
+132,Chng Eng Siong,c/ChngEngSiong,2019.0,Associate Professor,M,N,AI/ML,0.0,,,,,,,,
+133,Douglas Leslie Maskell,63/6663,2019.0,Associate Professor,M,N,Computer Architecture,0.0,,,,,,,,
+134,Erik Cambria,80/7421,2019.0,Associate Professor,M,N,AI/ML,0.0,,,,,,,,
+135,Huang Shell Ying,61/3119,2019.0,Senior Lecturer,F,N,Distributed Systems,0.0,,,,,,,,
+136,Ke Yiping Kelly,442491,2019.0,Assistant Professor,F,N,AI/ML,0.0,,,,,,,,
+137,Kwoh Chee Keong,32/228,2019.0,Associate Professor,M,N,Bioinformatics,0.0,,,,,,,,
+138,Lau Chiew Tong,30/6609,2019.0,Associate Professor,M,N,Computer Networks,0.0,,,,,,,,
+139,Li Fang Flora,32/3735,2019.0,Senior Lecturer,F,N,Computer Vision,0.0,,,,,,,,
+140,Liang Qianhui,a/QianhuiAltheaLiang,2019.0,Lecturer,F,N,AI/ML,0.0,,,,,,,,
+141,Liu Weichen,24/914,2019.0,Assistant Professor,M,N,Computer Architecture,0.0,,,,,,,,
+142,Loke Yuan Ren,2794411,2019.0,Lecturer,M,N,Computer Vision,0.0,,,,,,,,
+143,Loy Chen Change,1444536,2019.0,Associate Professor,M,N,Computer Vision,0.0,,,,,,,,
+144,Lu Shijian,42/2718,2019.0,Assistant Professor,M,N,Computer Vision,0.0,,,,,,,,
+145,Mohamed M. Sabry,74/5309,2019.0,Assistant Professor,M,N,Computer Architecture,0.0,,,,,,,,
+146,Ng Wee Keong,n/WeeKeongNg,2019.0,Associate Professor,M,N,Cyber Security,0.0,,,,,,,,
+147,Oh Hong Lye,224/9431,2019.0,Lecturer,M,N,Computer Architecture,0.0,,,,,,,,
+148,Qian Kemao,78/6459,2019.0,Associate Professor,M,N,Computer Vision,0.0,,,,,,,,
+149,Rajapakse Jagath Chandana,91/665,2019.0,Professor,M,N,Bioinformatics,0.0,,,,,,,,
+150,Smitha K G,73/4788,2019.0,Lecturer,F,N,Computer Architecture,0.0,,,,,,,,
+151,Sun Chengzheng,s/CZSun,2019.0,Professor,M,N,HCI,0.0,,,,,,,,
+152,Vun Chan Hua Nicholas,69/8028,2019.0,Associate Professor,M,N,Computer Architecture,0.0,,,,,,,,
+153,Xavier Bresson,95/378,2019.0,Associate Professor,M,N,AI/ML,0.0,,,,,,,,
+154,Yeo Chai Kiat,52/910,2019.0,Associate Professor,F,Y,Computer Networks,0.0,,,,,,,,
+155,Tay Kian Boon,solo,2019.0,Senior Lecturer,M,N,Cyber Security,0.0,,,,,,,,
+156,Zhang Tianwei,77/7902,2019.0,Assistant Professor,M,N,Cyber Security,0.0,,,,,,,,
+157,Boyang Li,70/1211,2019.0,Associate Professor,M,N,AI/ML,0.0,,,,,,,,
+158,Liu Zhiwei,90/9499,2019.0,Assistant Professor,M,N,Computer Vision,0.0,,,,,,,,

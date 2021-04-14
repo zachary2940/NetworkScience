@@ -345,10 +345,14 @@ def visualize_graph(G):
     graphs_viz_options[selected_graph_option](G)
     plt.show()
 
-def filter_authors(df,author_pid_list):
-    df = df.loc[df['author-pid'].isin(author_pid_list)].reset_index(drop=True)
-    df = df.loc[df['co-author-pid'].isin(author_pid_list)].reset_index(drop=True)
-    return df
+def filter_authors(df, author_pid_list):
+    df_author = df.loc[df['author-pid'].isin(author_pid_list)].reset_index(drop=True)
+    def f(x):
+        if x not in set(author_pid_list):
+            return np.nan
+        return x
+    df_author['co-author-pid'] = df_author['co-author-pid'].apply(lambda x:f(x))
+    return df_author
 
 def preprocess_core(df):
     df = df.fillna('nan')
@@ -375,8 +379,11 @@ def preprocess_authors(df,year,authors):
     df = filter_year(df,year)
     df = preprocess_core(df)
     df = filter_authors(df,authors)
-
-    return filter_authors(df,authors)
+    df_null = df[df['co-author-pid'].isnull()].copy()
+    df_null = df_null.drop_duplicates(['author-pid'],keep= 'last').reset_index(drop=True)
+    df = df.dropna(subset=['co-author-pid'])
+    df = pd.concat([df,df_null])
+    return df
 
 def preprocess_range(df,yearStart,yearEnd):
     df = df.loc[(yearStart<=df['year']) & (df['year']<=yearEnd)].reset_index(drop=True)
