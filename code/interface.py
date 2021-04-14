@@ -203,8 +203,11 @@ def display_degree_distribution(year,option=None):
     return px.scatter(df, x="degree", y="count", trendline="ols")
 
 
-def display_excellence_central_corr():
-    df = pd.read_csv('../data/SCSE_Records.csv')
+def display_excellence_central_corr(option=None):
+    if option=='1000Nodes':
+        df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
+    else:
+        df = pd.read_csv('../data/SCSE_Records.csv')
     df = preprocess_range(df, 2010, 2021)
     df_excellence_central = faculty.compare_excellence_centrality(
         df, percentile=EXCELLENCE_PERCENTILE)
@@ -447,6 +450,12 @@ def update_network_statistics(year,option):
     dash.dependencies.Input('tabs-styled-with-inline', 'value')])
 def update_degree_dist(year,option):
     return display_degree_distribution(year,option)
+
+@ app.callback(
+    dash.dependencies.Output('ec_corr', 'figure'),
+    [dash.dependencies.Input('tabs-styled-with-inline', 'value')])
+def update_ec_corr(option):
+    return display_excellence_central_corr(option)
 
 
 @ app.callback(
