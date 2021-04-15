@@ -31,7 +31,7 @@ def network_graph(year_range, option, authors=None):
         G = preprocess_create_graph(df, year_range)
     elif option == 'Excellence':
         df = pd.read_csv('../data/SCSE_Records.csv')
-        df_range = preprocess_range(df, 2010, 2021)
+        df_range = preprocess_range(df, [2010, 2021])
         df_excellence = faculty.get_excellence_nodes(
             df_range, EXCELLENCE_PERCENTILE)
         excellence_pid_set = set(list(df_excellence['author-pid']))

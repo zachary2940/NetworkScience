@@ -393,7 +393,7 @@ def preprocess_range(df,year_range):
 '''
 Inputs: 
     df - DataFrame
-    year - int (2000 to 2021)
+    year_range - list [yearStart,yearEnd] (2000 to 2021)
 
 Outputs: 
     Networkx Graph
@@ -402,13 +402,11 @@ Outputs:
 
 Example:
     df = pd.read_csv('../data/SCSE_Records.csv')
-    G = preprocess_create_graph(df,2019)
+    G = preprocess_create_graph(df,[2018,2019])
 '''
 
 
 def preprocess_create_graph(df,year_range):
     df = preprocess_range(df,year_range)
-    # df.to_csv('../data/graph.csv',index=False)
     G = create_graph(df)
-    # visualize_graph(G) # just to check my work
     return G
