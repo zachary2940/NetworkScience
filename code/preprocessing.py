@@ -375,8 +375,8 @@ def preprocess(df,year):
     return preprocess_core(df)
 
 
-def preprocess_authors(df,year,authors):
-    df = filter_year(df,year)
+def preprocess_authors(df,year_range,authors):
+    df = df.loc[(year_range[0]<=df['year']) & (df['year']<=year_range[1])].reset_index(drop=True)
     df = preprocess_core(df)
     df = filter_authors(df,authors)
     df_null = df[df['co-author-pid'].isnull()].copy()
@@ -385,8 +385,8 @@ def preprocess_authors(df,year,authors):
     df = pd.concat([df,df_null])
     return df
 
-def preprocess_range(df,yearStart,yearEnd):
-    df = df.loc[(yearStart<=df['year']) & (df['year']<=yearEnd)].reset_index(drop=True)
+def preprocess_range(df,year_range):
+    df = df.loc[(year_range[0]<=df['year']) & (df['year']<=year_range[1])].reset_index(drop=True)
     return preprocess_core(df)
 
 
@@ -406,8 +406,8 @@ Example:
 '''
 
 
-def preprocess_create_graph(df,year):
-    df = preprocess(df,year)
+def preprocess_create_graph(df,year_range):
+    df = preprocess_range(df,year_range)
     # df.to_csv('../data/graph.csv',index=False)
     G = create_graph(df)
     # visualize_graph(G) # just to check my work

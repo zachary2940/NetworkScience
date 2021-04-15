@@ -160,8 +160,8 @@ def external_collab(df, column, *, group=False, normalize=False):
     return collab_dict
 
 
-def get_network_statistics(G, year):
-    G.name = year
+def get_network_statistics(G, year=None):
+    # G.name = year
     n_connected_components = 1
     for C in (G.subgraph(c).copy() for c in sorted(nx.connected_components(G), key=len)):
         largest_C = C
@@ -380,41 +380,3 @@ def select_non_SCSE(read_csv=True, save_file=False):
     df = select_top_1000_non_SCSE_nodes(df, save_file)
     
     return df
-
-# df_scse = pd.read_csv('../data/Non_SCSE_Records.csv')
-# print(len(df_scse['author-pid']))
-# df = pd.read_csv('../data/top_1000_nodes_V3.csv')
-# df = df.drop_duplicates(subset='author-pid')
-# print(len(df['author-pid']))
-# df = df_scse[df_scse['author-pid'].isin(df['author-pid'])]
-# print(len(df['author-pid']))
-# print(len(df['author-pid'].unique()))
-# print(df)
-# df_scse = pd.read_csv('../data/SCSE_Records.csv')
-
-# # df =pd.merge(df,df_scse,how='inner')
-# df = pd.concat([df,df_scse])
-# print(df)
-# print(len(df['author-pid'].unique()))
-# df.to_csv('../SCSE_top_1000_nodes_V3.csv')
-
-# year = 2018
-# # G = preprocess_create_graph(df,year)
-# # print(get_network_statistics(G,year))
-# df = pd.read_csv('../data/SCSE_Records.csv')
-# df_authors=preprocess_authors(df,year,['126/4778', '1444536', '83/6096', '79/8116', '33/885', '78/5155', 'b/SSBhowmick', '14/3737'])
-# print(df_authors['co-author-pid'])
-# print(df_authors)
-# G = create_graph(df_authors)
-# visualize_graph(G)
-
-# '''We define that a faculty is an excellence node if he/she has published in the top venue frequently (in the last 10 years or
-# since his/her first publication if the first publication appears less than 10 years ago) in his/her respective area'''
-# df = pd.read_csv('../data/SCSE_Records.csv')
-# df = preprocess_range(df,2010,2021)
-# compare_excellence_centrality(df, percentile=0)
-
-
-# df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
-# df = preprocess_core(df)
-# G = create_graph(df)
