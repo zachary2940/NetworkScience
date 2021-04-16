@@ -10,7 +10,7 @@ import plotly.graph_objs as go
 from colour import Color
 from datetime import datetime
 from textwrap import dedent as d
-from preprocessing import preprocess, preprocess_create_graph, preprocess_range,preprocess_authors,create_graph
+from preprocessing import preprocess, preprocess_create_graph, preprocess_range, preprocess_authors, create_graph
 import plotly.express as px
 import math
 import dash_table
@@ -23,26 +23,29 @@ app.title = "Graph Network"
 EXCELLENCE_PERCENTILE = 50
 
 # '83/6096', 'b/SSBhowmick', '33/885', '78/5155', '79/8116', '1444536', '126/4778', '14/3737'
-def network_graph(year, option, authors=None):
+
+
+def network_graph(year_range, option, authors=None):
     if option == '1000Nodes':
         df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
-        G = preprocess_create_graph(df, year)
+        G = preprocess_create_graph(df, year_range)
     elif option == 'Excellence':
         df = pd.read_csv('../data/SCSE_Records.csv')
-        df_range = preprocess_range(df, 2010, 2021)
+        df_range = preprocess_range(df, [2010, 2021])
         df_excellence = faculty.get_excellence_nodes(
             df_range, EXCELLENCE_PERCENTILE)
         excellence_pid_set = set(list(df_excellence['author-pid']))
+        # print(excellence_pid_set)
     else:
         df = pd.read_csv('../data/SCSE_Records.csv')
 
-    if authors!=None:
-        df_authors=preprocess_authors(df,year,authors)
+    if authors != None:
+        df_authors = preprocess_authors(df, year_range, authors)
         G = create_graph(df_authors)
     else:
-        G = preprocess_create_graph(df, year)
+        G = preprocess_create_graph(df, year_range)
 
-    pos = nx.drawing.layout.spring_layout(G, k=0.35, iterations=50)
+    pos = nx.drawing.layout.spring_layout(G, k=0.35, iterations=30)
 
     if option == '1000Nodes':
         pos = nx.drawing.layout.spring_layout(G, k=0.65, iterations=50)
@@ -105,7 +108,6 @@ def network_graph(year, option, authors=None):
     for node in G.nodes():
         x, y = G.nodes[node]['pos']
         if 'author' not in G.nodes[node]:
-            # print(G.nodes[node])
             continue
         hovertext = "AuthorName: " + str(G.nodes[node]['author']) + "<br>" + "AuthorPid: " + str(G.nodes[node]['author-pid']) + "<br>" + "Position: " + str(
             G.nodes[node]['Position']) + "<br>" + "Mangement: " + str(
@@ -151,42 +153,56 @@ def network_graph(year, option, authors=None):
                                    'showticklabels': False},
                             yaxis={'showgrid': False, 'zeroline': False,
                                    'showticklabels': False},
-                            height=600,
+                            height=1200,
                             clickmode='event+select'
                             )}
     return figure
 
 
-def display_network_statistics(year,option=None):
-    if option=='1000Nodes':
+def display_network_statistics(year_range, option=None, authors=None):
+    if option == '1000Nodes':
         df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
-        G = preprocess_create_graph(df, year)
+        G = preprocess_create_graph(df, year_range)
+    elif authors != None:
+        df = pd.read_csv('../data/SCSE_Records.csv')
+        df_collab = preprocess_authors(df, year_range, authors)
+        G = create_graph(df_collab)
     else:
         df = pd.read_csv('../data/SCSE_Records.csv')
-        G = preprocess_create_graph(df, year)
-    return faculty.get_network_statistics(G, year)
+        G = preprocess_create_graph(df, year_range)
+    return faculty.get_network_statistics(G, year_range)
 
 
-def display_network_collaboration(year, category):
+def display_network_collaboration(year_range, category, authors=None):
     df = pd.read_csv('../data/SCSE_Records.csv')
-    df_collab = preprocess(df, year)
+    if authors:
+        df_collab = preprocess_authors(df, year_range, authors)
+    else:
+        df_collab = preprocess_range(df, year_range)
     df_collab = df_collab.dropna()
     df_collab = df_collab.loc[df_collab.index.repeat(df_collab.weight)]
-    df_collab = df_collab[[category, category+'-co-author']]
+    if category == 'authors':
+        df_collab = df_collab[['author', 'Faculty-co-author']]
+    else:
+        df_collab = df_collab[[category, category+'-co-author']]
+
     df_collab.columns = ['Groups', 'Groups_']
+    # fig = px.density_heatmap(df_collab, x="Groups", y="Groups_")
     fig = px.density_heatmap(df_collab, x="Groups", y="Groups_").update_xaxes(
-        categoryorder="total descending").update_yaxes(categoryorder="total descending")
+        categoryorder='category ascending').update_yaxes(categoryorder='category ascending')
+    # fig = px.density_heatmap(df_collab, x="Groups", y="Groups_").update_xaxes(
+    #     categoryorder="total descending").update_yaxes(categoryorder="total descending")
 
     return fig
 
 
-def display_degree_distribution(year,option=None):
-    if option=='1000Nodes':
+def display_degree_distribution(year_range, option=None):
+    if option == '1000Nodes':
         df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
-        G = preprocess_create_graph(df, year)
+        G = preprocess_create_graph(df, year_range)
     else:
         df = pd.read_csv('../data/SCSE_Records.csv')
-        G = preprocess_create_graph(df, year)
+        G = preprocess_create_graph(df, year_range)
     degree_sequence = sorted([d for n, d in G.degree()],
                              reverse=True)  # degree sequence
     degreeCount = collections.Counter(degree_sequence)
@@ -204,11 +220,11 @@ def display_degree_distribution(year,option=None):
 
 
 def display_excellence_central_corr(option=None):
-    if option=='1000Nodes':
+    if option == '1000Nodes':
         df = pd.read_csv('../data/SCSE_top_1000_nodes_V3.csv')
     else:
         df = pd.read_csv('../data/SCSE_Records.csv')
-    df = preprocess_range(df, 2010, 2021)
+    df = preprocess_range(df, [2010, 2021])
     df_excellence_central = faculty.compare_excellence_centrality(
         df, percentile=EXCELLENCE_PERCENTILE)
     df_excellence_central = df_excellence_central.fillna(0)
@@ -252,9 +268,7 @@ tab_selected_style = {
 }
 
 app.layout = html.Div([
-    html.Div([html.H2("SCSE Network Graph")],
-             className="row",
-             style={'textAlign': "center"}),
+
 
     html.Div(
         className="row",
@@ -263,18 +277,19 @@ app.layout = html.Div([
                 className="two columns",
                 children=[
                     dcc.Markdown(d("""
-                            **Select Year To Visualize**\n
-                            Slide the bar to define the year chosen.
+                            **Select Year Range To Visualize**\n
+                            Slide the bars to define the year range chosen.
                             """)),
                     html.Div(
                         className="year-slider",
                         children=[
-                            dcc.Slider(
+                            dcc.RangeSlider(
                                 id='year-range-slider',
                                 min=2000,
                                 max=2021,
                                 step=1,
-                                value=2019,
+                                value=[2018, 2019],
+                                allowCross=False,
                                 vertical=True,
                                 verticalHeight=400,
                                 marks={
@@ -305,7 +320,7 @@ app.layout = html.Div([
                             html.Br(),
                             html.Div(id='output-container-range-slider')
                         ],
-                        style={'height': '445px', 'margin-left': '10px'}
+                        style={'height': '545px', 'margin-left': '10px'}
                     ),
                     html.Div(className="twelve columns",
                              children=[
@@ -322,38 +337,43 @@ app.layout = html.Div([
                                              selected_style=tab_selected_style),
                                      dcc.Tab(label='Add 1000 Nodes', value='1000Nodes', style=tab_style,
                                              selected_style=tab_selected_style),
-                                 ], style={'height': '50px', 'width': '200px'}),
+                                 ], style={'height': '300px', 'width': '200px'}),
                                  html.Div(id='tabs-content-inline')
-                             ])
+                             ]),
+                    html.Div(className="twelve columns",
+                             children=[
+                                 dcc.Markdown(
+                                     d("""**Log-Log Degree Distribution**""")),
+                                 dcc.Graph(
+                                     id="degree_dist", figure=display_degree_distribution([2018, 2019])),
+                             ], style={'height': '400px', 'width': '350px'})
                 ]
             ),
             html.Center(
                 className="eight columns",
                 children=[html.Div([
+                    html.Div([html.H2("SCSE Network Graph")],
+                             className="row",
+                             style={'textAlign': "center"}),
                     dcc.Markdown(d("""**Search by author pid**""")),
                     dcc.Markdown(d("""Enter in comma seperated author pid""")),
-                    dcc.Markdown(d("""E.g. 76/440,47/2026-7,b/SSBhowmick""")),
-                    html.Div(dcc.Input(id='input-on-submit', type='text',placeholder="76/440,47/2026-7,b/SSBhowmick")),
+                    dcc.Markdown(
+                        d("""E.g. Excellence nodes: 126/4778, 1444536, 83/6096, 79/8116, 33/885, 78/5155, b/SSBhowmick, 14/3737""")),
+                    html.Div(dcc.Input(id='input-on-submit', type='text',
+                                       placeholder="76/440,47/2026-7,b/SSBhowmick",
+                                                   style={
+                                                       'width': '450px'
+                                                   })),
                     html.Button('Submit', id='submit-val', n_clicks=0),
                     html.Div(id='container-button-basic',
                              children='Enter a comma seperated list of author-pid and press submit')
                 ]),
-                    dcc.Graph(id="my-graph", figure=network_graph(2019, None)),
-                    html.H3("Scroll down for more visualizations"),
-                    html.Div(
-                    className='two columns',
-                    children=[
-                        dcc.Markdown(d("""**Log-Log Degree Distribution**""")),
-                        dcc.Graph(id="degree_dist",
-                                  figure=display_degree_distribution(2019)),
-                        dcc.Markdown(
-                            d("""**Excellence-Centrality Corelation**""")),
-                        dcc.Graph(id="ec_corr",
-                                  figure=display_excellence_central_corr()),
-                    ],
-                    style={'height': '300px', 'width': '800px'})
+                    html.Div([
+                        dcc.Graph(id="my-graph",
+                                  figure=network_graph([2018, 2019], None)),
+                        html.H3("Scroll around for more visualizations")], style={'height': '1400px', 'width': '1000px'})
                 ],
-                style={'height': '800px', 'width': '1000px'}
+                style={'height': '1400px', 'width': '1000px'}
             ),
             html.Div(
                 className="two columns",
@@ -367,13 +387,12 @@ app.layout = html.Div([
                             dash_table.DataTable(
                                 id='table_network_statistics',
                                 columns=[{"name": i, "id": i}
-                                         for i in display_network_statistics(2019).columns],
+                                         for i in display_network_statistics([2018, 2019]).columns],
                                 data=display_network_statistics(
-                                    2019).to_dict('records'),
+                                    [2018, 2019]).to_dict('records'),
                             ),
                         ],
-                        style={'height': '350px', 'width': '300px'}),
-
+                        style={'height': '400px', 'width': '300px'}),
                     html.Div(
                         className='twelve columns',
                         children=[
@@ -385,7 +404,8 @@ app.layout = html.Div([
                                 options=[
                                     {'label': 'Area', 'value': 'Area'},
                                     {'label': 'Management', 'value': 'Management'},
-                                    {'label': 'Position', 'value': 'Position'}
+                                    {'label': 'Position', 'value': 'Position'},
+                                    {'label': 'Authors', 'value': 'authors'}
                                 ],
                                 value='Area'
                             ),
@@ -398,9 +418,18 @@ app.layout = html.Div([
                             **Collaboration**
                             """)),
                             dcc.Graph(id="2d_hist",
-                                      figure=display_network_collaboration(2019, 'Area')),
+                                      figure=display_network_collaboration([2018, 2019], 'Area')),
                         ],
-                        style={'height': '300px', 'width': '500px'})
+                        style={'height': '500px', 'width': '500px'}),
+                    html.Div(
+                        className='two columns',
+                        children=[
+                            dcc.Markdown(
+                                d("""**Excellence-Centrality Corelation**""")),
+                            dcc.Graph(id="ec_corr",
+                                      figure=display_excellence_central_corr()),
+                        ],
+                        style={'height': '500px', 'width': '500px'})
                 ]
             )
         ]
@@ -412,25 +441,26 @@ app.layout = html.Div([
 
 @ app.callback(
     [dash.dependencies.Output('my-graph', 'figure'),
-    dash.dependencies.Output('container-button-basic', 'children')],
+     dash.dependencies.Output('container-button-basic', 'children')],
     [dash.dependencies.Input('submit-val', 'n_clicks'),
-    dash.dependencies.Input('year-range-slider', 'value'),
+     dash.dependencies.Input('year-range-slider', 'value'),
      dash.dependencies.Input('tabs-styled-with-inline', 'value')],
     [dash.dependencies.State('input-on-submit', 'value')])
-def update_output(n_clicks, year, option, author_pid_str):
+def update_output(n_clicks, year_range, option, author_pid_str):
     found = 'not found'
-    message ='The input value was "{}" and the authors are {}'.format(author_pid_str,found)
+    message = 'The input value was "{}" and the authors are {}'.format(
+        author_pid_str, found)
     if author_pid_str == None:
-        return network_graph(year, option),message
-    author_pid_list = author_pid_str.strip().split(",")
+        return network_graph(year_range, option), message
+    author_pid_list = author_pid_str.replace(" ", "").split(",")
     df = pd.read_csv('../data/SCSE_Records.csv')
-    df = preprocess_authors(df, year, author_pid_list)
-    if len(df)!=0:
+    df = preprocess_authors(df, year_range, author_pid_list)
+    if len(df) != 0:
         found = 'found'
-        return network_graph(year, option, authors = author_pid_list), 'The input value was "{}" and the authors are {}'.format(author_pid_str,found)
+        return network_graph(year_range, option, authors=author_pid_list), 'The input value was "{}" and the authors are {}'.format(author_pid_str, found)
     else:
-        return network_graph(year, option), message 
-    
+        return network_graph(year_range, option), message
+
 
 # callback for right side components
 
@@ -438,31 +468,54 @@ def update_output(n_clicks, year, option, author_pid_str):
 @ app.callback(
     [dash.dependencies.Output('table_network_statistics', 'columns'),
      dash.dependencies.Output('table_network_statistics', 'data')],
-    [dash.dependencies.Input('year-range-slider', 'value'),
-    dash.dependencies.Input('tabs-styled-with-inline', 'value')])
-def update_network_statistics(year,option):
-    return [{"name": i, "id": i} for i in display_network_statistics(year,option).columns], display_network_statistics(year,option).to_dict('records')
+    [dash.dependencies.Input('submit-val', 'n_clicks'),
+     dash.dependencies.Input('year-range-slider', 'value'),
+     dash.dependencies.Input('tabs-styled-with-inline', 'value')],
+    [dash.dependencies.State('input-on-submit', 'value')])
+def update_network_statistics(n_clicks, year_range, option, author_pid_str):
+    if author_pid_str == None:
+        return [{"name": i, "id": i} for i in display_network_statistics(year_range, option).columns], display_network_statistics(year_range, option).to_dict('records')
+    author_pid_list = author_pid_str.replace(" ", "").split(",")
+    df = pd.read_csv('../data/SCSE_Records.csv')
+    df = preprocess_authors(df, year_range, author_pid_list)
+    if len(df) != 0:
+        return [{"name": i, "id": i} for i in display_network_statistics(year_range, option, author_pid_list).columns], display_network_statistics(year_range, option, author_pid_list).to_dict('records')
+    else:
+        return [{"name": i, "id": i} for i in display_network_statistics(year_range, option).columns], display_network_statistics(year_range, option).to_dict('records')
+    return [{"name": i, "id": i} for i in display_network_statistics(year_range, option).columns], display_network_statistics(year_range, option).to_dict('records')
 
 
 @ app.callback(
     dash.dependencies.Output('degree_dist', 'figure'),
     [dash.dependencies.Input('year-range-slider', 'value'),
-    dash.dependencies.Input('tabs-styled-with-inline', 'value')])
-def update_degree_dist(year,option):
-    return display_degree_distribution(year,option)
+     dash.dependencies.Input('tabs-styled-with-inline', 'value')])
+def update_degree_dist(year_range, option):
+    return display_degree_distribution(year_range, option)
+
+
+@ app.callback(
+    dash.dependencies.Output('ec_corr', 'figure'),
+    [dash.dependencies.Input('tabs-styled-with-inline', 'value')])
+def update_ec_corr(option):
+    return display_excellence_central_corr(option)
 
 
 @ app.callback(
     dash.dependencies.Output('2d_hist', 'figure'),
     [dash.dependencies.Input('year-range-slider', 'value'),
-     dash.dependencies.Input('collab-dropdown', 'value')])
-def update_network_collaboration(year, category):
-    return display_network_collaboration(year, category)
+     dash.dependencies.Input('collab-dropdown', 'value'),
+     dash.dependencies.Input('submit-val', 'n_clicks')],
+    [dash.dependencies.State('input-on-submit', 'value')])
+def update_network_collaboration(year_range, category, n_clicks, author_pid_str):
+    if author_pid_str == None:
+        return display_network_collaboration(year_range, category)
+    author_pid_list = author_pid_str.replace(" ", "").split(",")
+    df = pd.read_csv('../data/SCSE_Records.csv')
+    df = preprocess_authors(df, year_range, author_pid_list)
+    if len(df) != 0:
+        return display_network_collaboration(year_range, category, author_pid_list)
+    else:
+        return display_network_collaboration(year_range, category)
 
-@ app.callback(
-    dash.dependencies.Output('ec_corr', 'figure'),
-    [dash.dependencies.Input('tabs-styled-with-inline', 'value')])
-def update_network_excellence_central(option):
-    return display_excellence_central_corr(option)
 if __name__ == '__main__':
     app.run_server(debug=True)
