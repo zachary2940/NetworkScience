@@ -1,4 +1,4 @@
-# Network Science Project 1
+# Network Science Project 1 CZ4071
 Install Package Manager tool:
 ```pip install pipenv```
 
